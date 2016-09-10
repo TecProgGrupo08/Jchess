@@ -1,12 +1,8 @@
 package model;
 
-import static lookup.Pieces.*;
-
-import java.util.Scanner;
-
 public class Human extends Player {
 
-  public Human( String name, byte colour ,long timeRemaining ) {
+  public Human( String name, byte colour, long timeRemaining ) {
     super( name, colour, timeRemaining );
   }
 
