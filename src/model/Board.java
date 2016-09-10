@@ -14,16 +14,16 @@ import java.util.ArrayList;
  */
 public class Board {
 
-  private byte[] squares;
-  private byte turnColour;
-  private Move previousMove;
-  private int whiteKingPosition;
-  private int blackKingPosition;
-  private ArrayList<Move> validMoves;
-  private ArrayList<Byte> whitePiecesCaptured;
-  private ArrayList<Byte> blackPiecesCaptured;
-  private int score;
-  private int amountOfMoves;
+  private byte[] squares = null;
+  private byte turnColour = 0;
+  private Move previousMove = null;
+  private int whiteKingPosition = 0;
+  private int blackKingPosition = 0;
+  private ArrayList<Move> validMoves = new ArrayList<Move>();
+  private ArrayList<Byte> whitePiecesCaptured = new ArrayList<Byte>();
+  private ArrayList<Byte> blackPiecesCaptured = new ArrayList<Byte>();
+  private int score = 0;
+  private int amountOfMoves = 0;
 
   /**
    * Initialise and create the board to contain chess pieces arranged in an order such that the resulting positions represent
@@ -47,13 +47,13 @@ public class Board {
     this.whitePiecesCaptured = new ArrayList<Byte>();
     this.blackPiecesCaptured = new ArrayList<Byte>();
     this.score = 0;
-    this.amountOfMoves=0;
+    this.amountOfMoves = 0;
   }
 
   /**
    * Construct a new chess board which is a copy of a supplied board.
    *
-   * @param board    The chess board to copy.
+   * @param board - The chess board to copy.
    */
   public Board( Board board ) {
     this.squares = board.getSquares();
@@ -326,7 +326,8 @@ public class Board {
   private void setKingPosition( int position ) {
     if ( isWhiteTurn() ) {
       this.whiteKingPosition = position;
-    } else {
+    } 
+    else {
       this.blackKingPosition = position;
     }
   }
@@ -354,7 +355,7 @@ public class Board {
   /**
    * Perform the castling move contained in 'move'.
    *
-   * @param move    The castling move to perform.
+   * @param move - The castling move to perform.
    */
   private void performCastle( Move move ) {
     if ( move.to() > move.from() ) {
@@ -366,7 +367,8 @@ public class Board {
 
     if ( isWhiteTurn() ) {
       score += 30;
-    } else {
+    } 
+    else {
       score -= 30;
     }
     setKingPosition( move.to() );
@@ -375,7 +377,7 @@ public class Board {
   /**
    * Perform a kingside castling for the king located at 'kingPosition'.
    *
-   * @param kingPosition   The position of the king to castle.
+   * @param kingPosition - The position of the king to castle.
    */
   private void performCastleKingSide( int kingPosition ) {
     this.squares[ kingPosition + 1 ] = this.squares[ kingPosition + 3 ];
@@ -387,7 +389,7 @@ public class Board {
   /**
    * Perform a queenside castling for the king located at 'kingPosition'.
    *
-   * @param kingPosition   The position of the king to castle.
+   * @param kingPosition - The position of the king to castle.
    */
   private void performCastleQueenSide( int kingPosition ) {
     this.squares[ kingPosition - 1 ] = this.squares[ kingPosition - 4 ];
@@ -399,7 +401,7 @@ public class Board {
   /**
    * Is the given move an en passent move?
    *
-   * @param move    The move to check.
+   * @param move - The move to check.
    *
    * @return True if the move performs en passent, false otherwise.
    */
@@ -410,7 +412,7 @@ public class Board {
   /**
    * Is a pawn being moved?
    *
-   * @param move    The move to check.
+   * @param move - The move to check.
    *
    * @return True if a pawn is being moved.
    */
@@ -421,7 +423,7 @@ public class Board {
   /**
    * Is a rook being moved?
    *
-   * @param move    The move to check.
+   * @param move - The move to check.
    *
    * @return True if a rook is being moved.
    */
@@ -432,7 +434,7 @@ public class Board {
   /**
    * Is a king being moved?
    *
-   * @param move     The move to check.
+   * @param move - The move to check.
    *
    * @return True if a king is being moved.
    */
@@ -443,7 +445,7 @@ public class Board {
   /**
    * Does the move result in a pawn promotion?
    *
-   * @param move    The move to check.
+   * @param move - The move to check.
    */ 
   private boolean isPawnPromotion( Move move ) {
     return ( isPawnMove( move ) && ( ( move.to() >= A1 && move.to() <= H1 ) || ( move.to() >= A8 && move.to() <= H8 ) ) );
@@ -452,7 +454,7 @@ public class Board {
   /**
    * Promote the pawn located on the given square.
    *
-   * @param pawnPosition    The square index of the pawn to promote.
+   * @param pawnPosition - The square index of the pawn to promote.
    */
   private void promotePawn( int pawnPosition ) {
     this.squares[ pawnPosition ] = isWhiteTurn() ? QUEEN : BQUEEN;
@@ -461,66 +463,75 @@ public class Board {
   /**
    * Perform the supplied move on the board.
    *
-   * @param move    The move to make.
+   * @param move - The move to make.
    */
   public void makeMove( Move move ) {
     setMovementBit( move.from() );
     if ( isPawnMove( move ) ) {
-      setMovementBit( move.from() );
+    	setMovementBit( move.from() );
 
-      if ( isEnPassant( move ) ) {
-        if ( isWhiteTurn() ) {
-          updateScore( move.to() - 16 );
-          this.squares[ move.to() - 16 ] = EMPTY;
-          this.squares[ move.to() ] = this.squares[ move.from() ];
-          this.squares[ move.from() ] = EMPTY;
-          this.blackPiecesCaptured.add( PAWN );
+	    if ( isEnPassant( move ) ) {
+	    	if ( isWhiteTurn() ) {
+		        updateScore( move.to() - 16 );
+		        this.squares[ move.to() - 16 ] = EMPTY;
+		        this.squares[ move.to() ] = this.squares[ move.from() ];
+		        this.squares[ move.from() ] = EMPTY;
+		        this.blackPiecesCaptured.add( PAWN );
+	      	}
+	      	else {
+	    	  updateScore( move.to() + 16 );
+	        	this.squares[ move.to() + 16 ] = EMPTY;
+	        	this.squares[ move.to() ] = this.squares[ move.from() ];
+	        	this.squares[ move.from() ] = EMPTY;
+	        	this.whitePiecesCaptured.add( PAWN );
+	      	}
+	
+	      	this.turnColour = opponentColour();
+	      	this.previousMove = move;
+	      	this.validMoves = generateValidMoves();
+	        
+	      	return;
+	    } 
+	    else if ( isPawnPromotion( move ) ) {
+	    	promotePawn( move.from() );
+	      	if ( isWhiteTurn() ) {
+	      		score += 700;
+	        } 
+	      	else {
+	            score -= 700;
+	        }
+	    }
+    }
+    else if ( isKingMove( move ) ) {
+        setMovementBit( move.from() );
+
+        if ( isCastle( move ) ) {
+	        performCastle( move );
+	        setKingPosition( move.to() );
+	        this.turnColour = opponentColour();
+	        this.previousMove = move;
+	        this.validMoves = generateValidMoves();
+	        return;
         }
-        else {
-          updateScore( move.to() + 16 );
-          this.squares[ move.to() + 16 ] = EMPTY;
-          this.squares[ move.to() ] = this.squares[ move.from() ];
-          this.squares[ move.from() ] = EMPTY;
-          this.whitePiecesCaptured.add( PAWN );
-        }
-
-        this.turnColour = opponentColour();
-        this.previousMove = move;
-        this.validMoves = generateValidMoves();
-        return;
-      } else if ( isPawnPromotion( move ) ) {
-        promotePawn( move.from() );
-        if ( isWhiteTurn() ) {
-          score += 700;
-        } else {
-          score -= 700;
-        }
-      }
-    } else if ( isKingMove( move ) ) {
-      setMovementBit( move.from() );
-
-      if ( isCastle( move ) ) {
-        performCastle( move );
-        setKingPosition( move.to() );
-        this.turnColour = opponentColour();
-        this.previousMove = move;
-        this.validMoves = generateValidMoves();
-        return;
-      }
-
+        
       setKingPosition( move.to() );
-    } else if ( isRookMove( move ) ) {
+    } 
+    else if ( isRookMove( move ) ) {
       setMovementBit( move.from() );
     }
 
     updateScore( move.to() );
 
     if ( !squareEmpty( move.to() ) ) {
-      if ( isWhiteTurn() ) {
-        this.blackPiecesCaptured.add( this.squares[ move.to() ] );
-      } else {
-        this.whitePiecesCaptured.add( this.squares[ move.to() ] );
-      }
+        if ( isWhiteTurn() ) {
+    	    this.blackPiecesCaptured.add( this.squares[ move.to() ] );
+        } 
+        else {
+    	    this.whitePiecesCaptured.add( this.squares[ move.to() ] );
+        }
+    }
+    else {
+    	//do nothing
     }
 
     this.squares[ move.to() ] = this.squares[ move.from() ];
@@ -540,16 +551,31 @@ public class Board {
    * @return A integer value of the piece worth.
    */
   private int pieceValueAt( int position ) {
-    switch ( pieceTypeAt( position ) ) {
-      case PAWN:   return ( 100 );
-      case KNIGHT: return ( 325 );
-      case BISHOP: return ( 330 );
-      case ROOK:   return ( 500 );
-      case QUEEN:  return ( 900 );
-      case KING:   return ( 20000 );
-    }
+      switch ( pieceTypeAt( position ) ) {
+          case PAWN: {
+        	  return ( 100 );
+          }
+          case KNIGHT: {
+        	  return ( 325 );
+          }
+          case BISHOP: {
+        	  return ( 330 );
+          }
+          case ROOK: {
+        	  return ( 500 );
+          }
+          case QUEEN: {
+        	  return ( 900 );
+          }
+          case KING: {
+        	  return ( 20000 );
+          }
+          default: {
+        	  //do nothing
+          }
+       }
 
-    return ( 0 );
+    return 0;
   }
 
   /**
@@ -558,11 +584,11 @@ public class Board {
    * @param position    The index of the square at which a piece was captured.
    */
   private void updateScore( int position ) {
-    if ( this.turnColour == WHITE ) {
-      score += pieceValueAt( position );
-    } else {
-      score -= pieceValueAt( position );
-    }
+      if ( this.turnColour == WHITE ) {
+          score += pieceValueAt( position );
+      } else {
+          score -= pieceValueAt( position );
+      }
   }
 
   /**
@@ -574,23 +600,32 @@ public class Board {
    * @return True if the piece can move to the destination, false otherwise.
    */ 
   private boolean canMoveTo( int position, int destination ) {
-    byte p = this.squares[ position ];
-    byte t = this.squares[ destination ];
-    if ( pieceType( p ) == KING ) {
-      setKingPosition( destination );
-    }
-    this.squares[ position ] = EMPTY;
-    this.squares[ destination ] = p;
-
-    boolean canMove = !kingInCheck();
-
-    if ( pieceType( p ) == KING ) {
-      setKingPosition( position );
-    }
-    this.squares[ position ] = p;
-    this.squares[ destination ] = t;
-
-    return ( canMove );
+      byte p = this.squares[ position ];
+      byte t = this.squares[ destination ];
+      
+      if ( pieceType( p ) == KING ) {
+    	  setKingPosition( destination );
+      }
+	  else {
+		  //do nothing
+	  }
+      
+	  this.squares[ position ] = EMPTY;
+	  this.squares[ destination ] = p;
+	
+	  boolean canMove = !kingInCheck();
+	
+	  if ( pieceType( p ) == KING ) {
+	      setKingPosition( position );
+	  }
+	  else {
+		  //do nothing
+	  }
+	  
+	  this.squares[ position ] = p;
+	  this.squares[ destination ] = t;
+	
+	  return ( canMove );
   }
   
   /** 
@@ -611,38 +646,56 @@ public class Board {
    */ 
   private boolean squareAttacked( int position ) {
     int[] directions = new int[]{ 15, 17, -15, -17 };
+    
     for ( int direction : directions ) {
-      for ( int i = 1; isValidDestination( position + i*direction ); i++ ) {
-        if ( enemyPieceAt( position + i*direction ) ) {
-          if ( pieceTypeAt( position + i*direction ) == QUEEN || pieceTypeAt( position + i*direction ) == BISHOP ) {
-            return ( true );
-          } else if ( pieceTypeAt( position + i*direction ) == PAWN && i == 1 ) {
-            if ( this.turnColour == WHITE ) {
-              return ( direction == 15 || direction == 17 );
-            }
-            return ( direction == -15 || direction == -17 );
-          }
-          break;
-        }
-      }
+    	for ( int i = 1; isValidDestination( position + i*direction ); i++ ) {
+    		if ( enemyPieceAt( position + i*direction ) ) {
+    		    if ( pieceTypeAt( position + i*direction ) == QUEEN || pieceTypeAt( position + i*direction ) == BISHOP ) {
+    				return ( true );
+    			} 
+    			else if ( pieceTypeAt( position + i*direction ) == PAWN && i == 1 ) {
+    				if ( this.turnColour == WHITE ) {
+    					return ( direction == 15 || direction == 17 );
+    				}
+    				else {
+    					//do nothing
+    				}
+    				return ( direction == -15 || direction == -17 );
+    			}
+    			else {
+    				//do nothing
+    			}
+    		    break;
+	        	}
+		    	else {
+			    //do nothing
+		    	}
+	      }
     }
 
     for ( int direction : new int[]{ 1, -1, 16, -16 } ) {
-      for ( int i = 1; isValidDestination( position + i*direction ); i++ ) {
-        if ( enemyPieceAt( position + i*direction ) ) {
-          if ( pieceTypeAt( position + i*direction ) == ROOK || pieceTypeAt( position + i*direction ) == QUEEN ) {
-            return ( true );
-          }
-          break;
-        }
-      }
+    	for ( int i = 1; isValidDestination( position + i*direction ); i++ ) {
+    		if ( enemyPieceAt( position + i*direction ) ) {
+    			if ( pieceTypeAt( position + i*direction ) == ROOK || pieceTypeAt( position + i*direction ) == QUEEN ) {
+    				return ( true );
+    			}
+    			break;
+    		}
+    		else {
+    			//do nothing
+    		}
+    	}
     }
 
     directions = new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 };
+    
     for ( int direction : directions ) {
-      if ( isValidDestination( position + direction ) && enemyPieceAt( position + direction ) && pieceTypeAt( position + direction ) == KNIGHT ) {
-        return ( true );
-      }
+    	if ( isValidDestination( position + direction ) && enemyPieceAt( position + direction ) && pieceTypeAt( position + direction ) == KNIGHT ) {
+    		return ( true );
+    	}
+    	else {
+    		//do nothing
+    	}
     }
 
     return ( false );
@@ -654,22 +707,24 @@ public class Board {
    * @return An ArrayList of all valid moves that can be played.
    */
   public ArrayList<Move> getValidMoves() {
-    return ( new ArrayList<Move>( this.validMoves ) );
+	  return ( new ArrayList<Move>( this.validMoves ) );
   }
 
   private ArrayList<Move> generateValidMoves() {
-    ArrayList<Move> validMoves = new ArrayList<Move>();
+	  ArrayList<Move> validMoves = new ArrayList<Move>();
 
-    for ( int rank = 0; rank < 8; rank++ ) {
-      for ( int file = rank * 16 + 7; file >= rank * 16; file-- ) {
-        if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
-          validMoves.addAll( generateValidMoves( pieceTypeAt( file ), file ) );
-        }
-      }
+	  for ( int rank = 0; rank < 8; rank++ ) {
+		  for ( int file = rank * 16 + 7; file >= rank * 16; file-- ) {
+			  if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
+				  validMoves.addAll( generateValidMoves( pieceTypeAt( file ), file ) );
+			  }
+			  else {
+				  //do nothing
+			  }
+		  }
     }
 
-
-    return ( validMoves );
+	return ( validMoves );
   }
 
   /**
@@ -681,16 +736,19 @@ public class Board {
    * @return An ArrayList of all valid moves that the piece can make.
    */
   public ArrayList<Move> generateValidMoves( byte pieceType, int position ) {
-    ArrayList<Move> validMoves = new ArrayList<Move>();
-    ArrayList<Integer> destinations = generateDestinations( pieceType, position );
+	  ArrayList<Move> validMoves = new ArrayList<Move>();
+	  ArrayList<Integer> destinations = generateDestinations( pieceType, position );
 
-    for ( int destination : destinations ) {
-      if ( isValidDestination( destination ) && canMoveTo( position, destination ) ) {
-        validMoves.add( new Move( position, destination ) );
-      }
-    }
+	  for ( int destination : destinations ) {
+		  if ( isValidDestination( destination ) && canMoveTo( position, destination ) ) {
+			  validMoves.add( new Move( position, destination ) );
+		  }
+		  else {
+			  //do nothing
+		  }
+	  }
 
-    return ( validMoves );
+	  return ( validMoves );
   }
   
 
@@ -703,16 +761,31 @@ public class Board {
    * @return An ArrayList of all destinations that the piece can move to.
    */
   private ArrayList<Integer> generateDestinations( byte pieceType, int position ) {
-    switch ( pieceType ) {
-      case PAWN:   return ( generatePawnDestinations( position ) );
-      case KNIGHT: return ( generateKnightDestinations( position ) );
-      case BISHOP: return ( generateBishopDestinations( position ) );
-      case ROOK:   return ( generateRookDestinations( position ) );
-      case QUEEN:  return ( generateQueenDestinations( position ) );
-      case KING:   return ( generateKingDestinations( position ) );
-    }
-
-    return ( new ArrayList<Integer>() );
+	  switch ( pieceType ) {
+          case PAWN: {
+        	  return ( generatePawnDestinations( position ) );
+          }
+          case KNIGHT: {
+        	  return ( generateKnightDestinations( position ) );
+          }
+          case BISHOP: {
+        	  return ( generateBishopDestinations( position ) );
+          }
+          case ROOK: {
+        	  return ( generateRookDestinations( position ) );
+          }
+          case QUEEN: {
+        	  return ( generateQueenDestinations( position ) );
+          }
+          case KING: {
+        	  return ( generateKingDestinations( position ) );
+          }
+          default: {
+        	  //do nothing
+          }
+	  }
+	  
+	  return ( new ArrayList<Integer>() );
   }
 
   /**
@@ -723,11 +796,14 @@ public class Board {
    * @return An ArrayList of all destinations that the pawn can move to.
    */
   private ArrayList<Integer> generatePawnDestinations( int position ) {
-    if ( isWhitePiece( position ) ) {
-      return ( generateWhitePawnDestinations( position ) );
-    }
+      if ( isWhitePiece( position ) ) {
+    	  return ( generateWhitePawnDestinations( position ) );
+      }
+	  else {
+		  //do nothing
+	  }
 
-    return ( generateBlackPawnDestinations( position ) );
+      return ( generateBlackPawnDestinations( position ) );
   }
 
   /**
@@ -738,21 +814,20 @@ public class Board {
    * @return An ArrayList of all destinations that the white pawn can move to.
    */
   public ArrayList<Integer> generateWhitePawnDestinations( int position ) {
-    ArrayList<Integer> destinations = new ArrayList<Integer>();
+      ArrayList<Integer> destinations = new ArrayList<Integer>();
 
-    if ( !hasPieceMoved( pieceAt( position ) ) && squareEmpty( position + 16 ) && squareEmpty( position + 32 ) ) {
-      destinations.add( position + 32 );
-    }
-    if ( !squareEmpty( position + 15 ) || whiteCanEnPassantLeft( position ) ) {
-      destinations.add( position + 15 );
-    }
-    if ( !squareEmpty( position + 17 ) || whiteCanEnPassantRight( position ) ) {
-      destinations.add( position + 17 );
-    }
-
-    if ( squareEmpty( position + 16 ) ) {
-      destinations.add( position + 16 );
-    }
+      if ( !hasPieceMoved( pieceAt( position ) ) && squareEmpty( position + 16 ) && squareEmpty( position + 32 ) ) {
+    	  destinations.add( position + 32 );
+      }
+      if ( !squareEmpty( position + 15 ) || whiteCanEnPassantLeft( position ) ) {
+    	  destinations.add( position + 15 );
+      }
+      if ( !squareEmpty( position + 17 ) || whiteCanEnPassantRight( position ) ) {
+    	  destinations.add( position + 17 );
+      }
+      if ( squareEmpty( position + 16 ) ) {
+    	  destinations.add( position + 16 );
+      }
 
     return ( destinations );
   }
@@ -792,16 +867,30 @@ public class Board {
     if ( !hasPieceMoved( pieceAt( position ) ) && squareEmpty( position - 16 ) && squareEmpty( position - 32 ) ) {
       destinations.add( position - 32 );
     }
+	else {
+		//do nothing
+	}
+    
     if ( !squareEmpty( position - 15 ) || blackCanEnPassantLeft( position ) ) {
       destinations.add( position - 15 );
     }
+	else {
+		//do nothing
+	}
+    
     if ( !squareEmpty( position - 17 ) || blackCanEnPassantRight( position ) ) {
       destinations.add( position - 17 );
     }
+	else {
+		//do nothing
+	}
 
     if ( squareEmpty( position - 16 ) ) {
       destinations.add( position - 16 );
     }
+	else {
+		//do nothing
+	}
 
     return ( destinations );
   }
@@ -841,14 +930,24 @@ public class Board {
     if ( canCastleKingSide( position ) ) {
       destinations.add( position + 2 );
     }
+	else {
+		//do nothing
+	}
+    
     if ( canCastleQueenSide( position ) ) {
       destinations.add( position - 2 );
     }
+	else {
+		//do nothing
+	}
 
     for ( int i : new int[]{ 15, 16, 17, 1, -1, -17, -16, -15 } ) {
-      if ( !nextToOpponentKing( position + i ) ) {
-        destinations.add( position + i );
-      }
+        if ( !nextToOpponentKing( position + i ) ) {
+            destinations.add( position + i );
+        }
+        else {
+		    //do nothing
+		}
     }
 
     return ( destinations );
@@ -883,15 +982,15 @@ public class Board {
    * @param position    The location of the king to check.
    */
   private boolean nextToOpponentKing( int position ) {
-    int[] offsets = new int[]{ 15, 16, 17, -1, 1, -15, -16, -17 };
+	  int[] offsets = new int[]{ 15, 16, 17, -1, 1, -15, -16, -17 };
 
-    for ( int i : offsets ) {
-      if ( ( position + i ) == getOpposingKingPosition() ) {
-        return ( true );
-      }
-    }
+	  for ( int i : offsets ) {
+	      if ( ( position + i ) == getOpposingKingPosition() ) {
+	        return ( true );
+	      }
+	  }
 
-    return ( false );
+	  return ( false );
   }
 
   /**
@@ -902,14 +1001,14 @@ public class Board {
    * @return An ArrayList of all destinations that the knight can move to.
    */
   public ArrayList<Integer> generateKnightDestinations( int position ) {
-    ArrayList<Integer> destinations = new ArrayList<Integer>();
+	  ArrayList<Integer> destinations = new ArrayList<Integer>();
 
-    for ( int d : new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 } ) {
-      destinations.add( position + d );
-    }
+	  for ( int d : new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 } ) {
+		  destinations.add( position + d );
+	  }
 
-    return ( destinations );
-  }
+	  return ( destinations );
+  }	
 
   /**
    * Generate the destinations for a bishop located at 'position'.
@@ -919,7 +1018,7 @@ public class Board {
    * @return An ArrayList of all destinations that the bishop can move to.
    */
   public ArrayList<Integer> generateBishopDestinations( int position ) {
-    return ( generateUpDownDestinations( position, new int[]{ 15, 17, -15, -17 } ) );
+	  return ( generateUpDownDestinations( position, new int[]{ 15, 17, -15, -17 } ) );
   }
 
   /**
@@ -930,7 +1029,7 @@ public class Board {
    * @return An ArrayList of all destinations that the rook can move to.
    */
   public ArrayList<Integer> generateRookDestinations( int position ) {
-    return ( generateUpDownDestinations( position, new int[]{ 1, -1, 16, -16 } ) );
+	  return ( generateUpDownDestinations( position, new int[]{ 1, -1, 16, -16 } ) );
   }
 
   /**
@@ -941,7 +1040,7 @@ public class Board {
    * @return An ArrayList of all destinations that the queen can move to.
    */
   public ArrayList<Integer> generateQueenDestinations( int position ) {
-    return ( generateUpDownDestinations( position, new int[]{ 1, -1, 16, -16, 15, 17, -15, -17 } ) );
+	  return ( generateUpDownDestinations( position, new int[]{ 1, -1, 16, -16, 15, 17, -15, -17 } ) );
   }
 
   /**
@@ -952,7 +1051,7 @@ public class Board {
    * @return True if an opponents piece is located at that position, false otherwise.
    */
   public boolean enemyPieceAt( int position ) {
-    return ( !squareEmpty( position ) && pieceColourAt( position ) != this.turnColour );
+	  return ( !squareEmpty( position ) && pieceColourAt( position ) != this.turnColour );
   }
 
   /**
@@ -966,18 +1065,21 @@ public class Board {
   private ArrayList<Integer> generateUpDownDestinations( int position, int[] directions ) {
     ArrayList<Integer> destinations = new ArrayList<Integer>();
 
-    for ( int direction : directions ) {
-      for ( int i = 1; isValidDestination( position + i*direction ); i++ ) {
-        if ( enemyPieceAt( position + i*direction ) ) {
-          destinations.add( position + i*direction );
-          break;
-        }
+    	for ( int direction : directions ) {
+    		for ( int i = 1; isValidDestination( position + i*direction ); i++ ) {
+    			if ( enemyPieceAt( position + i*direction ) ) {
+    				destinations.add( position + i*direction );
+    				break;
+    			}
+    			else {
+    				//do nothing
+    			}
 
-        destinations.add( position + i*direction );
-      }
-    }
+    			destinations.add( position + i*direction );
+      		}
+    	}
 
-    return ( destinations );
+      return ( destinations );
   }
 
   /*-----------------------------------------------*/
@@ -1002,17 +1104,21 @@ public class Board {
     int score = 0;
 
     for ( int rank = 0; rank < 8; rank++ ) {
-      for ( int file = rank * 16 + 7; file >= rank * 16; file-- ) {
-        if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
-          if ( isWhiteTurn() ) {
-            score += piecePositionScore( pieceTypeAt( file ), file );
-          } else {
-            score -= piecePositionScore( pieceTypeAt( file ), file );
-          }
+    	for ( int file = rank * 16 + 7; file >= rank * 16; file-- ) {
+    		if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
+    			if ( isWhiteTurn() ) {
+    				score += piecePositionScore( pieceTypeAt( file ), file );
+    			} 
+    			else {
+    				score -= piecePositionScore( pieceTypeAt( file ), file );
+            		}
+          	}
+		  	else {
+			  	//do nothing
+		  	}
         }
-      }
     }
-
+    
     return isWhiteTurn() ? score : -score;
   }
 
@@ -1023,18 +1129,27 @@ public class Board {
    */
   public int piecePositionScore( byte pieceType, int pos ) {
     switch ( pieceType ) {
-      case PAWN:
-        return isWhiteTurn() ? WPAWN_POSITION_TABLE[ pos ] : BPAWN_POSITION_TABLE[ pos ];
-      case KNIGHT:
-        return KNIGHT_POSITION_TABLE[ pos ];
-      case BISHOP:
-        return isWhiteTurn() ? WBISHOP_POSITION_TABLE[ pos ] : BBISHOP_POSITION_TABLE[ pos ];
-      case ROOK:
-        return isWhiteTurn() ? WROOK_POSITION_TABLE[ pos ] : BROOK_POSITION_TABLE[ pos ];
-      case QUEEN:
-        return this.amountOfMoves < 15 ? OPENING_QUEEN_POSITION_TABLE[ pos ] : QUEEN_POSITION_TABLE[ pos ];
-      case KING:
-        return isWhiteTurn() ? WKING_POSITION_TABLE[ pos ] : BKING_POSITION_TABLE[ pos ];
+      	case PAWN: {
+    	  	return isWhiteTurn() ? WPAWN_POSITION_TABLE[ pos ] : BPAWN_POSITION_TABLE[ pos ];
+      	}
+      	case KNIGHT: {
+    	  	return KNIGHT_POSITION_TABLE[ pos ];
+      	}
+      	case BISHOP: {
+    	  	return isWhiteTurn() ? WBISHOP_POSITION_TABLE[ pos ] : BBISHOP_POSITION_TABLE[ pos ];
+      	}
+      	case ROOK: {
+    	  	return isWhiteTurn() ? WROOK_POSITION_TABLE[ pos ] : BROOK_POSITION_TABLE[ pos ];
+      	}
+      	case QUEEN: {
+    	  	return this.amountOfMoves < 15 ? OPENING_QUEEN_POSITION_TABLE[ pos ] : QUEEN_POSITION_TABLE[ pos ];
+      	}
+      	case KING: {
+    	  	return isWhiteTurn() ? WKING_POSITION_TABLE[ pos ] : BKING_POSITION_TABLE[ pos ];
+      	}
+        default: {
+    	    // do nothing
+        }
     }
 
     return 0;
@@ -1046,19 +1161,20 @@ public class Board {
    * @return A score representing how good the piece development of the current player is.
    */
   public int evaluatePieceDevelopment() {
-    int score = 0;
+      int score = 0;
 
-    int[] minorPiecePositions = new int[]{ 1, 2, 5, 6 };
-    int turn = isWhiteTurn() ? 0 : 112;
+      int[] minorPiecePositions = new int[]{ 1, 2, 5, 6 };
+      int turn = isWhiteTurn() ? 0 : 112;
 
-    for ( int pos : minorPiecePositions ) {
-      if ( !squareEmpty( pos + turn ) && !hasPieceMoved( pieceAt( pos + turn ) ) ) {
-        if ( isWhiteTurn() ) {
-          score -= 50;
-        } else {
-          score += 50;
-        }
-      }
+      for ( int pos : minorPiecePositions ) {
+          if ( !squareEmpty( pos + turn ) && !hasPieceMoved( pieceAt( pos + turn ) ) ) {
+              if ( isWhiteTurn() ) {
+                  score -= 50;
+              } 
+              else {
+                  score += 50;
+              }
+         }
     }
 
     return isWhiteTurn() ? score : -score;
