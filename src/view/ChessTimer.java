@@ -22,10 +22,10 @@ import javax.swing.SwingUtilities;
  * 
  */
 public class ChessTimer extends JPanel {
-  // Finals and object instances
-	public static final long serialVersionUID = 1L;							
-	private final Dimension CLOCK_DIMENSION = new Dimension (400, 295);		
-	private final int AMOUNT_OF_CLOCKS = 2;									
+	// Finals and object instances
+	public static final long serialVersionUID = 1L;
+	private final Dimension CLOCK_DIMENSION = new Dimension(400, 295);
+	private final int AMOUNT_OF_CLOCKS = 2;
 	private final int GET_CENTER = 2;
 	private final int TIMER_ONE = 0;
 	private final int TIMER_TWO = 1;
@@ -40,16 +40,17 @@ public class ChessTimer extends JPanel {
 	private final int SMALL_CLOCK_LABEL_FONTSIZE = 13;
 	private final int SMALL_CLOCK_TIME_FONTSIZE = 16;
 	private final int CLOCK_IMAGE_MARGIN_LEFT = 30;
-  
+
 	// if images are not found: change folder here!
 	private final String IMAGE_FOLDER = "img/";
-	
+
 	private final int MILI_TO_SECOND = 1000;
 	private final int SEC_TO_MIN = 60;
 	private final int DAY_TO_HOUR = 24;
-	
-	private final String CLOCK_LABEL_UNTIMED = "00:00:00"; //standart time set to 0
-	
+
+	private final String CLOCK_LABEL_UNTIMED = "00:00:00"; // standart time set
+															// to 0
+
 	private String player1Name = "White";
 	private String player2Name = "Black";
 	private String timeWhiteLabel = "";
@@ -61,40 +62,39 @@ public class ChessTimer extends JPanel {
 	private int h[] = null;
 	boolean rundown = false;
 	boolean timedGame = false;
-	
+
 	private String blackImageDirection = IMAGE_FOLDER + "clocks/blackClock.png";
 	private String whiteImageDirection = IMAGE_FOLDER + "clocks/whiteClock.png";
 	private BufferedImage blackImage, whiteImage;
-	
+
 	/**
 	 * constructor to build the timer
-	 *	 
-	 *	 @param milliseconds
-	 *	          start amount of time
+	 * 
+	 * @param milliseconds
+	 *            start amount of time
 	 * @author Joshua Schaeuble, Andrew Meikle
 	 */
 	public ChessTimer(int milliseconds) {
 		int sec, min, hour;
-		clock = new TimeThread ();
-		clock.start ();
+		clock = new TimeThread();
+		clock.start();
 		sec = 0;
 		min = 0;
 		hour = 0;
 		turn = 0;
-		
+
 		try {
-			blackImage = ImageIO.read (new File (blackImageDirection));
-			whiteImage = ImageIO.read (new File (whiteImageDirection));
+			blackImage = ImageIO.read(new File(blackImageDirection));
+			whiteImage = ImageIO.read(new File(whiteImageDirection));
 		}
 
 		catch (IOException ex) {
-			System.out
-			.println ("Cannot find image path in ChessTimer.java ca. " +
-					"Edit it manually. Therefore go to ChessTimer.java and change " +
-					"the final string IMAGE_FOLDER.");
+			System.out.println("Cannot find image path in ChessTimer.java ca. "
+					+ "Edit it manually. Therefore go to ChessTimer.java and change "
+					+ "the final string IMAGE_FOLDER.");
 		}
 
-		this.setLayout (new FlowLayout ());
+		this.setLayout(new FlowLayout());
 		timeWhiteLabel = CLOCK_LABEL_UNTIMED;
 		timeBlackLabel = CLOCK_LABEL_UNTIMED;
 
@@ -103,24 +103,23 @@ public class ChessTimer extends JPanel {
 		this.sek = new int[AMOUNT_OF_CLOCKS];
 		this.sek[TIMER_ONE] = sec;
 		this.sek[TIMER_TWO] = sec;
-		
+
 		this.min = new int[AMOUNT_OF_CLOCKS];
 		this.min[TIMER_ONE] = min;
 		this.min[TIMER_TWO] = min;
-		
+
 		this.h = new int[AMOUNT_OF_CLOCKS];
 		this.h[TIMER_TWO] = hour;
 		this.h[TIMER_ONE] = hour;
-		
-		if ( milliseconds >= 0 ) {
+
+		if (milliseconds >= 0) {
 			timedGame = true;
 			synchronized (clock) {
-				clock.goOn ();
+				clock.goOn();
 			}
-		}
-		else {
+		} else {
 			synchronized (clock) {
-				clock.pause ();
+				clock.pause();
 				timedGame = false;
 			}
 		}
@@ -138,269 +137,260 @@ public class ChessTimer extends JPanel {
 
 	/**
 	 * Paints the clock and pictures of the clock depending on the current turn
-	 * 		@param timeGraphics
+	 * 
+	 * @param timerGraphics
 	 */
 	@Override
-	public void paintComponent(Graphics timeGraphics) {
-		super.paintComponent (timeGraphics);
-		int start = (int) ( this.getSize ().width - CLOCK_DIMENSION.width )
-				/ GET_CENTER;
-		
+	public void paintComponent(Graphics timerGraphics) {
+		super.paintComponent(timerGraphics);
+		int start = (int) (this.getSize().width - CLOCK_DIMENSION.width) / GET_CENTER;
+
 		String wName, bName, wTime, bTime;
 		Color wColor, bColor;
-		
-		if ( turn == 0 ) {// WHITE
-			timeGraphics.drawImage (whiteImage, start, CLOCK_IMAGE_MARGIN_LEFT,
-					CLOCK_DIMENSION.width, CLOCK_DIMENSION.height
-					- ( GET_CENTER * CLOCK_IMAGE_MARGIN_LEFT ), this);
+
+		if (turn == 0) {// WHITE
+			timerGraphics.drawImage(whiteImage, start, CLOCK_IMAGE_MARGIN_LEFT, CLOCK_DIMENSION.width,
+					CLOCK_DIMENSION.height - (GET_CENTER * CLOCK_IMAGE_MARGIN_LEFT), this);
 			wName = player1Name;
 			bName = player2Name;
 			wTime = timeWhiteLabel;
 			bTime = timeBlackLabel;
 			bColor = Color.WHITE;
 			wColor = Color.BLACK;
-			}
-			else {
-				timeGraphics.drawImage (blackImage, start, CLOCK_IMAGE_MARGIN_LEFT,
-						CLOCK_DIMENSION.width, CLOCK_DIMENSION.height
-						- ( GET_CENTER * CLOCK_IMAGE_MARGIN_LEFT ), this);
-				wName = player2Name;
-				bName = player1Name;
-				wTime = timeBlackLabel;
-				bTime = timeWhiteLabel;
-				bColor = Color.BLACK;
-				wColor = Color.WHITE;
-			}
+		} else {
+			timerGraphics.drawImage(blackImage, start, CLOCK_IMAGE_MARGIN_LEFT, CLOCK_DIMENSION.width,
+					CLOCK_DIMENSION.height - (GET_CENTER * CLOCK_IMAGE_MARGIN_LEFT), this);
+			wName = player2Name;
+			bName = player1Name;
+			wTime = timeBlackLabel;
+			bTime = timeWhiteLabel;
+			bColor = Color.BLACK;
+			wColor = Color.WHITE;
+		}
 
-		Font clockTime = new Font ("Dialog", Font.PLAIN, BIG_CLOCK_LABEL_FONTSIZE);
-		timeGraphics.setColor (wColor);
-		timeGraphics.setFont (clockTime);
-		int stringCounter = SwingUtilities.computeStringWidth (timeGraphics.getFontMetrics (), wName);
-		timeGraphics.drawString (wName, ( ( this.getSize ().width / GET_CENTER )
-				- BIG_CLOCK_CENTER_MARGIN - ( stringCounter / GET_CENTER ) ),
+		Font clockTime = new Font("Dialog", Font.PLAIN, BIG_CLOCK_LABEL_FONTSIZE);
+		timerGraphics.setColor(wColor);
+		timerGraphics.setFont(clockTime);
+		int stringCounter = SwingUtilities.computeStringWidth(timerGraphics.getFontMetrics(), wName);
+		timerGraphics.drawString(wName,
+				((this.getSize().width / GET_CENTER) - BIG_CLOCK_CENTER_MARGIN - (stringCounter / GET_CENTER)),
 				BIG_CLOCK_LABEL_VALIGN);
 
-		clockTime = new Font ("Dialog", Font.PLAIN, BIG_CLOCK_TIME_FONTSIZE);
-		timeGraphics.setFont (clockTime);
-		stringCounter = SwingUtilities.computeStringWidth (timeGraphics.getFontMetrics (), wTime);
-		timeGraphics.drawString (wTime, ( ( this.getSize ().width / GET_CENTER )
-				- BIG_CLOCK_CENTER_MARGIN - ( stringCounter / GET_CENTER ) ), BIG_CLACK_TIME_VALIGN);
+		clockTime = new Font("Dialog", Font.PLAIN, BIG_CLOCK_TIME_FONTSIZE);
+		timerGraphics.setFont(clockTime);
+		stringCounter = SwingUtilities.computeStringWidth(timerGraphics.getFontMetrics(), wTime);
+		timerGraphics.drawString(wTime,
+				((this.getSize().width / GET_CENTER) - BIG_CLOCK_CENTER_MARGIN - (stringCounter / GET_CENTER)),
+				BIG_CLACK_TIME_VALIGN);
 
-	    clockTime = new Font ("Dialog", Font.PLAIN, SMALL_CLOCK_LABEL_FONTSIZE);
-	    timeGraphics.setFont (clockTime);
-	    timeGraphics.setColor (bColor);
-	    stringCounter = SwingUtilities.computeStringWidth (timeGraphics.getFontMetrics (), bName);
-	    timeGraphics.drawString (bName, ( ( this.getSize ().width / GET_CENTER )
-	        + SMALL_CLOCK_CENTER_MARGIN - ( stringCounter / GET_CENTER ) ),
-	        SMALL_CLOCK_LABEL_VALIGN);
-	
-	    clockTime = new Font ("Dialog", Font.PLAIN, SMALL_CLOCK_TIME_FONTSIZE);
-	    timeGraphics.setFont (clockTime);
-	    stringCounter = SwingUtilities.computeStringWidth (timeGraphics.getFontMetrics (), bTime);
-	    timeGraphics.drawString (bTime, ( ( this.getSize ().width / GET_CENTER )
-	        + SMALL_CLOCK_CENTER_MARGIN - ( stringCounter / GET_CENTER ) ),
-	        SMALL_CLACK_TIME_VALIGN);
-	  }
-	
-	  /**
-	   * switches the timer to the "turn" represented by the given integer
-	   * 
-	   * @param timeTurn
-	   *          timeTurn=0 represents white, timeTurn=1 represents black
-	   * @author Joshua Schaeuble, Andrew Meikle
-	   */
-	  public void switchTimer(int timeTurn) {
-	    synchronized (clock) {
-	      clock.switchTurn (timeTurn);
-	    }
-	  }
-	
-	  /**
-	   * tells if the timer is rundown
-	   * 
-	   * @return true if timer is rundown
-	   */
-	  public boolean isRundown() {
-	    return rundown;
-	  }
-	
-	  /**
-	   * pauses the timer-thread for external access
-	   */
-	  public void pauseTimer() {
-	    synchronized (clock) {
-	      clock.pause ();
-	    }
-	  }
-	
-	  /**
-	   * continues the timer-thread for external access
-	   */
-	  public void continueTimer() {
-	    synchronized (clock) {
-	      clock.goOn ();
-	    }
-	  }
-	
-	  /**
-	   * resets the timer to the given amount of miliseconds
-	   * 
-	   * @param milliseconds
-	   * @author Andrew Meikle, Joshua Schaeuble
-	   */
-	  public void resetTimer(int milliseconds) {
-	    int sec, min, hour;
-	    this.rundown = false;
-	    sec = ( milliseconds / MILI_TO_SECOND ) % SEC_TO_MIN;
-	    min = ( ( milliseconds / ( MILI_TO_SECOND * SEC_TO_MIN ) ) % SEC_TO_MIN );
-	    hour = ( ( milliseconds / ( MILI_TO_SECOND * SEC_TO_MIN * SEC_TO_MIN ) ) % DAY_TO_HOUR );
-	
-	    this.sek = new int[AMOUNT_OF_CLOCKS];
-	    this.sek[TIMER_ONE] = sec;
-	    this.sek[TIMER_TWO] = sec;
-	
-	    this.min = new int[AMOUNT_OF_CLOCKS];
-	    this.min[TIMER_ONE] = min;
-	    this.min[TIMER_TWO] = min;
-	
-	    this.h = new int[AMOUNT_OF_CLOCKS];
-	    this.h[TIMER_TWO] = hour;
-	    this.h[TIMER_ONE] = hour;
-	
-	    turn = 0;
-	
-	    if ( milliseconds > 0 ) {
-	      timedGame = true;
-	      continueTimer ();
-	    }
-	    else {
-	      timedGame = false;
-	      pauseTimer ();
-	    }
-	  }
-	
-	  /**
-	   * Thread to controll the timer
-	   * 
-	   * @author Joshua Schäuble, Andrew Meikle
-	   * 
-	   */
-	  private class TimeThread extends Thread {
-	    private boolean running = false;
-	
-	    public void run() {
-	      while ( true ) {
-	        while ( !running ) {
-	          try {
-	            wait ();
-	          }
-	          catch (Exception e) {}
-	        }
-	        try {
-	          Thread.sleep (1000);
-	        }
-	        catch (Exception e) {}
-	        if ( sek[turn] > 0 ) {
-	          sek[turn] = sek[turn] - 1;
-	        }
-	        else {
-	          if ( min[turn] > 0 ) {
-	            sek[turn] = 59;
-	            min[turn] = min[turn] - 1;
-	          }
-	          else {
-	            if ( h[turn] > 0 ) {
-	              sek[turn] = 59;
-	              min[turn] = 59;
-	              h[turn] = h[turn] - 1;
-	            }
-	            else if ( h[turn] == 0 && min[turn] == 0 && sek[turn] == 0 ) {
-	              running = false;
-	              if ( timedGame ) {
-	                rundown = true;
-	              }
-	            }
-	          }
-	
-	        }
-	
-	        timeWhiteLabel = ( String.format ("%02d:%02d:%02d", h[TIMER_ONE],
-	            min[TIMER_ONE], sek[0]) );
-	        timeBlackLabel = ( String.format ("%02d:%02d:%02d", h[TIMER_TWO],
-	            min[TIMER_TWO], sek[1]) );
-	        repaint ();
-	      }
-	    }
-	
-	    /**
-	     * switches the turn to the color represented by a
-	     * 
-	     * @param a
-	     */
-	    public void switchTurn(int a) {
-	      if ( a == WHITE ) {
-	        turn = TIMER_ONE;
-	      }
-	      else {
-	        turn = TIMER_TWO;
-	      }
-	    }
-	
-	    /**
-	     * pauses the thread
-	     */
-	    public void pause() {
-	      running = false;
-	    }
-	
-	    /**
-	     * continues the thread
-	     */
-	    public void goOn() {
-	      running = true;
-	    }
-	
-	  }
-	
-	  /**
-	   * returns the name of player1
-	   * 
-	   * @author Andrew Meikle, Joshua Schaeuble
-	   * @return name of player1
-	   */
-	  protected String getPlayer1Name() {
-	    return player1Name;
-	  }
-	
-	  /**
-	   * sets the name of player2 to the given String
-	   * 
-	   * @param player1Name
-	   * @author Andrew Meikle, Joshua Schaeuble
-	   */
-	  protected void setPlayer1Name(String player1Name) {
-	    this.player1Name = player1Name;
-	  }
-	
-	  /**
-	   * returns the name of Player2
-	   * 
-	   * @return name of player2
-	   * @author Andrew Meikle, Joshua Schaeuble
-	   */
-	  protected String getPlayer2Name() {
-	    return player2Name;
-	  }
-	
-	  /**
-	   * sets the name of player2 to the given string
-	   * 
-	   * @param player2Name
-	   *          string to set name as
-	   * @author Andrew Meikle,Joshua Schaeuble
-	   */
-	  protected void setPlayer2Name(String player2Name) {
-	    this.player2Name = player2Name;
-	  }
-	
+		clockTime = new Font("Dialog", Font.PLAIN, SMALL_CLOCK_LABEL_FONTSIZE);
+		timerGraphics.setFont(clockTime);
+		timerGraphics.setColor(bColor);
+		stringCounter = SwingUtilities.computeStringWidth(timerGraphics.getFontMetrics(), bName);
+		timerGraphics.drawString(bName,
+				((this.getSize().width / GET_CENTER) + SMALL_CLOCK_CENTER_MARGIN - (stringCounter / GET_CENTER)),
+				SMALL_CLOCK_LABEL_VALIGN);
+
+		clockTime = new Font("Dialog", Font.PLAIN, SMALL_CLOCK_TIME_FONTSIZE);
+		timerGraphics.setFont(clockTime);
+		stringCounter = SwingUtilities.computeStringWidth(timerGraphics.getFontMetrics(), bTime);
+		timerGraphics.drawString(bTime,
+				((this.getSize().width / GET_CENTER) + SMALL_CLOCK_CENTER_MARGIN - (stringCounter / GET_CENTER)),
+				SMALL_CLACK_TIME_VALIGN);
 	}
+
+	/**
+	 * switches the timer to the "turn" represented by the given integer
+	 * 
+	 * @param timeTurn
+	 *            timeTurn=0 represents white, timeTurn=1 represents black
+	 * @author Joshua Schaeuble, Andrew Meikle
+	 */
+	public void switchTimer(int timeTurn) {
+		synchronized (clock) {
+			clock.switchTurn(timeTurn);
+		}
+	}
+
+	/**
+	 * tells if the timer is rundown
+	 * 
+	 * @return true if timer is rundown
+	 */
+	public boolean isRundown() {
+		return rundown;
+	}
+
+	/**
+	 * pauses the timer-thread for external access
+	 */
+	public void pauseTimer() {
+		synchronized (clock) {
+			clock.pause();
+		}
+	}
+
+	/**
+	 * continues the timer-thread for external access
+	 */
+	public void continueTimer() {
+		synchronized (clock) {
+			clock.goOn();
+		}
+	}
+
+	/**
+	 * resets the timer to the given amount of miliseconds
+	 * 
+	 * @param milliseconds
+	 * @author Andrew Meikle, Joshua Schaeuble
+	 */
+	public void resetTimer(int milliseconds) {
+		int sec, min, hour;
+		this.rundown = false;
+		sec = (milliseconds / MILI_TO_SECOND) % SEC_TO_MIN;
+		min = ((milliseconds / (MILI_TO_SECOND * SEC_TO_MIN)) % SEC_TO_MIN);
+		hour = ((milliseconds / (MILI_TO_SECOND * SEC_TO_MIN * SEC_TO_MIN)) % DAY_TO_HOUR);
+
+		this.sek = new int[AMOUNT_OF_CLOCKS];
+		this.sek[TIMER_ONE] = sec;
+		this.sek[TIMER_TWO] = sec;
+
+		this.min = new int[AMOUNT_OF_CLOCKS];
+		this.min[TIMER_ONE] = min;
+		this.min[TIMER_TWO] = min;
+
+		this.h = new int[AMOUNT_OF_CLOCKS];
+		this.h[TIMER_TWO] = hour;
+		this.h[TIMER_ONE] = hour;
+
+		turn = 0;
+
+		if (milliseconds > 0) {
+			timedGame = true;
+			continueTimer();
+		} else {
+			timedGame = false;
+			pauseTimer();
+		}
+	}
+
+	/**
+	 * Thread to controll the timer
+	 * 
+	 * @author Joshua Schäuble, Andrew Meikle
+	 * 
+	 */
+	private class TimeThread extends Thread {
+		private boolean running = false;
+
+		public void run() {
+			while (true) {
+				while (!running) {
+					try {
+						wait();
+					} catch (Exception e) {
+					}
+				}
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+				}
+				if (sek[turn] > 0) {
+					sek[turn] = sek[turn] - 1;
+				} else {
+					if (min[turn] > 0) {
+						sek[turn] = 59;
+						min[turn] = min[turn] - 1;
+					} else {
+						if (h[turn] > 0) {
+							sek[turn] = 59;
+							min[turn] = 59;
+							h[turn] = h[turn] - 1;
+						} else if (h[turn] == 0 && min[turn] == 0 && sek[turn] == 0) {
+							running = false;
+							if (timedGame) {
+								rundown = true;
+							}
+						}
+					}
+
+				}
+
+				timeWhiteLabel = (String.format("%02d:%02d:%02d", h[TIMER_ONE], min[TIMER_ONE], sek[0]));
+				timeBlackLabel = (String.format("%02d:%02d:%02d", h[TIMER_TWO], min[TIMER_TWO], sek[1]));
+				repaint();
+			}
+		}
+
+		/**
+		 * switches the turn to the color represented by turnColor
+		 * 
+		 * @param turnColor
+		 */
+		public void switchTurn(int turnColor) {
+			if (turnColor == WHITE) {
+				turn = TIMER_ONE;
+			} else {
+				turn = TIMER_TWO;
+			}
+		}
+
+		/**
+		 * pauses the thread
+		 */
+		public void pause() {
+			running = false;
+		}
+
+		/**
+		 * continues the thread
+		 */
+		public void goOn() {
+			running = true;
+		}
+
+	}
+
+	/**
+	 * returns the name of player1
+	 * 
+	 * @author Andrew Meikle, Joshua Schaeuble
+	 * @return name of player1
+	 */
+	protected String getPlayer1Name() {
+		return player1Name;
+	}
+
+	/**
+	 * sets the name of player2 to the given String
+	 * 
+	 * @param player1Name
+	 * @author Andrew Meikle, Joshua Schaeuble
+	 */
+	protected void setPlayer1Name(String player1Name) {
+		this.player1Name = player1Name;
+	}
+
+	/**
+	 * returns the name of Player2
+	 * 
+	 * @return name of player2
+	 * @author Andrew Meikle, Joshua Schaeuble
+	 */
+	protected String getPlayer2Name() {
+		return player2Name;
+	}
+
+	/**
+	 * sets the name of player2 to the given string
+	 * 
+	 * @param player2Name
+	 *            string to set name as
+	 * @author Andrew Meikle,Joshua Schaeuble
+	 */
+	protected void setPlayer2Name(String player2Name) {
+		this.player2Name = player2Name;
+	}
+
+}
