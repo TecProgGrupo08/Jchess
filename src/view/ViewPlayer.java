@@ -1,10 +1,10 @@
 package view;
 
 public class ViewPlayer {
-  private boolean isHuman;
-  private int playerIntDifficulty;
-  private int playerDepthLevel;
-  private String playerName;
+  private boolean isHuman = true;
+  private int playerIntDifficulty = 0;
+  private int playerDepthLevel = 0;
+  private String playerName = "";
   
   /**Creates a new ViewPlayer object give the playerName, the depth, and the int representing evaluator type
    * and a boolean isHuman, true if yes false if no
@@ -15,10 +15,10 @@ public class ViewPlayer {
    * @param isHuman
    */
   public ViewPlayer (String playerName,int playerDepthLevel,int playerIntDifficulty,boolean isHuman){
-    this.playerName = playerName;
-    this.playerDepthLevel = playerDepthLevel;
-    this.playerIntDifficulty = playerIntDifficulty;
-    this.isHuman =isHuman;
+	  this.playerName = playerName;
+	  this.playerDepthLevel = playerDepthLevel;
+	  this.playerIntDifficulty = playerIntDifficulty;
+	  this.isHuman =isHuman;
   }
 
   /**
@@ -26,7 +26,7 @@ public class ViewPlayer {
    * @return true if player is human, false otherwise
    */
   boolean isHuman() {
-    return isHuman;
+	  return isHuman;
   }
 
   /**
@@ -34,7 +34,7 @@ public class ViewPlayer {
    * @return the value of the objects playerIntDifficulty variable
    */
   int getPlayerIntDifficulty() {
-    return playerIntDifficulty;
+	  return playerIntDifficulty;
   }
 
   /**
@@ -42,7 +42,7 @@ public class ViewPlayer {
    * @return playerDepthLevel as specified when the object was created
    */
   int getPlayerDepthLevel() {
-    return playerDepthLevel;
+	  return playerDepthLevel;
   }
 
   /**
@@ -50,7 +50,7 @@ public class ViewPlayer {
    * @return
    */
   String getPlayerName() {
-    return playerName;
+	  return playerName;
   }
 
 }

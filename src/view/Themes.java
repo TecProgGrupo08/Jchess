@@ -36,7 +36,7 @@ public class Themes {
   public String[] getThemeList() {
     String[] themeNames = new String[themesList.length];
     for (int i = 0; i < themesList.length; i++) {
-      themeNames[i] = themesList[i].getName ();
+    	themeNames[i] = themesList[i].getName ();
     }
     return themeNames;
   }
@@ -47,7 +47,7 @@ public class Themes {
    * @return
    */
   public Theme getTheme(int i) {
-    return themesList[i];
+	  return themesList[i];
   }
 
   /**
@@ -55,7 +55,7 @@ public class Themes {
    * @return
    */
   public int getNumberOfThemes() {
-    return themesList.length;
+	  return themesList.length;
   }
 
   /**
@@ -65,9 +65,9 @@ public class Themes {
    */
   public Theme getTheme(String text) {
     for (int i = 0; i < themesList.length; i++) {
-      if ( themesList[i].getName ().equals (text) ) {
-        return themesList[i];
-      }
+    	if ( themesList[i].getName ().equals (text) ) {
+    		return themesList[i];
+    	}
     }
     return null;
   }
