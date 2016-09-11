@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+//
+
 public class NewGameOptions {
 
   private final int EASY_DIFFICULTY_DEPTH = 1;
@@ -24,20 +26,20 @@ public class NewGameOptions {
   private final Dimension MINDIM = new Dimension (300, 300);
   private final Dimension STARTDIM = new Dimension (410, 350);
 
-  private JComboBox player1TypeComboBox;
-  private JComboBox player1DifficultyComboBox;
-  private JComboBox player2DifficultyComboBox;
-  private JComboBox player2TypeComboBox;
-  private JCheckBox timerCheckBox;
-  private JTextField player2Name;
-  private JTextField player1Name;
-  private JComboBox timerDataCheckBox;
+  private JComboBox player1TypeComboBox = null;
+  private JComboBox player1DifficultyComboBox = null;
+  private JComboBox player2DifficultyComboBox = null;
+  private JComboBox player2TypeComboBox = null;
+  private JCheckBox timerCheckBox = null;
+  private JTextField player2Name = null;
+  private JTextField player1Name = null;
+  private JComboBox timerDataCheckBox = null;
 
-  private MainWindow myParentWindow;
+  private MainWindow myParentWindow = null;
 
-  private javax.swing.JDialog thisFrame;
-  private javax.swing.JButton beginButton;
-  private javax.swing.JPanel timerPanel;
+  private javax.swing.JDialog thisFrame = null;
+  private javax.swing.JButton beginButton = null;
+  private javax.swing.JPanel timerPanel = null;
 
   /**
    * Constructor that takes a MainWindow object and sets this window to be the parentWindow of this new frame.
@@ -49,7 +51,7 @@ public class NewGameOptions {
   }
 
   /**
-   * Acts as the constructor for the newgameoptions frame
+   * Acts as the constructor for the NewGameOptions frame
    */
   public void start() {
     thisFrame = new JDialog ();
@@ -57,15 +59,14 @@ public class NewGameOptions {
     thisFrame.setMinimumSize (MINDIM);
     thisFrame.setSize (STARTDIM);
     thisFrame.setLayout (new java.awt.GridBagLayout ());
-    GridBagConstraints c = new GridBagConstraints ();
+    GridBagConstraints layout = new GridBagConstraints ();
 
-    thisFrame
-    .setDefaultCloseOperation (javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    thisFrame.setDefaultCloseOperation (javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
     this.initiliseComponents ();
     this.setComponentsText ();
     this.setPreferredSize ();
-    this.addComponentsToFrame (c);
+    this.addComponentsToFrame (layout);
     this.setUpListeners ();
 
     
@@ -95,27 +96,33 @@ public class NewGameOptions {
    * Sets up the texts that the components display
    */
   private void setComponentsText() {
-    // Setting up player 1's name,the contents of the drop down menus and the
-    // names of the check boxes
+    /* 
+     * Setting up player 1's name,the contents of the drop down menus and the
+     * names of the check boxes
+     */
     player1Name.setText ("Player 1");
-    player1DifficultyComboBox.setModel (new javax.swing.DefaultComboBoxModel (
-        new String[] { "Easy", "Medium", "Hard"}));
+    player1DifficultyComboBox.setModel(new javax.swing.DefaultComboBoxModel (
+    									new String[] { "Easy", "Medium", "Hard"}));
 
-    // Setting up the fields to be displayed, default player 1 human ticked and
-    // the AI fields are disabled
+    /* 
+     * Setting up the fields to be displayed, default player 1 human ticked and
+     * the AI fields are disabled
+     */
     player1DifficultyComboBox.setEnabled (false);
 
-    // Setting up player 2's name,the contents of the drop down menus and the
-    // names of the check boxes
+    /* 
+     * Setting up player 2's name,the contents of the drop down menus and the
+     * names of the check boxes
+     */
     player2Name.setText ("Player 2");
     player2DifficultyComboBox.setModel (new javax.swing.DefaultComboBoxModel (
-        new String[] { "Easy", "Medium", "Hard"}));
+    										new String[] { "Easy", "Medium", "Hard"}));
 
     //Populates the player type combo boxes with the appropriate data
     player1TypeComboBox.setModel (new javax.swing.DefaultComboBoxModel (
-        new String[] { "Human", "AI" }));
+    								new String[] { "Human", "AI" }));
     player2TypeComboBox.setModel (new javax.swing.DefaultComboBoxModel (
-        new String[] { "Human", "AI" }));
+    								new String[] { "Human", "AI" }));
 
     // default to medium for AI's
     player1DifficultyComboBox.setSelectedIndex (1);
@@ -163,107 +170,114 @@ public class NewGameOptions {
   /**
    * Adds components to the frame
    * 
-   * @param c
+   * @param layout
    */
-  private void addComponentsToFrame(GridBagConstraints c) {
+  private void addComponentsToFrame(GridBagConstraints layout) {
 
-    c.fill = GridBagConstraints.HORIZONTAL;
+    layout.fill = GridBagConstraints.HORIZONTAL;
     javax.swing.JLabel temp = new javax.swing.JLabel ();
     temp.setPreferredSize (MINDIM);
-    c = setXYAndWeight (c, 1, 0, 0, 1);
+    layout = setXYAndWeight (layout, 1, 0, 0, 1);
 
-    // Insets the player label away from the box boundary and away from the left
-    // boundary grid space
-    c.insets = new Insets (0, 10, 0, 80);
+    /* 
+     * Insets the player label away from the box boundary and away from the left
+     *  boundary grid space
+     */
+    layout.insets = new Insets (0, 10, 0, 80);
 
     // player 1 position
-    c = setXYAndWeight (c, 0, 0, 1, 1);
-    thisFrame.add (player1Name, c);
+    layout = setXYAndWeight (layout, 0, 0, 1, 1);
+    thisFrame.add (player1Name, layout);
     // player 2 position
-    c = setXYAndWeight (c, 2, 0, 1, 1);
-    thisFrame.add (player2Name, c);
+    layout = setXYAndWeight (layout, 2, 0, 1, 1);
+    thisFrame.add (player2Name, layout);
 
-    // Sets the inset for each of the player type combo boxes, so they are away
-    // from the edge
-    c.insets = new Insets (0, 10, 0, 70);
+    /* 
+     * Sets the inset for each of the player type combo boxes, so they are away
+     * from the edge
+     */
+    layout.insets = new Insets (0, 10, 0, 70);
 
     // player 1 type combo box
-    c = setXYAndWeight (c, 0, 1, 1, 0);
-    thisFrame.add (player1TypeComboBox, c);
+    layout = setXYAndWeight (layout, 0, 1, 1, 0);
+    thisFrame.add (player1TypeComboBox, layout);
     // player 2 type combo box
-    c = setXYAndWeight (c, 2, 1, 0, 1);
-    thisFrame.add (player2TypeComboBox, c);
+    layout = setXYAndWeight (layout, 2, 1, 0, 1);
+    thisFrame.add (player2TypeComboBox, layout);
 
-    // Insets all the AI difficulty boxes from the outside boundary and brings
-    // them in from the right
-    // so they dont fill up their grid space
-    c.insets = new Insets (0, 10, 0, 55);
+    /* Insets all the AI difficulty boxes from the outside boundary and brings
+     * them in from the right
+     * so they dont fill up their grid space
+     */
+    layout.insets = new Insets (0, 10, 0, 55);
 
     // player 1 difficulty box
-    c = setXYAndWeight (c, 0, 2, 0, 1);
-    thisFrame.add (player1DifficultyComboBox, c);
+    layout = setXYAndWeight (layout, 0, 2, 0, 1);
+    thisFrame.add (player1DifficultyComboBox, layout);
     // player 2 AI difficulty box
-    c = setXYAndWeight (c, 2, 2, 0, 1);
-    thisFrame.add (player2DifficultyComboBox, c);
+    layout = setXYAndWeight (layout, 2, 2, 0, 1);
+    thisFrame.add (player2DifficultyComboBox, layout);
 
-    // Moves the Version boxes closer to the difficulty boxes, which brings
-    // everything further up
-    c.insets = new Insets (0, 10, 95, 55);
+    /* 
+     * Moves the Version boxes closer to the difficulty boxes, which brings
+     * everything further up
+     */
+    layout.insets = new Insets (0, 10, 95, 55);
 
     // Adds timer stuff and moves timer check box to the left
-    c.insets = new Insets (0, 60, 0, 0);
-    c = setXYAndWeight (c, 0, 4, 0, 1);
-    thisFrame.add (timerCheckBox, c);
+    layout.insets = new Insets (0, 60, 0, 0);
+    layout = setXYAndWeight (layout, 0, 4, 0, 1);
+    thisFrame.add (timerCheckBox, layout);
 
     // Inset, movest the check box away from the right hand side
-    c.insets = new Insets (0, 0, 0, 40);
-    c = setXYAndWeight (c, 1, 4, 0, 1);
-    thisFrame.add (timerDataCheckBox, c);
-    c = resetWeights (c);
+    layout.insets = new Insets (0, 0, 0, 40);
+    layout = setXYAndWeight (layout, 1, 4, 0, 1);
+    thisFrame.add (timerDataCheckBox, layout);
+    layout = resetWeights (layout);
 
-    c.insets = new Insets (0, 40, 0, 40); // shrinks the button on both sides
+    layout.insets = new Insets (0, 40, 0, 40); // shrinks the button on both sides
     // begin button position
-    c = setXYAndWeight (c, 2, 4, 0, 1);
-    thisFrame.add (beginButton, c);
-    c = resetWeights (c);
+    layout = setXYAndWeight (layout, 2, 4, 0, 1);
+    thisFrame.add (beginButton, layout);
+    layout = resetWeights (layout);
   }
 
   /**
    * Sets up the constraints for the gridbag and return the gridbagconstraint
    * 
-   * @param c
+   * @param layout
    *          GridBagConstraint
    * @param x
-   *          value to be made equals to c.gridx
+   *          value to be made equals to layout.gridx
    * @param y
-   *          value to be made equals to c.gridy
+   *          value to be made equals to layout.gridy
    * @param weight
    *          value to be inserted into weightx
    * @param weighty
    *          value to be inserted into weighty
    * @return Same gridbag constraint that was passed in
    */
-  private GridBagConstraints setXYAndWeight(GridBagConstraints c, int x, int y,
-      double weight, double weighty) {
-    c.gridx = x;
-    c.gridy = y;
-    if ( weight != -1 ) c.weightx = weight;
-    if ( weighty != -1 ) c.weighty = weighty;
-    return c;
+  private GridBagConstraints setXYAndWeight(GridBagConstraints layout, int x, int y,
+	  double weight, double weighty) {
+	  	layout.gridx = x;
+	  	layout.gridy = y;
+	  	if ( weight != -1 ) layout.weightx = weight;
+	  	if ( weighty != -1 ) layout.weighty = weighty;
+	  	return layout;
   }
 
   /**
    * Resets the weight to 0 for the parameter C nd then returns it reset
    * 
-   * @param c
+   * @param layout
    *  gridbagconstraints object to change
-   * @return c
+   * @return layout
    *  same gridbagconstraints objects but weightx and weighty have been set to 0
    */
-  private GridBagConstraints resetWeights(GridBagConstraints c) {
-    c.weightx = 0.0;
-    c.weighty = 0.0;
-    return c;
+  private GridBagConstraints resetWeights(GridBagConstraints layout) {
+	  layout.weightx = 0.0;
+	  layout.weighty = 0.0;
+	  return layout;
   }
 
   /**
@@ -273,52 +287,71 @@ public class NewGameOptions {
 
     // Action listener for begin button
     beginButton.addActionListener (new ActionListener () {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        player1Name.setForeground (Color.BLACK);
-        player2Name.setForeground (Color.BLACK);
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		player1Name.setForeground (Color.BLACK);
+    		player2Name.setForeground (Color.BLACK);
+    		createNewGame ();
+    	}
+    }
+    );
 
-        createNewGame ();
-      }
-    });
-
-    // Sets up code for the the combo boxes, enabling/disabling the appropraite
-    // fields
+    /* Sets up code for the the combo boxes, enabling/disabling the appropraite
+     * fields
+     * 
+     */
 
     player1TypeComboBox.addActionListener (new ActionListener () {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        if ( isPlayerAI (player1TypeComboBox) ) 
-          player1DifficultyComboBox.setEnabled (true);
-
-        else 
-          player1DifficultyComboBox.setEnabled (false);
-
-      }
-    });
+    	
+    	
+    	
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		
+    		if ( isPlayerAI (player1TypeComboBox) ){ 
+    			player1DifficultyComboBox.setEnabled (true);
+    		}
+    		
+    		else {
+    			player1DifficultyComboBox.setEnabled (false);
+    		}
+    		
+    	}
+    }
+    );
 
     player2TypeComboBox.addActionListener (new ActionListener () {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        if ( isPlayerAI (player2TypeComboBox) ) 
-          player2DifficultyComboBox.setEnabled (true);
-
-        else 
-          player2DifficultyComboBox.setEnabled (false);
-
-      }
-    });
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		
+    		if ( isPlayerAI (player2TypeComboBox) ){ 
+    			player2DifficultyComboBox.setEnabled (true);
+    		}
+    		else{ 
+    			player2DifficultyComboBox.setEnabled (false);
+    		}
+    		
+    	}
+    }
+    );
 
     timerCheckBox.addActionListener (new ActionListener () {
-      @Override
-      public void actionPerformed(ActionEvent arg0) {
-        //Checks whether or not the timer is selected, if it is then it disables it
-        //otherwise it enables it
-        if ( timerCheckBox.isSelected () ) timerDataCheckBox.setEnabled (true);
-        else if ( !timerCheckBox.isSelected () ) timerDataCheckBox.setEnabled (false);
-
-      }
-    });
+    	@Override
+    	public void actionPerformed(ActionEvent arg0) {
+    		/*Checks whether or not the timer is selected, if it is then it disables it
+    		 * otherwise it enables it
+    		 * 
+    		 */
+    		if ( timerCheckBox.isSelected () ){
+    			timerDataCheckBox.setEnabled (true);
+    		}
+    		else if ( !timerCheckBox.isSelected () ){
+    			timerDataCheckBox.setEnabled (false);
+    		}
+    	}
+    
+    }
+    );
 
   }
 
@@ -342,19 +375,24 @@ public class NewGameOptions {
      }
      //Creates the two player objects from the data occupying the form
     ViewPlayer player1 = new ViewPlayer(player1Name.getText(),
-                        getDepth(player1DifficultyComboBox),
-                        getIntFromDifficulty(player1DifficultyComboBox),
-                        !isPlayerAI(player1TypeComboBox));
+                        	getDepth(player1DifficultyComboBox),
+                        	getIntFromDifficulty(player1DifficultyComboBox),
+                        	!isPlayerAI(player1TypeComboBox));
     
     ViewPlayer player2 = new ViewPlayer(player2Name.getText(),
-                        getDepth(player2DifficultyComboBox),
-                        getIntFromDifficulty(player2DifficultyComboBox),
-                        !isPlayerAI(player2TypeComboBox));
+                        	getDepth(player2DifficultyComboBox),
+                        	getIntFromDifficulty(player2DifficultyComboBox),
+                        	!isPlayerAI(player2TypeComboBox));
 
-    //Checks if the timer is selected, if its not it makes timer = -1, otherwise
-    //it makes it equal to the time in the field in milliseconds
+    /*
+     * Checks if the timer is selected, if its not it makes timer = -1, otherwise
+     * it makes it equal to the time in the field in milliseconds
+     */
+    
     if(!timerCheckBox.isSelected ()){
-      timer = -1;}
+      timer = -1;
+     }
+    
     else{
       timer=Integer.parseInt ((String)timerDataCheckBox.getSelectedItem ());
       timer = (timer * 60) * 1000;
@@ -375,8 +413,12 @@ public class NewGameOptions {
    */
   private int getIntFromDifficulty (JComboBox difficultyComboBox){
     String textDifficulty = (String)difficultyComboBox.getSelectedItem ();
-    if (textDifficulty.equalsIgnoreCase ("easy")) return 1;
-    else return 2;
+    if (textDifficulty.equalsIgnoreCase ("easy")){
+    	return 1;
+    }
+    else{ 
+    	return 2;
+    }
   }
 
   /**
@@ -401,8 +443,7 @@ public class NewGameOptions {
    * @return
    */
   private boolean isPlayerAI(JComboBox thisComboBox) {
-    return ( ( (String) thisComboBox.getSelectedItem () )
-        .equalsIgnoreCase ("AI") );
+    return ( ( (String) thisComboBox.getSelectedItem () ).equalsIgnoreCase ("AI") );
   }
 
 }
