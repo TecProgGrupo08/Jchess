@@ -9,6 +9,6 @@ import model.Board;
  */
 public interface Evaluator {
 
-  public int evaluate( Board board );
+	public int evaluate( Board board );
 
 }
