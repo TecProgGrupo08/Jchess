@@ -13,7 +13,7 @@ import java.util.Scanner;
  *
  */
 public class IOParser {
-	private String filename = "";
+    private String filename = "";
 	
 	/**
 	 * Constructor just takes in file name, validates and stores for later use for either 
@@ -31,14 +31,14 @@ public class IOParser {
 	}
 	
 	/**
-	 * Parses the filename specified and stores the data into a byte[128] array
-	 *
-	 * Uses 0x88 to allow the file to contain the valid board and it automatically
-     * fills in the invalid board.
-	 *
-	 @return byte[128] squares 
-	 */
-	 public byte[] parse() {
+	* Parses the filename specified and stores the data into a byte[128] array
+	*
+	* Uses 0x88 to allow the file to contain the valid board and it automatically
+    * fills in the invalid board.
+	*
+	@return byte[128] squares 
+	*/
+	public byte[] parse() {
 		if ( filename == null ) {
 			return null;
 		}
@@ -72,9 +72,9 @@ public class IOParser {
 				return null;
 			}
 		}	
-    file.close();
+		file.close();
     
-    return squares;
+    	return squares;
 	}
 	/**
 	 * Saves board representation to file which can later be read back in.
@@ -82,7 +82,7 @@ public class IOParser {
 	 * @param board
 	 * @return true if successful, else false
 	 */
-	public boolean dump(Board board) {
+    public boolean dump(Board board) {
 		byte[] squares = board.getSquares();
 		PrintWriter out = writerOpen();
 		
@@ -104,14 +104,14 @@ public class IOParser {
 		return true;
 	}
 	
-	/**
-   * Checks byte piece is a valid piece
-   * 
-   * @param byte piece - to be tested
-   * @return byte piece - if successful
-   * @throws NumberFormatException
-   *           - if piece is invalid
-   */
+    /**
+    * Checks byte piece is a valid piece
+    * 
+    * @param byte piece - to be tested
+    * @return byte piece - if successful
+    * @throws NumberFormatException
+    *           - if piece is invalid
+    */
 	private byte isValid( byte piece ) throws NumberFormatException {
 		if ( !( ( piece >=0 ) && ( piece < 15 ) ) ) {
 			throw new NumberFormatException();
