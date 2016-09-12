@@ -2,11 +2,7 @@ package model.evaluators;
 
 import model.Board;
 
-/**
- * An evaluator that is suitable for intermediate players.
- *
- * @author Gary Blackwood
- */
+// An evaluator that is suitable for intermediate players.
 public class MediumEvaluator implements Evaluator {
 
 	private static final int MATERIAL_WEIGHT = 50;

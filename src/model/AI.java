@@ -4,13 +4,7 @@ import model.evaluators.EasyEvaluator;
 import model.evaluators.MediumEvaluator;
 import model.evaluators.Evaluator;
 
-/**
- * The artificial intelligence player.
- *
- * @author Fergus Leahy
- * @author Gary Blackwood
- * @author Aleksandr Radevic
- */
+// The artificial intelligence player.
 public class AI extends Player {
 
     private int depth = 0;

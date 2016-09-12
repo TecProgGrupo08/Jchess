@@ -7,11 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-/**
- * IOParser for the 0x88 board representation
- * @author fergus
- *
- */
+//IOParser for the 0x88 board representation
 public class IOParser {
     private String filename = "";
 	

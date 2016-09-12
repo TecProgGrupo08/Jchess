@@ -1,11 +1,7 @@
 package view;
 
 import java.awt.Color;
-/**
- * Theme provides Theme objects with color-information, a themeName and the folder number of a theme
- * @author Andrew Meikle, Joshua Schaeuble (all containing methods)
- *
- */
+// Theme provides Theme objects with color-information, a themeName and the folder number of a theme
 public class Theme {
   private String themeName = "";
   private Color blackColor = null;

@@ -15,12 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-/**
- * ChessClock as JPanel in BorderLayout
- * 
- * @author Joshua Schaeuble, Andrew Meikle
- * 
- */
+// ChessClock as JPanel in BorderLayout
 public class ChessTimer extends JPanel {
 	// Finals and object instances
 	public static final long serialVersionUID = 1L;

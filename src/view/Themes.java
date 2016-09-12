@@ -2,12 +2,7 @@ package view;
 
 import java.awt.Color;
 
-/**
- * Themes gives a collection of all themes and methods to access them
- * 
- * @author Andrew Meikle, Joshua Schaeuble (all containing methods)
- * 
- */
+// Themes gives a collection of all themes and methods to access them.
 public class Themes {
 
   private Theme[] themesList;

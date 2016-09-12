@@ -2,11 +2,7 @@ package model.evaluators;
 
 import model.Board;
 
-/**
- * An evaluator that is suitable for casual players and beginners.
- *
- * @author Gary Blackwood
- */
+// An evaluator that is suitable for casual players and beginners.
 public class EasyEvaluator implements Evaluator {
 
 	  private static final int MATERIAL_WEIGHT = 90;

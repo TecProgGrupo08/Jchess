@@ -13,8 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-//
-
+//Class where the player choose the game settings
 public class NewGameOptions {
 
   private final int EASY_DIFFICULTY_DEPTH = 1;

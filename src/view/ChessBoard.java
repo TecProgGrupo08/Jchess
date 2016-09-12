@@ -19,10 +19,9 @@ import javax.swing.JPanel;
 
 import model.Board;
 
-/**
+/*
  * <code>PaintBoard</code> extends JPanel to build a ChessBoard for a Chess GUI
  * implementation
- * 
  */
 class ChessBoard extends JPanel {
 
