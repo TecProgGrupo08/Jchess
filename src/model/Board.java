@@ -297,7 +297,13 @@ public class Board {
      * @return True if the move is valid, false otherwise.
      */
     public boolean isValidMove( Move move ) {
-    	return ( this.validMoves.contains( move ) );
+    	
+    	if  ( this.validMoves.contains( move ) == true ){
+    		return true;
+    	
+    	}else{
+    		return false;
+    	}
     }
   
     /**
@@ -317,7 +323,13 @@ public class Board {
      * @return True if the piece has moved, false otherwise.
      */
     private static boolean hasPieceMoved( byte piece ) {
-    	return ( ( piece & MOVED_MASK ) == MOVED );
+    	
+    	if ( ( piece & MOVED_MASK ) == MOVED ){
+    		return true;
+    		
+    	}else{
+    		return false;
+    	}
     }
 
     /**
@@ -326,7 +338,12 @@ public class Board {
      * @return True if checkmate, false otherwise.
      */
     public boolean isCheckmate() {
-    	return ( this.validMoves.size() == 0 && kingInCheck() );
+    	if ( this.validMoves.size() == 0 && kingInCheck() ){
+    		return true;
+    	
+    	}else{
+    		return false;
+    	}
     }
   
     /**
@@ -335,7 +352,12 @@ public class Board {
      * @return True if stalemate, false otherwise.
      */
     public boolean isStalemate() {
-    	return ( this.validMoves.size() == 0 && !kingInCheck() );
+    	if  ( this.validMoves.size() == 0 && !kingInCheck() ){
+    		return true;
+    	
+    	}else{
+    		return false;
+    	}
     }
 
     /**
@@ -344,7 +366,12 @@ public class Board {
      * @return True if it is the white players turn to move, false otherwise.
      */
     private boolean isWhiteTurn() {
-    	return ( this.turnColour == WHITE );
+    	if ( this.turnColour == WHITE ){
+    		return true;
+    	
+    	}else{
+    		return false;
+    	}
     }
 
     /**
@@ -367,7 +394,12 @@ public class Board {
      * @return A byte representation of the opponents colour.
      */
     private byte opponentColour() {
-    	return ( isWhiteTurn() ? BLACK : WHITE );
+    	if ( isWhiteTurn() ){
+    		return BLACK;
+    	
+    	}else{
+    		return WHITE;
+    	}
     }
 
     /**
@@ -447,7 +479,12 @@ public class Board {
   	* @return True if a pawn is being moved.
   	*/
     private boolean isPawnMove( Move move ) {
-    	return ( pieceTypeAt( move.from() ) == PAWN );
+    	if ( pieceTypeAt( move.from() ) == PAWN ) {
+    		return true;
+    	} 
+    	else {
+    		return false;
+        }
     }
   
     /**
@@ -458,7 +495,12 @@ public class Board {
    	* @return True if a rook is being moved.
    	*/
     private boolean isRookMove( Move move ) {
-    	return ( pieceTypeAt( move.from() ) == ROOK );
+    	if ( pieceTypeAt( move.from() ) == ROOK ) {
+    		return true;
+    	} 
+    	else {
+    		return false;
+        }
     }
 
     /**
@@ -469,7 +511,12 @@ public class Board {
    	* @return True if a king is being moved.
    	*/
     private boolean isKingMove( Move move ) {
-    	return ( pieceTypeAt( move.from() ) == KING );
+    	if ( pieceTypeAt( move.from() ) == KING ) {
+    		return true;
+    	} 
+    	else {
+    		return false;
+        }
     }
 
     /**
@@ -478,7 +525,12 @@ public class Board {
      * @param move - The move to check.
      */ 
     private boolean isPawnPromotion( Move move ) {
-    	return ( isPawnMove( move ) && ( ( move.to() >= A1 && move.to() <= H1 ) || ( move.to() >= A8 && move.to() <= H8 ) ) );
+    	if ( isPawnMove( move ) && ( ( move.to() >= A1 && move.to() <= H1 ) || ( move.to() >= A8 && move.to() <= H8 ) ) ) {
+    		return true;
+    	} 
+    	else {
+    		return false;
+        }
     }
 
     /**
@@ -615,9 +667,10 @@ public class Board {
      */
     private void updateScore( int position ) {
     	if ( this.turnColour == WHITE ) {
-         	score += pieceValueAt( position );
+         	score = score + pieceValueAt( position );
+         	
     	} else {
-    		score -= pieceValueAt( position );
+    		score = score - pieceValueAt( position );
     	}
     }
 
@@ -870,7 +923,13 @@ public class Board {
      * @return True if the pawn can en passent left, false otherwise.
      */
     private boolean whiteCanEnPassantLeft( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN && this.previousMove.from() == ( position + 31 ) ) && this.previousMove.to() == ( position - 1 );
+        if ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN
+        	&& this.previousMove.from() == ( position + 31 ) && this.previousMove.to() == ( position - 1 )){
+    	    return true;
+        } 
+        else {
+    	    return false;
+        }
     }
 
     /**
@@ -881,7 +940,13 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean whiteCanEnPassantRight( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN && this.previousMove.from() == ( position + 33 ) ) && this.previousMove.to() == ( position + 1 );
+        if  ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN
+        		&& this.previousMove.from() == ( position + 33 ) && this.previousMove.to() == ( position + 1 ) ){
+        	    return true;
+            } 
+            else {
+        	    return false;
+            }
     }
 
     /**
@@ -933,7 +998,13 @@ public class Board {
      * @return True if the pawn can en passent left, false otherwise.
      */
     private boolean blackCanEnPassantLeft( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN && this.previousMove.from() == ( position - 31 ) && this.previousMove.to() == ( position + 1 ) );
+        if  ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN 
+        		&& this.previousMove.from() == ( position - 31 ) && this.previousMove.to() == ( position + 1 ) ){
+        	    return true;
+            } 
+            else {
+        	    return false;
+            }
     }	
 
     /**
@@ -944,7 +1015,13 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean blackCanEnPassantRight( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN && this.previousMove.from() == ( position - 33 ) && this.previousMove.to() == ( position -1 ) );
+        if  ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN
+        		&& this.previousMove.from() == ( position - 33 ) && this.previousMove.to() == ( position -1 ) ){
+        	    return true;
+            } 
+            else {
+        	    return false;
+            }
     }
 
     /**
@@ -1081,7 +1158,12 @@ public class Board {
      * @return True if an opponents piece is located at that position, false otherwise.
      */
     public boolean enemyPieceAt( int position ) {
-    	return ( !squareEmpty( position ) && pieceColourAt( position ) != this.turnColour );
+    	if ( !squareEmpty( position ) && pieceColourAt( position ) != this.turnColour ) {
+    		return true;
+    	} 
+    	else {
+    		return false;
+        }
     }
 
     /**
@@ -1122,7 +1204,12 @@ public class Board {
      * @return The zero sum material score.
      */
     public int evaluateMaterial() {
-    	return ( isWhiteTurn() ? this.score : -this.score );
+    	if ( isWhiteTurn() == true ) {
+    		return this.score;
+    	} 
+    	else {
+    		return  -this.score;
+        }
     }
 
     /**
@@ -1149,7 +1236,12 @@ public class Board {
     		}
     	}
     
-    	return isWhiteTurn() ? score : -score;
+    	if ( isWhiteTurn() == true ) {
+    		return score;
+    	} 
+    	else {
+    		return  -score;
+        }
     }
 
     /**
@@ -1206,7 +1298,11 @@ public class Board {
     			}
     		}
     	}
-
-    	return isWhiteTurn() ? score : -score;
+    	if ( isWhiteTurn() == true ) {
+    		return score;
+    	} 
+    	else {
+    		return  -score;
+        }
     }
 }
