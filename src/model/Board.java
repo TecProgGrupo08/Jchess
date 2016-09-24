@@ -155,7 +155,12 @@ public class Board {
      * @return The square index of the current players king.
      */
     public int getKingPosition() {
-    	return ( isWhiteTurn() ? this.whiteKingPosition : this.blackKingPosition );
+    	
+    	if ( isWhiteTurn() == true){
+    		return this.whiteKingPosition;
+    	}else{
+    		return this.blackKingPosition;
+    	}
     }
 
     /**
@@ -164,7 +169,13 @@ public class Board {
      * @return The square index of opponent of the current players king.
      */
     private int getOpposingKingPosition() {
-    	return ( isWhiteTurn() ? this.blackKingPosition : this.whiteKingPosition );
+    	
+    	if (isWhiteTurn() == true){
+    		return this.blackKingPosition;
+    		
+    	}else{
+    		return this.whiteKingPosition;	
+    	}
     }
 
     /**
@@ -174,8 +185,14 @@ public class Board {
      *
      * @return True if there are no pieces on the square, false otherwise.
      */
-    private boolean squareEmpty( int position ) {
-    	return ( pieceAt( position ) == EMPTY );
+    private boolean squareEmpty( int position ) {	
+    	
+    	if ( pieceAt( position ) == EMPTY ){
+    		return true;
+    		
+    	}else{
+    		return false;
+    	}
     }
 
     /**
@@ -245,8 +262,14 @@ public class Board {
    * @return True if the destination square index is on the playable chess board, false otherwise.
    */ 
     private boolean isValidDestination( int destination ) {
-    	return ( ( ( destination & 0x88 ) == VALID ) &&
-             ( squareEmpty( destination ) || ( pieceColourAt( destination ) != this.turnColour ) ) );
+    	
+    	if  ( ( ( destination & 0x88 ) == VALID ) &&
+                ( squareEmpty( destination ) || ( pieceColourAt( destination ) != this.turnColour ) ) )  {
+    		return true;
+    		
+    	}else {
+    		return false;
+    	}
     }
 
     /**
@@ -257,7 +280,13 @@ public class Board {
      * @return True if the piece is white, false otherwise.
      */
     private boolean isWhitePiece( int position ) {
-    	return ( pieceColourAt( position ) == WHITE );
+    	
+    	if ( pieceColourAt( position ) == WHITE ){
+    		return true;
+    		
+    	}else{
+    		return false;
+    	}
     }
 
     /**
