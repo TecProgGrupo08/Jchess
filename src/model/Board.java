@@ -203,6 +203,8 @@ public class Board {
      * @return A byte representation of the piece located at 'position'.
      */
 	private byte pieceAt( int position ) {
+		assert( position > 0 ):"invalid position";
+		
 		 if ( ( position & 0x88 ) == VALID ) {
 			 return ( this.squares[ position ] );
 		 }
@@ -218,6 +220,8 @@ public class Board {
 	 * @return The colour, as a byte, of the piece.
 	 */
     public byte pieceColourAt( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
 		return ( (byte)( pieceAt( position ) & COLOUR_MASK ) );
     }
 
@@ -263,6 +267,7 @@ public class Board {
    */ 
     private boolean isValidDestination( int destination ) {
     	
+    	assert( destination > 0 ):"invalid position";
     	if  ( ( ( destination & 0x88 ) == VALID ) &&
                 ( squareEmpty( destination ) || ( pieceColourAt( destination ) != this.turnColour ) ) )  {
     		return true;
@@ -479,6 +484,7 @@ public class Board {
   	* @return True if a pawn is being moved.
   	*/
     private boolean isPawnMove( Move move ) {
+    	assert( move != null ):"null move";
     	if ( pieceTypeAt( move.from() ) == PAWN ) {
     		return true;
     	} 
@@ -511,6 +517,7 @@ public class Board {
    	* @return True if a king is being moved.
    	*/
     private boolean isKingMove( Move move ) {
+    	assert( move != null ):"null move";
     	if ( pieceTypeAt( move.from() ) == KING ) {
     		return true;
     	} 
@@ -525,6 +532,7 @@ public class Board {
      * @param move - The move to check.
      */ 
     private boolean isPawnPromotion( Move move ) {
+    	assert( move != null ):"null move";
     	if ( isPawnMove( move ) && ( ( move.to() >= A1 && move.to() <= H1 ) || ( move.to() >= A8 && move.to() <= H8 ) ) ) {
     		return true;
     	} 
@@ -548,6 +556,7 @@ public class Board {
      * @param move - The move to make.
      */
     public void makeMove( Move move ) {
+    	assert( move != null ):"null move";
     	setMovementBit( move.from() );
     	if ( isPawnMove( move ) ) {
     		setMovementBit( move.from() );
@@ -585,6 +594,7 @@ public class Board {
 	    }
     }
     else if ( isKingMove( move ) ) {
+    	assert( move != null ):"null move";
         setMovementBit( move.from() );
 
         if ( isCastle( move ) ) {
@@ -633,6 +643,7 @@ public class Board {
      * @return A integer value of the piece worth.
      */
     private int pieceValueAt( int position ) {
+    	assert( position > 0 ):"invalid position";
     	switch ( pieceTypeAt( position ) ) {
           	case PAWN: {
           		return ( 100 );
@@ -666,6 +677,7 @@ public class Board {
      * @param position    The index of the square at which a piece was captured.
      */
     private void updateScore( int position ) {
+    	assert( position > 0 ):"invalid position";
     	if ( this.turnColour == WHITE ) {
          	score = score + pieceValueAt( position );
          	
@@ -683,6 +695,8 @@ public class Board {
      * @return True if the piece can move to the destination, false otherwise.
      */ 
     private boolean canMoveTo( int position, int destination ) {
+    	assert( position > 0 ):"invalid position";
+    	assert( destination > 0 ):"invalid destination";
     	byte p = this.squares[ position ];
     	byte t = this.squares[ destination ];
       
@@ -728,6 +742,7 @@ public class Board {
      * @return True if at least one piece is attacking the square, false otherwise.
      */ 
     private boolean squareAttacked( int position ) {
+    	assert( position > 0 ):"invalid position";
     	int[] directions = new int[]{ 15, 17, -15, -17 };
     
     	for ( int direction : directions ) {
@@ -819,6 +834,8 @@ public class Board {
      * @return An ArrayList of all valid moves that the piece can make.
      */
     public ArrayList<Move> generateValidMoves( byte pieceType, int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	ArrayList<Move> validMoves = new ArrayList<Move>();
     	ArrayList<Integer> destinations = generateDestinations( pieceType, position );
 
@@ -844,6 +861,8 @@ public class Board {
      * @return An ArrayList of all destinations that the piece can move to.
      */
     private ArrayList<Integer> generateDestinations( byte pieceType, int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	switch ( pieceType ) {
           	case PAWN: {
           		return ( generatePawnDestinations( position ) );
@@ -879,6 +898,8 @@ public class Board {
      * @return An ArrayList of all destinations that the pawn can move to.
      */
     private ArrayList<Integer> generatePawnDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	if ( isWhitePiece( position ) ) {
     		return ( generateWhitePawnDestinations( position ) );
     	}
@@ -897,6 +918,8 @@ public class Board {
   	* @return An ArrayList of all destinations that the white pawn can move to.
   	*/
     public ArrayList<Integer> generateWhitePawnDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
     	if ( !hasPieceMoved( pieceAt( position ) ) && squareEmpty( position + 16 ) && squareEmpty( position + 32 ) ) {
@@ -923,6 +946,7 @@ public class Board {
      * @return True if the pawn can en passent left, false otherwise.
      */
     private boolean whiteCanEnPassantLeft( int position ) {
+    	assert( position > 0 ):"invalid position";
         if ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN
         	&& this.previousMove.from() == ( position + 31 ) && this.previousMove.to() == ( position - 1 )){
     	    return true;
@@ -1238,8 +1262,7 @@ public class Board {
     
     	if ( isWhiteTurn() == true ) {
     		return score;
-    	} 
-    	else {
+    	} else {
     		return  -score;
         }
     }
@@ -1300,9 +1323,8 @@ public class Board {
     	}
     	if ( isWhiteTurn() == true ) {
     		return score;
-    	} 
-    	else {
+    	} else {
     		return  -score;
-        }
+    	}
     }
 }
