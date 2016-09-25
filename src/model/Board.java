@@ -964,6 +964,8 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean whiteCanEnPassantRight( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
         if  ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN
         		&& this.previousMove.from() == ( position + 33 ) && this.previousMove.to() == ( position + 1 ) ){
         	    return true;
@@ -981,6 +983,8 @@ public class Board {
      * @return An ArrayList of all destinations that the black pawn can move to.
      */
     public ArrayList<Integer> generateBlackPawnDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
     	if ( !hasPieceMoved( pieceAt( position ) ) && squareEmpty( position - 16 ) && squareEmpty( position - 32 ) ) {
@@ -1022,6 +1026,8 @@ public class Board {
      * @return True if the pawn can en passent left, false otherwise.
      */
     private boolean blackCanEnPassantLeft( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
         if  ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN 
         		&& this.previousMove.from() == ( position - 31 ) && this.previousMove.to() == ( position + 1 ) ){
         	    return true;
@@ -1039,6 +1045,8 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean blackCanEnPassantRight( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
         if  ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN
         		&& this.previousMove.from() == ( position - 33 ) && this.previousMove.to() == ( position -1 ) ){
         	    return true;
@@ -1056,6 +1064,8 @@ public class Board {
      * @return An ArrayList of all destinations that the king can move to.
      */
     public ArrayList<Integer> generateKingDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
     	if ( canCastleKingSide( position ) ) {
@@ -1090,6 +1100,8 @@ public class Board {
      * @return True if the king can castle, false otherwise.
      */
     private boolean canCastleKingSide( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	return ( !hasPieceMoved( pieceAt( position ) ) && !kingInCheck() && pieceTypeAt( position + 3 ) == ROOK && !hasPieceMoved( pieceAt( position + 3 ) )
              && squareEmpty( position + 1 ) && !squareAttacked( position + 1 )
              && squareEmpty( position + 2 ) && !squareAttacked( position + 2 ) );
@@ -1101,6 +1113,8 @@ public class Board {
      * @return True if the king can castle, false otherwise.
      */
     private boolean canCastleQueenSide( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	return ( !hasPieceMoved( pieceAt( position ) ) && !kingInCheck() && pieceTypeAt( position + 3 ) == ROOK && !hasPieceMoved( pieceAt( position - 4 ) )
              && squareEmpty( position - 1 ) && !squareAttacked( position - 1 )
              && squareEmpty( position - 2 ) && !squareAttacked( position - 2 )
@@ -1113,6 +1127,8 @@ public class Board {
      * @param position    The location of the king to check.
      */
     private boolean nextToOpponentKing( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	int[] offsets = new int[]{ 15, 16, 17, -1, 1, -15, -16, -17 };
 
     	for ( int i : offsets ) {
@@ -1132,6 +1148,8 @@ public class Board {
    	* @return An ArrayList of all destinations that the knight can move to.
    	*/
     public ArrayList<Integer> generateKnightDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
     	for ( int d : new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 } ) {
@@ -1149,6 +1167,8 @@ public class Board {
      * @return An ArrayList of all destinations that the bishop can move to.
      */
     public ArrayList<Integer> generateBishopDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	return ( generateUpDownDestinations( position, new int[]{ 15, 17, -15, -17 } ) );
     }
 
@@ -1160,6 +1180,8 @@ public class Board {
      * @return An ArrayList of all destinations that the rook can move to.
      */
     public ArrayList<Integer> generateRookDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	return ( generateUpDownDestinations( position, new int[]{ 1, -1, 16, -16 } ) );
     }
 
@@ -1171,6 +1193,8 @@ public class Board {
      * @return An ArrayList of all destinations that the queen can move to.
      */
     public ArrayList<Integer> generateQueenDestinations( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	return ( generateUpDownDestinations( position, new int[]{ 1, -1, 16, -16, 15, 17, -15, -17 } ) );
     }
 
@@ -1182,6 +1206,8 @@ public class Board {
      * @return True if an opponents piece is located at that position, false otherwise.
      */
     public boolean enemyPieceAt( int position ) {
+    	assert( position > 0 ):"invalid position";
+    	
     	if ( !squareEmpty( position ) && pieceColourAt( position ) != this.turnColour ) {
     		return true;
     	} 
@@ -1199,6 +1225,9 @@ public class Board {
      * @return An ArrayList of all destinations that the piece can move to.
      */
     private ArrayList<Integer> generateUpDownDestinations( int position, int[] directions ) {
+    	assert( position > 0 ):"invalid position";
+    	assert( directions.length > 0): "no directions found";
+    	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
     	for ( int direction : directions ) {
@@ -1273,6 +1302,7 @@ public class Board {
      * @return A score representing how good/bad the position of the piece is.
      */
     public int piecePositionScore( byte pieceType, int pos ) {
+    	assert( pos > 0 ):"invalid position";
     	switch ( pieceType ) {
       		case PAWN: {
       			return isWhiteTurn() ? WPAWN_POSITION_TABLE[ pos ] : BPAWN_POSITION_TABLE[ pos ];
