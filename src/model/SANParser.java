@@ -22,7 +22,7 @@ public class SANParser {
 	 * @param board
 	 * @param san
 	 */
-	protected Move sanToJ( Board board, byte colour, String san ) {
+	protected Move sanToJ( Board board, final byte COLOUR, String san ) {
 		/**
 		 * e3 Ne3 Nfe3 N3e3 Nf3e3
 		 * 
@@ -34,8 +34,8 @@ public class SANParser {
 		to = Move.notationToIndex( san.substring( san.length() - 2 ) );
 
 		if ( san.length() == 2 )
-			return new Move( getPawnOrigin( san, colour ), to );
-		else return new Move( decide( san, colour ), to );
+			return new Move( getPawnOrigin( san, COLOUR ), to );
+		else return new Move( decide( san, COLOUR ), to );
 
 	}
 
@@ -73,22 +73,22 @@ public class SANParser {
 	 * }
 	 */
 
-	private int getRookOrigin( String san, byte colour ) {
+	private int getRookOrigin( final String SAN, final byte COLOUR ) {
 
 		ArrayList<Integer> destinations = board.generateRookDestinations( to );
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == ROOK && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == ROOK && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ){
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ){
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ){
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ){
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			}else{
@@ -106,23 +106,23 @@ public class SANParser {
 	 * @return origin of knight
 	 */
 
-	private int getKnightOrigin( String san, byte colour ) {
+	private int getKnightOrigin( final String SAN, final byte COLOUR ) {
 
 		ArrayList<Integer> destinations = board.generateKnightDestinations( to );
 		
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == KNIGHT && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == KNIGHT && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ) {
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ) {
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ){
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ){
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			}
@@ -140,22 +140,22 @@ public class SANParser {
 	 * @param colour
 	 * @return origin of bishop
 	 */
-	private int getBishopOrigin( String san, byte colour ) {
+	private int getBishopOrigin( final String SAN, final byte COLOUR ) {
 		ArrayList<Integer> destinations = board.generateBishopDestinations( to );
 		
 		for ( int origin : destinations ) {
 			if ( board.pieceTypeAt( origin ) == BISHOP
-					&& board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 )
+					&& board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 )
 					return origin;
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" )
-							&& san.charAt( 0 ) == getFile( origin ) )
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" )
+							&& SAN.charAt( 0 ) == getFile( origin ) )
 						return origin;
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" )
-							&& san.charAt( 0 ) == getRank( origin ) ) return origin;
-				} else if ( san.charAt( 0 ) == getFile( origin )
-						&& san.charAt( 0 ) == getRank( origin ) ) return origin;
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" )
+							&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
+				} else if ( SAN.charAt( 0 ) == getFile( origin )
+						&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
 			}
 		}
 
@@ -169,22 +169,22 @@ public class SANParser {
 	 * @return origin of queen
 	 */
 
-	private int getQueenOrigin( String san, byte colour ) {
+	private int getQueenOrigin( final String SAN, final byte COLOUR ) {
 		ArrayList<Integer> destinations = board.generateQueenDestinations( to );
 		
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == QUEEN && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == QUEEN && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ) {
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ) {
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ) {
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			}// End of if
@@ -200,21 +200,21 @@ public class SANParser {
 	 * @return origin of king
 	 */
 
-	private int getKingOrigin( String san, byte colour ) {
+	private int getKingOrigin( final String SAN, final byte COLOUR ) {
 		ArrayList<Integer> destinations = board.generateKingDestinations( to );
 		for ( int origin : destinations ) {
 			if ( board.pieceTypeAt( origin ) == KING
-					&& board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 )
+					&& board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 )
 					return origin;
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" )
-							&& san.charAt( 0 ) == getFile( origin ) )
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" )
+							&& SAN.charAt( 0 ) == getFile( origin ) )
 						return origin;
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" )
-							&& san.charAt( 0 ) == getRank( origin ) ) return origin;
-				} else if ( san.charAt( 0 ) == getFile( origin )
-						&& san.charAt( 0 ) == getRank( origin ) ) return origin;
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" )
+							&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
+				} else if ( SAN.charAt( 0 ) == getFile( origin )
+						&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
 			}
 		}
 
@@ -227,10 +227,10 @@ public class SANParser {
 	 * @param colour
 	 * @return origin of pawn
 	 */
-	private int getPawnOrigin( String san, byte colour ) {
+	private int getPawnOrigin( final String SAN, final byte COLOUR ) {
 
 		ArrayList<Integer> destinations;
-		if ( colour == WHITE ) {
+		if ( COLOUR == WHITE ) {
 			destinations = board.generateBlackPawnDestinations( to );
 			// Uses opposites colour generator as pawns can't move backwards
 		}
@@ -239,18 +239,18 @@ public class SANParser {
 		}
 
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == PAWN && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == PAWN && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ) {
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ) {
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ) {
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			} //End of if
@@ -259,12 +259,12 @@ public class SANParser {
 		return - 1;
 	}
 
-	private char getFile( int position ) {
-		return ( intToLetter( position % 16 ) );
+	private char getFile( final int POSITION ) {
+		return ( intToLetter( POSITION % 16 ) );
 	}
 
-	private int getRank( int position ) {
-		return position / 16;
+	private int getRank( final int POSITION ) {
+		return POSITION / 16;
 	}
 
 	private int letterToInt( char c ) {
