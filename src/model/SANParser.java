@@ -28,6 +28,8 @@ public class SANParser {
 		 * 
 		 * 
 		 */
+		assert( !san.isEmpty() ):"Invalid san";
+		
 		this.board = board;
 		san = san.trim().replace( "x", "" ).replace( "+", "" ).replace( "#", "" );
 		System.out.println( san );
@@ -39,25 +41,27 @@ public class SANParser {
 
 	}
 
-	private int decide( String san, byte colour ) {
-		switch ( san.charAt( 0 ) ) {
+	private int decide( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		
+		switch ( SAN.charAt( 0 ) ) {
 			case 'K': {
-				return getKingOrigin( san.substring( 1 ), colour );
+				return getKingOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'Q': {
-				return getQueenOrigin( san.substring( 1 ), colour );
+				return getQueenOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'B': {
-				return getBishopOrigin( san.substring( 1 ), colour );
+				return getBishopOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'N': {
-				return getKnightOrigin( san.substring( 1 ), colour );
+				return getKnightOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'R': {
-				return getRookOrigin( san.substring( 1 ), colour );
+				return getRookOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			default: {
-				return getPawnOrigin( san, colour );
+				return getPawnOrigin( SAN, COLOUR );
 			}
 		}
 	}
@@ -74,7 +78,8 @@ public class SANParser {
 	 */
 
 	private int getRookOrigin( final String SAN, final byte COLOUR ) {
-
+		assert( !SAN.isEmpty() ):"Invalid san";
+		
 		ArrayList<Integer> destinations = board.generateRookDestinations( to );
 		for ( int origin : destinations ) {
 			if ( board.pieceTypeAt( origin ) == ROOK && board.pieceColourAt( origin ) == COLOUR ) {
@@ -107,6 +112,7 @@ public class SANParser {
 	 */
 
 	private int getKnightOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
 
 		ArrayList<Integer> destinations = board.generateKnightDestinations( to );
 		
@@ -141,6 +147,8 @@ public class SANParser {
 	 * @return origin of bishop
 	 */
 	private int getBishopOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		
 		ArrayList<Integer> destinations = board.generateBishopDestinations( to );
 		
 		for ( int origin : destinations ) {
@@ -170,6 +178,8 @@ public class SANParser {
 	 */
 
 	private int getQueenOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		
 		ArrayList<Integer> destinations = board.generateQueenDestinations( to );
 		
 		for ( int origin : destinations ) {
@@ -201,6 +211,8 @@ public class SANParser {
 	 */
 
 	private int getKingOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		
 		ArrayList<Integer> destinations = board.generateKingDestinations( to );
 		for ( int origin : destinations ) {
 			if ( board.pieceTypeAt( origin ) == KING
@@ -229,6 +241,7 @@ public class SANParser {
 	 */
 	private int getPawnOrigin( final String SAN, final byte COLOUR ) {
 
+		assert( !SAN.isEmpty() ):"Invalid san";
 		ArrayList<Integer> destinations;
 		if ( COLOUR == WHITE ) {
 			destinations = board.generateBlackPawnDestinations( to );
