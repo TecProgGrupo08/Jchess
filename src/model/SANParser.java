@@ -29,6 +29,7 @@ public class SANParser {
 		 * 
 		 */
 		assert( !san.isEmpty() ):"Invalid san";
+		assert( san.length() > 0 ):"Invalid string length";
 		
 		this.board = board;
 		san = san.trim().replace( "x", "" ).replace( "+", "" ).replace( "#", "" );
@@ -43,6 +44,7 @@ public class SANParser {
 
 	private int decide( final String SAN, final byte COLOUR ) {
 		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
 		
 		switch ( SAN.charAt( 0 ) ) {
 			case 'K': {
@@ -79,6 +81,7 @@ public class SANParser {
 
 	private int getRookOrigin( final String SAN, final byte COLOUR ) {
 		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
 		
 		ArrayList<Integer> destinations = board.generateRookDestinations( to );
 		for ( int origin : destinations ) {
@@ -113,6 +116,7 @@ public class SANParser {
 
 	private int getKnightOrigin( final String SAN, final byte COLOUR ) {
 		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
 
 		ArrayList<Integer> destinations = board.generateKnightDestinations( to );
 		
@@ -148,6 +152,7 @@ public class SANParser {
 	 */
 	private int getBishopOrigin( final String SAN, final byte COLOUR ) {
 		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
 		
 		ArrayList<Integer> destinations = board.generateBishopDestinations( to );
 		
@@ -179,6 +184,7 @@ public class SANParser {
 
 	private int getQueenOrigin( final String SAN, final byte COLOUR ) {
 		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
 		
 		ArrayList<Integer> destinations = board.generateQueenDestinations( to );
 		
@@ -212,6 +218,7 @@ public class SANParser {
 
 	private int getKingOrigin( final String SAN, final byte COLOUR ) {
 		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
 		
 		ArrayList<Integer> destinations = board.generateKingDestinations( to );
 		for ( int origin : destinations ) {
@@ -240,8 +247,9 @@ public class SANParser {
 	 * @return origin of pawn
 	 */
 	private int getPawnOrigin( final String SAN, final byte COLOUR ) {
-
 		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
+		
 		ArrayList<Integer> destinations;
 		if ( COLOUR == WHITE ) {
 			destinations = board.generateBlackPawnDestinations( to );
