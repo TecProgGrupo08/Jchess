@@ -1,16 +1,14 @@
+/**
+    * File: AI.java
+    * Purpose: The artificial intelligence player.
+    */
+
 package model;
 
 import model.evaluators.EasyEvaluator;
 import model.evaluators.MediumEvaluator;
 import model.evaluators.Evaluator;
 
-/**
- * The artificial intelligence player.
- *
- * @author Fergus Leahy
- * @author Gary Blackwood
- * @author Aleksandr Radevic
- */
 public class AI extends Player {
 
     private int depth = 0;
