@@ -1,3 +1,8 @@
+/**
+    * File: Board.java
+    * Purpose: A Chess Board implementation using the 0x88 board representation.
+    */
+
 package model;
 
 import static lookup.Pieces.*;
@@ -7,11 +12,6 @@ import static lookup.PieceTables.*;
 
 import java.util.ArrayList;
 
-/**
- * A Chess Board implementation using the 0x88 board representation.
- *
- * @author Gary Blackwood
- */
 public class Board {
 
 	private byte[] squares = null;
