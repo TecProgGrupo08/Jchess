@@ -47,6 +47,7 @@ public class AI extends Player {
      * @return Best move for AI
      */
     public Move getMove( Board board ) {
+		assert( board != null ):"Board is null";
     	Move bestMove = null;
     	int bestScore = Integer.MIN_VALUE;
     
@@ -82,6 +83,7 @@ public class AI extends Player {
      * @return Best move for a given board
      */
     public int alphaBetaNegamax( Board board, final int DEPTH,  int alpha, final int BETA ) {
+		assert( board != null ):"Board is null";
 	    int score = Integer.MIN_VALUE + 1;
 	    
 	    if ( board.isCheckmate() ) {
