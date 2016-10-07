@@ -1,14 +1,13 @@
+/**
+    * File: SANParser.java
+    * Purpose: Parser from SAN notation into jMove notation (jMove is our move type).
+    */
+
 package model;
 import static lookup.Pieces.*;
 
 import java.util.ArrayList;
 
-/**
- * Parser from SAN notation into jMove notation (jMove is our move type)
- * 
- * @author fergus, andrew
- * 
- */
 public class SANParser {
 
 	private Board board;
