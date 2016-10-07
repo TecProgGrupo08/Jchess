@@ -302,6 +302,7 @@ public class Board {
      * @return True if the move is valid, false otherwise.
      */
     public boolean isValidMove( Move move ) {
+		assert( move != null ):"Move is null";
     	
     	if  ( this.validMoves.contains( move ) == true ){
     		return true;
@@ -385,6 +386,7 @@ public class Board {
      * @param position    The new square index.
      */
     private void setKingPosition( final int POSITION ) {
+		assert( POSITION >= 0 ):"Position invalid";
     	if ( isWhiteTurn() ) {
     		this.whiteKingPosition = POSITION;
     	} 
@@ -424,6 +426,8 @@ public class Board {
      * @param move - The castling move to perform.
      */
     private void performCastle( Move move ) {
+		assert( move != null ):"Move is null";
+		
     	if ( move.to() > move.from() ) {
     		performCastleKingSide( getKingPosition() );
     	}
