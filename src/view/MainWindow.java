@@ -51,17 +51,19 @@ import java.util.List;
 public final class MainWindow {
 
   // Instances of all needed graphical objects
-  private JFrame frame;
-  private JPanel boardPanel, rightPanel, moveHistoryPanel;
-  private JMenuBar menuBar;
-  private JMenu menu;
-  private JMenu highlightMenu;
-  private JMenuItem menuItem;
-  private JButton continueButton;
-  private JButton undoUntilButton;
-  private JButton undoButton;
-  private JPanel buttonPanel;
-  private JCheckBoxMenuItem autoChangeItem;
+  private JFrame frame = null;
+  private JPanel boardPanel = null;
+  private JPanel rightPanel = null;
+  private JPanel moveHistoryPanel = null;
+  private JMenuBar menuBar = null;
+  private JMenu menu = null;
+  private JMenu highlightMenu = null;
+  private JMenuItem menuItem = null;
+  private JButton continueButton = null;
+  private JButton undoUntilButton = null;
+  private JButton undoButton = null;
+  private JPanel buttonPanel = null;
+  private JCheckBoxMenuItem autoChangeItem = null;
 
   // Evaluator Constants
   private final int DEFAULT_EVALUATOR = 2;
