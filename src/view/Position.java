@@ -1,46 +1,46 @@
 package view;
 
 public class Position {
-	private int x;
-	private int y;
-	private String xString;
-	private int yString;
+	private int axesXPosition;
+	private int axesYPosition;
+	private String axesXString;
+	private int axesYString;
 	private int squarePosition;
 
 	/**
 	 * calculates the graphical position out of the byte-square-board.
 	 * @param squarePos
 	 */
-	public Position(int squarePos){
-	  this.x=(squarePos%16)+1;
-	  this.y=intMe(((squarePos-(squarePos%16))/16)+1);
-	  this.yString=intMe(this.y);
-	  this.xString=stringMe(this.x);
-	  this.squarePosition=squarePos;
+	public Position(int squarePosition){
+	  this.axesXPosition=(squarePosition%16)+1;
+	  this.axesYPosition=intMe(((squarePosition-(squarePosition%16))/16)+1);
+	  this.axesYString=intMe(this.axesYPosition);
+	  this.axesXString=stringMe(this.axesXPosition);
+	  this.squarePosition=squarePosition;
 	}
 	
 	/**
 	 * calculates the graphical position out of the byte-square-board.
 	 * @param int - x, y
 	 */
-	public Position(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.xString=stringMe(x);
-		this.yString = intMe(y);
-		this.squarePosition = ((this.x-1))+(intMe(this.y)-1)*16;
+	public Position(int axesXPosition, int axesYPosition) {
+		this.axesXPosition = axesXPosition;
+		this.axesYPosition = axesYPosition;
+		this.axesXString=stringMe(axesXPosition);
+		this.axesYString = intMe(axesYPosition);
+		this.squarePosition = ((this.axesXPosition-1))+(intMe(this.axesYPosition)-1)*16;
 	}
 
 	/**
 	 * calculates the graphical position out of the byte-square-board.
 	 * @param x, y
 	 */
-	public Position(String x, int y) {
-		this.xString = x;
-		this.yString = y;
-		this.x=intMe(x.charAt(0));
-		this.y = intMe(y);
-		this.squarePosition = ((this.x-1))+(intMe(this.y)-1)*16;
+	public Position(String axesXPosition, int axesYPosition) {
+		this.axesXString = axesXPosition;
+		this.axesYString = axesYPosition;
+		this.axesXPosition=intMe(axesXPosition.charAt(0));
+		this.axesYPosition = intMe(axesYPosition);
+		this.squarePosition = ((this.axesXPosition-1))+(intMe(this.axesYPosition)-1)*16;
 	}
 	/**
 	 * calculates the graphical position out of the byte-square-board.
@@ -49,11 +49,11 @@ public class Position {
 	public Position(String string) {
 		char[] c = string.toCharArray();
 		if(c.length==2){
-			this.yString=Character.digit(c[1], 10);
-			this.xString = String.valueOf(c[0]);
-			this.x=intMe(c[0]);
-			this.y = intMe(Character.digit(c[1], 10));
-			this.squarePosition = ((this.x-1))+(intMe(this.y)-1)*16;
+			this.axesYString=Character.digit(c[1], 10);
+			this.axesXString = String.valueOf(c[0]);
+			this.axesXPosition=intMe(c[0]);
+			this.axesYPosition = intMe(Character.digit(c[1], 10));
+			this.squarePosition = ((this.axesXPosition-1))+(intMe(this.axesYPosition)-1)*16;
 		}
 		
 	}
@@ -187,7 +187,7 @@ public class Position {
 	 */
 	
 	public int getX() {
-		return x;
+		return axesXPosition;
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class Position {
 	 */
 	
 	public int getY() {
-		return y;
+		return axesYPosition;
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class Position {
 	 * @return int - x
 	 */
 	public String getXName() {
-		return xString;
+		return axesXString;
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class Position {
 	 * @return int - y
 	 */
 	public int getYName() {
-		return yString;
+		return axesYString;
 	}
 	
 	/**
@@ -228,8 +228,8 @@ public class Position {
 	 * @return int - x
 	 */
 	public String getName() {
-		if (xString != "null" && yString != 0) {
-			return xString + yString;
+		if (axesXString != "null" && axesYString != 0) {
+			return axesXString + axesYString;
 		} else
 			return "null";
 	}
