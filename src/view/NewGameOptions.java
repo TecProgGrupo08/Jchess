@@ -100,7 +100,7 @@ public class NewGameOptions {
      * names of the check boxes
      */
     player1Name.setText ("Player 1");
-    player1DifficultyComboBox.setModel(new javax.swing.DefaultComboBoxModel (
+    player1DifficultyComboBox.setModel(new javax.swing.DefaultComboBoxModel<String> (
     									new String[] { "Easy", "Medium", "Hard"}));
 
     /* 
@@ -114,13 +114,13 @@ public class NewGameOptions {
      * names of the check boxes
      */
     player2Name.setText ("Player 2");
-    player2DifficultyComboBox.setModel (new javax.swing.DefaultComboBoxModel (
+    player2DifficultyComboBox.setModel (new javax.swing.DefaultComboBoxModel<String> (
     										new String[] { "Easy", "Medium", "Hard"}));
 
     //Populates the player type combo boxes with the appropriate data
-    player1TypeComboBox.setModel (new javax.swing.DefaultComboBoxModel (
+    player1TypeComboBox.setModel (new javax.swing.DefaultComboBoxModel<String> (
     								new String[] { "Human", "AI" }));
-    player2TypeComboBox.setModel (new javax.swing.DefaultComboBoxModel (
+    player2TypeComboBox.setModel (new javax.swing.DefaultComboBoxModel<String> (
     								new String[] { "Human", "AI" }));
 
     // default to medium for AI's
@@ -136,7 +136,7 @@ public class NewGameOptions {
     beginButton.setText ("Begin");
     
     //Sets the timer functionality, options and disables it
-    timerDataCheckBox.setModel (new javax.swing.DefaultComboBoxModel (
+    timerDataCheckBox.setModel (new javax.swing.DefaultComboBoxModel<String> (
         new String[] { "1","2","5","10","15","20","30","45","60" }));
     timerDataCheckBox.setEnabled (false);
     timerDataCheckBox.setSelectedIndex (2);
