@@ -203,7 +203,6 @@ public class Board {
      * @return A byte representation of the piece located at 'position'.
      */
 	private byte pieceAt(final int POSITION ) {
-		assert( POSITION > 0 ):"invalid position";
 		
 		 if ( ( POSITION & 0x88 ) == VALID ) {
 			 return ( this.squares[ POSITION ] );
@@ -220,7 +219,6 @@ public class Board {
 	 * @return The colour, as a byte, of the piece.
 	 */
     public byte pieceColourAt( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
 		return ( (byte)( pieceAt( POSITION ) & COLOUR_MASK ) );
     }
@@ -267,7 +265,6 @@ public class Board {
    */ 
     private boolean isValidDestination(final int DESTINATION ) {
     	
-    	assert( DESTINATION > 0 ):"invalid position";
     	if  ( ( ( DESTINATION & 0x88 ) == VALID ) &&
                 ( squareEmpty( DESTINATION ) || ( pieceColourAt( DESTINATION ) != this.turnColour ) ) )  {
     		return true;
@@ -840,7 +837,6 @@ public class Board {
      * @return An ArrayList of all valid moves that the piece can make.
      */
     public ArrayList<Move> generateValidMoves( final byte PIECE_TYPE, final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	ArrayList<Move> validMoves = new ArrayList<Move>();
     	ArrayList<Integer> destinations = generateDestinations( PIECE_TYPE, POSITION );
@@ -867,7 +863,6 @@ public class Board {
      * @return An ArrayList of all destinations that the piece can move to.
      */
     private ArrayList<Integer> generateDestinations( final byte PIECE_TYPE, final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	switch ( PIECE_TYPE ) {
           	case PAWN: {
@@ -1133,7 +1128,6 @@ public class Board {
      * @param position    The location of the king to check.
      */
     private boolean nextToOpponentKing( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	int[] offsets = new int[]{ 15, 16, 17, -1, 1, -15, -16, -17 };
 
@@ -1186,7 +1180,6 @@ public class Board {
      * @return An ArrayList of all destinations that the rook can move to.
      */
     public ArrayList<Integer> generateRookDestinations( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	return ( generateUpDownDestinations( POSITION, new int[]{ 1, -1, 16, -16 } ) );
     }
@@ -1231,7 +1224,6 @@ public class Board {
      * @return An ArrayList of all destinations that the piece can move to.
      */
     private ArrayList<Integer> generateUpDownDestinations( final int POSITION, int[] directions ) {
-    	assert( POSITION > 0 ):"invalid position";
     	assert( directions.length > 0): "no directions found";
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
