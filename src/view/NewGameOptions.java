@@ -25,14 +25,14 @@ public class NewGameOptions {
   private final Dimension MINDIM = new Dimension (300, 300);
   private final Dimension STARTDIM = new Dimension (410, 350);
 
-  private JComboBox player1TypeComboBox = null;
-  private JComboBox player1DifficultyComboBox = null;
-  private JComboBox player2DifficultyComboBox = null;
-  private JComboBox player2TypeComboBox = null;
+  private JComboBox<String> player1TypeComboBox = null;
+  private JComboBox<String> player1DifficultyComboBox = null;
+  private JComboBox<String> player2DifficultyComboBox = null;
+  private JComboBox<String> player2TypeComboBox = null;
   private JCheckBox timerCheckBox = null;
   private JTextField player2Name = null;
   private JTextField player1Name = null;
-  private JComboBox timerDataCheckBox = null;
+  private JComboBox<String> timerDataCheckBox = null;
 
   private MainWindow myParentWindow = null;
 
@@ -80,15 +80,15 @@ public class NewGameOptions {
   private void initiliseComponents() {
     player2Name = new JTextField ();
     player1Name = new JTextField ();
-    player1DifficultyComboBox = new JComboBox ();
+    player1DifficultyComboBox = new JComboBox<String>();
     beginButton = new javax.swing.JButton ();
-    player2DifficultyComboBox = new JComboBox ();
-    player1TypeComboBox = new JComboBox ();
-    player2TypeComboBox = new JComboBox ();
+    player2DifficultyComboBox = new JComboBox<String>();
+    player1TypeComboBox = new JComboBox<String>();
+    player2TypeComboBox = new JComboBox<String>();
 
     timerPanel = new javax.swing.JPanel ();
     timerCheckBox = new JCheckBox ();
-    timerDataCheckBox = new JComboBox ();
+    timerDataCheckBox = new JComboBox<String>();
   }
 
   /**
@@ -410,7 +410,7 @@ public class NewGameOptions {
    * @param difficultyComboBox
    * @return
    */
-  private int getIntFromDifficulty (JComboBox difficultyComboBox){
+  private int getIntFromDifficulty (JComboBox<String> difficultyComboBox){
     String textDifficulty = (String)difficultyComboBox.getSelectedItem ();
     if (textDifficulty.equalsIgnoreCase ("easy")){
     	return 1;
@@ -427,7 +427,7 @@ public class NewGameOptions {
    * @param textDifficulty
    * @return int
    */
-  private int getDepth (JComboBox difficultyComboBox){
+  private int getDepth (JComboBox<String> difficultyComboBox){
 
     String textDifficulty = (String)difficultyComboBox.getSelectedItem ();
     if (textDifficulty.equalsIgnoreCase ("hard")) return HARD_DIFFICULTY_DEPTH;
@@ -441,7 +441,7 @@ public class NewGameOptions {
    * @param thisComboBox
    * @return
    */
-  private boolean isPlayerAI(JComboBox thisComboBox) {
+  private boolean isPlayerAI(JComboBox<String> thisComboBox) {
     return ( ( (String) thisComboBox.getSelectedItem () ).equalsIgnoreCase ("AI") );
   }
 
