@@ -645,8 +645,6 @@ public class Board {
      */
     private int pieceValueAt(final int POSITION ) {
     	
-    	assert( POSITION > 0 ):"invalid position";
-    	
     	switch ( pieceTypeAt( POSITION ) ) {
           	case PAWN: {
           		return ( 100 );
@@ -680,7 +678,6 @@ public class Board {
      * @param position    The index of the square at which a piece was captured.
      */
     private void updateScore( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	if ( this.turnColour == WHITE ) {
          	score = score + pieceValueAt( POSITION );
          	
@@ -698,8 +695,6 @@ public class Board {
      * @return True if the piece can move to the destination, false otherwise.
      */ 
     private boolean canMoveTo( final int POSITION, int destination ) {
-    	assert( POSITION > 0 ):"invalid position";
-    	assert( destination > 0 ):"invalid destination";
     	byte p = this.squares[ POSITION ];
     	byte t = this.squares[ destination ];
       
@@ -745,7 +740,6 @@ public class Board {
      * @return True if at least one piece is attacking the square, false otherwise.
      */ 
     private boolean squareAttacked( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	int[] directions = new int[]{ 15, 17, -15, -17 };
     
     	for ( int direction : directions ) {
@@ -899,7 +893,6 @@ public class Board {
      * @return An ArrayList of all destinations that the pawn can move to.
      */
     private ArrayList<Integer> generatePawnDestinations( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	if ( isWhitePiece( POSITION ) ) {
     		return ( generateWhitePawnDestinations( POSITION ) );
@@ -919,7 +912,6 @@ public class Board {
   	* @return An ArrayList of all destinations that the white pawn can move to.
   	*/
     public ArrayList<Integer> generateWhitePawnDestinations( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
@@ -965,7 +957,6 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean whiteCanEnPassantRight( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
         if  ( this.previousMove != null && pieceTypeAt( POSITION + 1 ) == PAWN
         		&& this.previousMove.from() == ( POSITION + 33 ) && this.previousMove.to() == ( POSITION + 1 ) ){
@@ -984,7 +975,6 @@ public class Board {
      * @return An ArrayList of all destinations that the black pawn can move to.
      */
     public ArrayList<Integer> generateBlackPawnDestinations( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
@@ -1027,7 +1017,6 @@ public class Board {
      * @return True if the pawn can en passent left, false otherwise.
      */
     private boolean blackCanEnPassantLeft( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
         if  ( this.previousMove != null && pieceTypeAt( POSITION + 1 ) == PAWN 
         		&& this.previousMove.from() == ( POSITION - 31 ) && this.previousMove.to() == ( POSITION + 1 ) ){
@@ -1046,7 +1035,6 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean blackCanEnPassantRight( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
         if  ( this.previousMove != null && pieceTypeAt( POSITION - 1 ) == PAWN
         		&& this.previousMove.from() == ( POSITION - 33 ) && this.previousMove.to() == ( POSITION -1 ) ){
@@ -1065,7 +1053,6 @@ public class Board {
      * @return An ArrayList of all destinations that the king can move to.
      */
     public ArrayList<Integer> generateKingDestinations( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
@@ -1101,7 +1088,6 @@ public class Board {
      * @return True if the king can castle, false otherwise.
      */
     private boolean canCastleKingSide( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	return ( !hasPieceMoved( pieceAt( POSITION ) ) && !kingInCheck() && pieceTypeAt( POSITION + 3 ) == ROOK && !hasPieceMoved( pieceAt( POSITION + 3 ) )
              && squareEmpty( POSITION + 1 ) && !squareAttacked( POSITION + 1 )
@@ -1114,7 +1100,6 @@ public class Board {
      * @return True if the king can castle, false otherwise.
      */
     private boolean canCastleQueenSide( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	return ( !hasPieceMoved( pieceAt( POSITION ) ) && !kingInCheck() && pieceTypeAt( POSITION + 3 ) == ROOK && !hasPieceMoved( pieceAt( POSITION - 4 ) )
              && squareEmpty( POSITION - 1 ) && !squareAttacked( POSITION - 1 )
@@ -1148,7 +1133,6 @@ public class Board {
    	* @return An ArrayList of all destinations that the knight can move to.
    	*/
     public ArrayList<Integer> generateKnightDestinations( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
 
@@ -1167,7 +1151,6 @@ public class Board {
      * @return An ArrayList of all destinations that the bishop can move to.
      */
     public ArrayList<Integer> generateBishopDestinations( int position ) {
-    	assert( position > 0 ):"invalid position";
     	
     	return ( generateUpDownDestinations( position, new int[]{ 15, 17, -15, -17 } ) );
     }
@@ -1192,7 +1175,6 @@ public class Board {
      * @return An ArrayList of all destinations that the queen can move to.
      */
     public ArrayList<Integer> generateQueenDestinations( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	return ( generateUpDownDestinations( POSITION, new int[]{ 1, -1, 16, -16, 15, 17, -15, -17 } ) );
     }
@@ -1205,7 +1187,6 @@ public class Board {
      * @return True if an opponents piece is located at that position, false otherwise.
      */
     public boolean enemyPieceAt( final int POSITION ) {
-    	assert( POSITION > 0 ):"invalid position";
     	
     	if ( !squareEmpty( POSITION ) && pieceColourAt( POSITION ) != this.turnColour ) {
     		return true;
@@ -1300,7 +1281,6 @@ public class Board {
      * @return A score representing how good/bad the position of the piece is.
      */
     public int piecePositionScore( final byte PIECE_TYPE, final int POS ) {
-    	assert( POS > 0 ):"invalid position";
     	switch ( PIECE_TYPE ) {
       		case PAWN: {
       			return isWhiteTurn() ? WPAWN_POSITION_TABLE[ POS ] : BPAWN_POSITION_TABLE[ POS ];
