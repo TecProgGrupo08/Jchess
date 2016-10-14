@@ -52,8 +52,8 @@ public class NewGameOptions {
   /**
    * Acts as the constructor for the NewGameOptions frame
    */
-  public void start() {
-    thisFrame = new JDialog ();
+  private void start() {	  
+	thisFrame = new JDialog ();
     thisFrame.setTitle ("New game options");
     thisFrame.setMinimumSize (MINDIM);
     thisFrame.setSize (STARTDIM);
@@ -72,6 +72,8 @@ public class NewGameOptions {
     //Centers the frame
     thisFrame.setLocationRelativeTo (null);
     thisFrame.setVisible (true);
+    
+    assert(thisFrame!=null):"invalid thisFrame";
   }
 
   /**
@@ -89,6 +91,8 @@ public class NewGameOptions {
     timerPanel = new javax.swing.JPanel ();
     timerCheckBox = new JCheckBox ();
     timerDataCheckBox = new JComboBox<String>();
+    
+    
   }
 
   /**
@@ -140,6 +144,12 @@ public class NewGameOptions {
         new String[] { "1","2","5","10","15","20","30","45","60" }));
     timerDataCheckBox.setEnabled (false);
     timerDataCheckBox.setSelectedIndex (2);
+    
+    assert(player1Name!=null);
+    assert(player1DifficultyComboBox!=null);
+    assert(player2Name!=null);
+    assert(player2DifficultyComboBox!=null);
+    assert(timerDataCheckBox!=null);
 
   }
 
@@ -161,6 +171,12 @@ public class NewGameOptions {
     beginButton.setPreferredSize (new Dimension (50, 29));
     player1TypeComboBox.setPreferredSize (new Dimension (88, 29));
     player2TypeComboBox.setPreferredSize (new Dimension (88, 29));
+
+    assert(player1Name!=null);
+    assert(player1DifficultyComboBox!=null);
+    assert(player2Name!=null);
+    assert(player2DifficultyComboBox!=null);
+    assert(beginButton!=null);
 
   }
 
@@ -239,6 +255,8 @@ public class NewGameOptions {
     layout = setXYAndWeight (layout, 2, 4, 0, 1);
     thisFrame.add (beginButton, layout);
     layout = resetWeights (layout);
+    
+    assert(layout!=null);
   }
 
   /**
@@ -257,12 +275,13 @@ public class NewGameOptions {
    * @return Same gridbag constraint that was passed in
    */
   private GridBagConstraints setXYAndWeight(GridBagConstraints layout, int x, int y,
-	  double weight, double weighty) {
-	  	layout.gridx = x;
-	  	layout.gridy = y;
-	  	if ( weight != -1 ) layout.weightx = weight;
-	  	if ( weighty != -1 ) layout.weighty = weighty;
-	  	return layout;
+		 double weight, double weighty) {
+	  		assert(layout!=null);
+	  		layout.gridx = x;
+		  	layout.gridy = y;
+		  	if ( weight != -1 ) layout.weightx = weight;
+		  	if ( weighty != -1 ) layout.weighty = weighty;
+		  	return layout;
   }
 
   /**
@@ -274,6 +293,7 @@ public class NewGameOptions {
    *  same gridbagconstraints objects but weightx and weighty have been set to 0
    */
   private GridBagConstraints resetWeights(GridBagConstraints layout) {
+	  assert(layout!=null);
 	  layout.weightx = 0.0;
 	  layout.weighty = 0.0;
 	  return layout;
@@ -308,11 +328,11 @@ public class NewGameOptions {
     	public void actionPerformed(ActionEvent arg0) {
     		
     		if ( isPlayerAI (player1TypeComboBox) ){ 
-    			player1DifficultyComboBox.setEnabled (true);
+    			player1DifficultyComboBox.setEnabled(true);
     		}
     		
     		else {
-    			player1DifficultyComboBox.setEnabled (false);
+    			player1DifficultyComboBox.setEnabled(false);
     		}
     		
     	}
@@ -428,8 +448,8 @@ public class NewGameOptions {
    * @return int
    */
   private int getDepth (JComboBox<String> difficultyComboBox){
-
-    String textDifficulty = (String)difficultyComboBox.getSelectedItem ();
+	assert(difficultyComboBox!=null);
+	String textDifficulty = (String)difficultyComboBox.getSelectedItem ();
     if (textDifficulty.equalsIgnoreCase ("hard")) return HARD_DIFFICULTY_DEPTH;
     if (textDifficulty.equalsIgnoreCase ("medium")) return MEDIUM_DIFFICULTY_DEPTH;
     return EASY_DIFFICULTY_DEPTH;
