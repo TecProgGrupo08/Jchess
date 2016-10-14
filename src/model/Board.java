@@ -593,7 +593,12 @@ public class Board {
     	this.validMoves = generateValidMoves();
     	this.amountOfMoves++;
     }
-    
+   
+    /**
+     * Perform the moves for a Pawn piece.
+     *
+     * @param move - The move to make.
+     */ 
    private void movePawn ( Move move ){
 		
 	   setMovementBit( move.from() );
@@ -631,6 +636,11 @@ public class Board {
 		}
    }
    
+   /**
+    * Perform the moves for a King piece.
+    *
+    * @param move - The move to make.
+    */ 
    private void moveKing (Move move){
 
 		assert( move != null ):"null move";
