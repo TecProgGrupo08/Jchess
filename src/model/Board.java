@@ -1305,24 +1305,25 @@ public class Board {
      * @return A score representing how good/bad the position of the piece is.
      */
     public int piecePositionScore( final byte PIECE_TYPE, final int POS ) {
+    	
     	switch ( PIECE_TYPE ) {
       		case PAWN: {
-      			return isWhiteTurn() ? WPAWN_POSITION_TABLE[ POS ] : BPAWN_POSITION_TABLE[ POS ];
+      			return pawnPositionScore(POS);
       		}
       		case KNIGHT: {
       			return KNIGHT_POSITION_TABLE[ POS ];
       		}
       		case BISHOP: {
-      			return isWhiteTurn() ? WBISHOP_POSITION_TABLE[ POS ] : BBISHOP_POSITION_TABLE[ POS ];
+      			return bishopPositionScore(POS);
       		}
       		case ROOK: {
-      			return isWhiteTurn() ? WROOK_POSITION_TABLE[ POS ] : BROOK_POSITION_TABLE[ POS ];
+      			return rookPositionScore(POS);
       		}
       		case QUEEN: {
-      			return this.amountOfMoves < 15 ? OPENING_QUEEN_POSITION_TABLE[ POS ] : QUEEN_POSITION_TABLE[ POS ];
+      			return queenPositionScore(POS);
       		}
       		case KING: {
-      			return isWhiteTurn() ? WKING_POSITION_TABLE[ POS ] : BKING_POSITION_TABLE[ POS ];
+      			return kingPositionScore(POS);
       		}
       		default: {
       			// do nothing
@@ -1331,6 +1332,57 @@ public class Board {
 
     	return 0;
     }
+    
+    private int pawnPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){
+    		return WPAWN_POSITION_TABLE[ POS ] ;
+    		
+    	}else{
+    		return BPAWN_POSITION_TABLE[ POS ];
+    	}
+    }
+    
+    private int bishopPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WBISHOP_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BBISHOP_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int rookPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WROOK_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BROOK_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int queenPositionScore (final int POS){
+    	
+    	if (this.amountOfMoves < 15){	
+    		return OPENING_QUEEN_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return QUEEN_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int kingPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WKING_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BKING_POSITION_TABLE[ POS ] ;
+    	}
+    }
+
 
     /**
      * Evaluate the development of knights and bishops.
