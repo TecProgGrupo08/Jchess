@@ -48,7 +48,8 @@ public class AI extends Player {
 		assert( board != null ):"Board is null";
     	Move bestMove = null;
     	int bestScore = Integer.MIN_VALUE;
-    
+    	
+    	//Creates a board copy to simulate moves and find the best one
     	for ( Move move : board.getValidMoves() ) {
     		Board copy = new Board (board);
     		copy.makeMove ( move );
