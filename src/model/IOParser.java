@@ -1,3 +1,10 @@
+/**
+ * File: IOParser.java
+ * Purpose: Get the played move and them passes to a valid position for the 0x88 board representation
+ * 
+ * */
+
+
 package model;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
