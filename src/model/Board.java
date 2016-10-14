@@ -559,55 +559,12 @@ public class Board {
     public void makeMove( Move move ) {
     	assert( move != null ):"null move";
     	setMovementBit( move.from() );
+
     	if ( isPawnMove( move ) ) {
-    		setMovementBit( move.from() );
-
-    		if ( isEnPassant( move ) ) {
-    			if ( isWhiteTurn() ) {
-    				updateScore( move.to() - 16 );
-    				this.squares[ move.to() - 16 ] = EMPTY;
-    				this.squares[ move.to() ] = this.squares[ move.from() ];
-    				this.squares[ move.from() ] = EMPTY;
-    				this.blackPiecesCaptured.add( PAWN );
-    			}
-    			else {
-    				updateScore( move.to() + 16 );
-    				this.squares[ move.to() + 16 ] = EMPTY;
-    				this.squares[ move.to() ] = this.squares[ move.from() ];
-    				this.squares[ move.from() ] = EMPTY;
-    				this.whitePiecesCaptured.add( PAWN );
-    			}
-
-    			this.turnColour = opponentColour();
-    			this.previousMove = move;
-    			this.validMoves = generateValidMoves();
-
-    			return;
-    		} 
-    		else if ( isPawnPromotion( move ) ) {
-    			promotePawn( move.from() );
-    			if ( isWhiteTurn() ) {
-    				score += 700;
-    			} 
-    			else {
-    				score -= 700;
-    			}
-    		}
+    		movePawn ( move );
     	}
     	else if ( isKingMove( move ) ) {
-    		assert( move != null ):"null move";
-    		setMovementBit( move.from() );
-
-    		if ( isCastle( move ) ) {
-    			performCastle( move );
-    			setKingPosition( move.to() );
-    			this.turnColour = opponentColour();
-    			this.previousMove = move;
-    			this.validMoves = generateValidMoves();
-    			return;
-    		}
-
-    		setKingPosition( move.to() );
+    		moveKing ( move );
     	} 
     	else if ( isRookMove( move ) ) {
     		setMovementBit( move.from() );
@@ -627,16 +584,69 @@ public class Board {
     		//do nothing
     	}
 
-    // updates the squares status after the movement
-    this.squares[ move.to() ] = this.squares[ move.from() ];
-    this.squares[ move.from() ] = EMPTY;
+    	// updates the squares status after the movement
+    	this.squares[ move.to() ] = this.squares[ move.from() ];
+    	this.squares[ move.from() ] = EMPTY;
 
-    this.turnColour = opponentColour();
-    this.previousMove = move;
-    this.validMoves = generateValidMoves();
-    this.amountOfMoves++;
-  }
+    	this.turnColour = opponentColour();
+    	this.previousMove = move;
+    	this.validMoves = generateValidMoves();
+    	this.amountOfMoves++;
+    }
+    
+   private void movePawn ( Move move ){
+		
+	   setMovementBit( move.from() );
 
+		if ( isEnPassant( move ) ) {
+			if ( isWhiteTurn() ) {
+				updateScore( move.to() - 16 );
+				this.squares[ move.to() - 16 ] = EMPTY;
+				this.squares[ move.to() ] = this.squares[ move.from() ];
+				this.squares[ move.from() ] = EMPTY;
+				this.blackPiecesCaptured.add( PAWN );
+			}
+			else {
+				updateScore( move.to() + 16 );
+				this.squares[ move.to() + 16 ] = EMPTY;
+				this.squares[ move.to() ] = this.squares[ move.from() ];
+				this.squares[ move.from() ] = EMPTY;
+				this.whitePiecesCaptured.add( PAWN );
+			}
+
+			this.turnColour = opponentColour();
+			this.previousMove = move;
+			this.validMoves = generateValidMoves();
+
+			return;
+		} 
+		else if ( isPawnPromotion( move ) ) {
+			promotePawn( move.from() );
+			if ( isWhiteTurn() ) {
+				score += 700;
+			} 
+			else {
+				score -= 700;
+			}
+		}
+   }
+   
+   private void moveKing (Move move){
+
+		assert( move != null ):"null move";
+		setMovementBit( move.from() );
+
+		if ( isCastle( move ) ) {
+			performCastle( move );
+			setKingPosition( move.to() );
+			this.turnColour = opponentColour();
+			this.previousMove = move;
+			this.validMoves = generateValidMoves();
+			return;
+		}
+		setKingPosition( move.to() );
+   }
+   
     /**
      * What is the value of the piece located on the given square index?
      *
