@@ -7,11 +7,7 @@ import static lookup.PieceTables.*;
 
 import java.util.ArrayList;
 
-/**
- * A Chess Board implementation using the 0x88 board representation.
- *
- * @author Gary Blackwood
- */
+// A Chess Board implementation using the 0x88 board representation.
 public class Board {
 
 	private byte[] squares = null;
@@ -667,10 +663,10 @@ public class Board {
     					//do nothing
     				}
     				break;
-	        		}
-		    		else {
-		    			//do nothing
-		    		}
+	        	}
+		    	else {
+		    		//do nothing
+		    	}
     		}
     	}
 
@@ -691,7 +687,8 @@ public class Board {
     	directions = new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 };
     
     	for ( int direction : directions ) {
-    		if ( isValidDestination( position + direction ) && enemyPieceAt( position + direction ) && pieceTypeAt( position + direction ) == KNIGHT ) {
+    		if ( isValidDestination( position + direction ) && enemyPieceAt( position + direction ) &&
+    				pieceTypeAt( position + direction ) == KNIGHT ) {
     			return ( true );
     		}
     		else {
@@ -841,7 +838,8 @@ public class Board {
      * @return True if the pawn can en passent left, false otherwise.
      */
     private boolean whiteCanEnPassantLeft( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN && this.previousMove.from() == ( position + 31 ) ) && this.previousMove.to() == ( position - 1 );
+    	return ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN && 
+    			this.previousMove.from() == ( position + 31 ) ) && this.previousMove.to() == ( position - 1 );
     }
 
     /**
@@ -852,7 +850,8 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean whiteCanEnPassantRight( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN && this.previousMove.from() == ( position + 33 ) ) && this.previousMove.to() == ( position + 1 );
+    	return ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN &&
+    			this.previousMove.from() == ( position + 33 ) ) && this.previousMove.to() == ( position + 1 );
     }
 
     /**
@@ -904,7 +903,8 @@ public class Board {
      * @return True if the pawn can en passent left, false otherwise.
      */
     private boolean blackCanEnPassantLeft( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN && this.previousMove.from() == ( position - 31 ) && this.previousMove.to() == ( position + 1 ) );
+    	return ( this.previousMove != null && pieceTypeAt( position + 1 ) == PAWN && 
+    			this.previousMove.from() == ( position - 31 ) && this.previousMove.to() == ( position + 1 ) );
     }	
 
     /**
@@ -915,7 +915,8 @@ public class Board {
      * @return True if the pawn can en passent right, false otherwise.
      */
     private boolean blackCanEnPassantRight( int position ) {
-    	return ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN && this.previousMove.from() == ( position - 33 ) && this.previousMove.to() == ( position -1 ) );
+    	return ( this.previousMove != null && pieceTypeAt( position - 1 ) == PAWN && 
+    			this.previousMove.from() == ( position - 33 ) && this.previousMove.to() == ( position -1 ) );
     }
 
     /**
@@ -960,7 +961,8 @@ public class Board {
      * @return True if the king can castle, false otherwise.
      */
     private boolean canCastleKingSide( int position ) {
-    	return ( !hasPieceMoved( pieceAt( position ) ) && !kingInCheck() && pieceTypeAt( position + 3 ) == ROOK && !hasPieceMoved( pieceAt( position + 3 ) )
+    	return ( !hasPieceMoved( pieceAt( position ) ) && !kingInCheck() && pieceTypeAt( position + 3 ) == ROOK &&
+    			!hasPieceMoved( pieceAt( position + 3 ) )
              && squareEmpty( position + 1 ) && !squareAttacked( position + 1 )
              && squareEmpty( position + 2 ) && !squareAttacked( position + 2 ) );
     }
@@ -971,7 +973,8 @@ public class Board {
      * @return True if the king can castle, false otherwise.
      */
     private boolean canCastleQueenSide( int position ) {
-    	return ( !hasPieceMoved( pieceAt( position ) ) && !kingInCheck() && pieceTypeAt( position + 3 ) == ROOK && !hasPieceMoved( pieceAt( position - 4 ) )
+    	return ( !hasPieceMoved( pieceAt( position ) ) && !kingInCheck() && pieceTypeAt( position + 3 ) == ROOK &&
+    			!hasPieceMoved( pieceAt( position - 4 ) )
              && squareEmpty( position - 1 ) && !squareAttacked( position - 1 )
              && squareEmpty( position - 2 ) && !squareAttacked( position - 2 )
              && squareEmpty( position - 3 ) && !squareAttacked( position - 3 ) );
@@ -1175,6 +1178,9 @@ public class Board {
     			else {
     				score += 50;
     			}
+    		}
+    		else {
+    			//do nothing
     		}
     	}
 

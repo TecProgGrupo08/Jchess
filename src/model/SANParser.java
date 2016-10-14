@@ -3,12 +3,7 @@ import static lookup.Pieces.*;
 
 import java.util.ArrayList;
 
-/**
- * Parser from SAN notation into jMove notation (jMove is our move type)
- * 
- * @author fergus, andrew
- * 
- */
+// Parser from SAN notation into jMove notation (jMove is our move type)
 public class SANParser {
 
 	private Board board;

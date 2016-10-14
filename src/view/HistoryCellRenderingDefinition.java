@@ -6,12 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-/**
- * Cell Rendering definition for the move-history list
- * 
- * @author Joshua Schaeuble (all containing methods)
- * 
- */
+// Cell Rendering definition for the move-history list.
 public class HistoryCellRenderingDefinition extends JLabel implements
 	ListCellRenderer {
 

@@ -1,46 +1,52 @@
 package view;
 
 public class Position {
-	private int x;
-	private int y;
-	private String xString;
-	private int yString;
+	private int axesXPosition;
+	private int axesYPosition;
+	private String axesXString;
+	private int axesYString;
 	private int squarePosition;
 
 	/**
 	 * calculates the graphical position out of the byte-square-board.
 	 * @param squarePos
 	 */
-	public Position(int squarePos){
-	  this.x=(squarePos%16)+1;
-	  this.y=intMe(((squarePos-(squarePos%16))/16)+1);
-	  this.yString=intMe(this.y);
-	  this.xString=stringMe(this.x);
-	  this.squarePosition=squarePos;
+	public Position(int squarePosition){
+	  final int NUMBER_OF_COORDINATES = 16;
+		
+	  this.axesXPosition=(squarePosition%NUMBER_OF_COORDINATES)+1;
+	  this.axesYPosition=intMe(((squarePosition-(squarePosition%NUMBER_OF_COORDINATES))/NUMBER_OF_COORDINATES)+1);
+	  this.axesYString=intMe(this.axesYPosition);
+	  this.axesXString=stringMe(this.axesXPosition);
+	  this.squarePosition=squarePosition;
 	}
 	
 	/**
 	 * calculates the graphical position out of the byte-square-board.
 	 * @param int - x, y
 	 */
-	public Position(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.xString=stringMe(x);
-		this.yString = intMe(y);
-		this.squarePosition = ((this.x-1))+(intMe(this.y)-1)*16;
+	public Position(int axesXPosition, int axesYPosition) {
+		this.axesXPosition = axesXPosition;
+		this.axesYPosition = axesYPosition;
+		this.axesXString=stringMe(axesXPosition);
+		this.axesYString = intMe(axesYPosition);
+		
+		setSquarePosition();
+
 	}
 
 	/**
 	 * calculates the graphical position out of the byte-square-board.
 	 * @param x, y
 	 */
-	public Position(String x, int y) {
-		this.xString = x;
-		this.yString = y;
-		this.x=intMe(x.charAt(0));
-		this.y = intMe(y);
-		this.squarePosition = ((this.x-1))+(intMe(this.y)-1)*16;
+	public Position(String axesXPosition, int axesYPosition) {
+		this.axesXString = axesXPosition;
+		this.axesYString = axesYPosition;
+		this.axesXPosition=intMe(axesXPosition.charAt(0));
+		this.axesYPosition = intMe(axesYPosition);
+		
+		setSquarePosition();
+
 	}
 	/**
 	 * calculates the graphical position out of the byte-square-board.
@@ -49,11 +55,13 @@ public class Position {
 	public Position(String string) {
 		char[] c = string.toCharArray();
 		if(c.length==2){
-			this.yString=Character.digit(c[1], 10);
-			this.xString = String.valueOf(c[0]);
-			this.x=intMe(c[0]);
-			this.y = intMe(Character.digit(c[1], 10));
-			this.squarePosition = ((this.x-1))+(intMe(this.y)-1)*16;
+			this.axesYString=Character.digit(c[1], 10);
+			this.axesXString = String.valueOf(c[0]);
+			this.axesXPosition=intMe(c[0]);
+			this.axesYPosition = intMe(Character.digit(c[1], 10));
+			
+			setSquarePosition();
+
 		}
 		
 	}
@@ -66,36 +74,99 @@ public class Position {
 	 */
 	
 	private int intMe(char valueOf) {
+		int eqivalentNumber = 0;
+		
 		switch (valueOf){
 		case 'a': {
-			return 1;
+			eqivalentNumber = 1;
+			break;
 		}	
 		case 'b': {
-			return 2;
+			eqivalentNumber = 2;
+			break;
 		}
 		case 'c': {
-			return 3;
+			eqivalentNumber = 3;
+			break;
 		}	
 		case 'd': {
-			return 4;
+			eqivalentNumber = 4;
+			break;
 		}	
 		case 'e': {
-			return 5;
+			eqivalentNumber = 5;
+			break;
 		}	
 		case 'f': {
-			return 6;
+			eqivalentNumber = 6;
+			break;
 		}	
 		case 'g': { 
-			return 7;
+			eqivalentNumber = 7;
+			break;
 		}	
 		case 'h': {
-			return 8;
+			eqivalentNumber = 8;
+			break;
 		}	
 		default: {
-			return 0;
+			eqivalentNumber = 0;
+			break;
 		}
 
 		}
+		return eqivalentNumber;
+	}
+	
+	/**
+	 * Transform a int 0 to 8 to his opposite in a modular aritimetic of mod 9 
+	 * @param value
+	 * @return int - a number 0 to 8
+	 */
+	
+	private int intMe(int value) {
+		int eqivalentNumber = 0;
+		int zahl = value;
+		switch (zahl) {
+			case 1:{
+				eqivalentNumber = 8;
+				break;
+			}
+			case 2:{
+				eqivalentNumber = 7;
+				break;
+			}
+			case 3:{
+				eqivalentNumber = 6;
+				break;
+			}
+			case 4:{
+				eqivalentNumber = 5;
+				break;
+			}
+			case 5:{
+				eqivalentNumber = 4;
+				break;
+			}
+			case 6:{
+				eqivalentNumber = 3;
+				break;
+			}
+			case 7:{
+				eqivalentNumber = 2;
+				break;
+			}
+			case 8:{
+				eqivalentNumber = 1;
+				break;
+			}
+			default:{
+				eqivalentNumber = 0;
+				break;
+			}
+
+		}
+		return eqivalentNumber;
 	}
 	
 	/**
@@ -105,80 +176,51 @@ public class Position {
 	 */
 
 	private String stringMe(int xValue) {
-
+		String equivalentLetter = null;
 		int zahl = xValue;
 		switch (zahl) {
-		case 1:{
-			return "a";
-		}
-		case 2:{
-			return  "b";
-		}
-		case 3:{
-			return  "c";
-		}
-		case 4:{
-			return  "d";
-		}
-		case 5:{
-			return  "e";
-		}
-		case 6:{
-			return  "f";
-		}
-		case 7:{
-			return  "g";
-		}
-		case 8:{
-			return  "h";
-		}
-		default:{
-			return null;
-		}
+			case 1:{
+				equivalentLetter = "a";
+			}
+			case 2:{
+				equivalentLetter =  "b";
+			}
+			case 3:{
+				equivalentLetter =  "c";
+			}
+			case 4:{
+				equivalentLetter =  "d";
+			}
+			case 5:{
+				equivalentLetter =  "e";
+			}
+			case 6:{
+				equivalentLetter =  "f";
+			}
+			case 7:{
+				equivalentLetter =  "g";
+			}
+			case 8:{
+				equivalentLetter =  "h";
+			}
+			default:{
+				equivalentLetter = null;
+			}
 
 		}
+		return equivalentLetter;
 
 	}
-
 	/**
-	 * Transform a int 0 to 8 to his opposite in a modular aritimetic of mod 9 
-	 * @param value
-	 * @return int - a number 0 to 8
-	 */
-	
-	private int intMe(int value) {
-		int zahl = value;
-		switch (zahl) {
-		case 1:{
-			return 8;
-		}
-		case 2:{
-			return 7;
-		}
-		case 3:{
-			return 6;
-		}
-		case 4:{
-			return 5;
-		}
-		case 5:{
-			return 4;
-		}
-		case 6:{
-			return 3;
-		}
-		case 7:{
-			return 2;
-		}
-		case 8:{
-			return 1;
-		}
-		default:{
-			return 0;
-		}
-
-		}
-
+	 * set the square position
+	 * 
+	 * */
+	public void setSquarePosition(){
+		final int NUMBER_OF_COORDINATES = 16;
+		int Xposition = getX()-1;
+		int Yposition = intMe(getY())-1;
+		
+		this.squarePosition = Xposition + Yposition * NUMBER_OF_COORDINATES;
 	}
 	
 	/**
@@ -187,7 +229,7 @@ public class Position {
 	 */
 	
 	public int getX() {
-		return x;
+		return axesXPosition;
 	}
 
 	/**
@@ -196,7 +238,7 @@ public class Position {
 	 */
 	
 	public int getY() {
-		return y;
+		return axesYPosition;
 	}
 
 	/**
@@ -204,7 +246,7 @@ public class Position {
 	 * @return int - x
 	 */
 	public String getXName() {
-		return xString;
+		return axesXString;
 	}
 
 	/**
@@ -212,7 +254,7 @@ public class Position {
 	 * @return int - y
 	 */
 	public int getYName() {
-		return yString;
+		return axesYString;
 	}
 	
 	/**
@@ -228,8 +270,8 @@ public class Position {
 	 * @return int - x
 	 */
 	public String getName() {
-		if (xString != "null" && yString != 0) {
-			return xString + yString;
+		if (axesXString != "null" && axesYString != 0) {
+			return axesXString + axesYString;
 		} else
 			return "null";
 	}

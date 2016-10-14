@@ -1,10 +1,6 @@
 package model;
 
-/**
- * The move class represents a move in a chess game.
- *
- * @author Gary Blackwood
- */
+// The move class represents a move in a chess game.
 public class Move {
 	private int from = 0;
 	private int to = 0;

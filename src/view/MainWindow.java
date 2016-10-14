@@ -44,7 +44,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
+/*
  * <CODE>myWindow</CODE> distributes methods to build a GUI instance of
  * ChessGame
  */
