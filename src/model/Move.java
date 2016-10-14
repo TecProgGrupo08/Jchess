@@ -1,3 +1,10 @@
+/**
+ * File: Move.java
+ * Purpose: Class responsable for make a valid move
+ * 
+ * */
+
+
 package model;
 
 /**

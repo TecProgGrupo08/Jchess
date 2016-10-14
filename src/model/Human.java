@@ -1,3 +1,10 @@
+/**
+ * File: Human.java
+ * Purpose: Handle player important information 
+ * 
+ * */
+
+
 package model;
 
 public class Human extends Player {
