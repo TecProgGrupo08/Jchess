@@ -1,3 +1,8 @@
+/**
+    * File: SANParser.java
+    * Purpose: Parser from SAN notation into jMove notation (jMove is our move type).
+    */
+
 package model;
 import static lookup.Pieces.*;
 
@@ -17,42 +22,48 @@ public class SANParser {
 	 * @param board
 	 * @param san
 	 */
-	protected Move sanToJ( Board board, byte colour, String san ) {
+	protected Move sanToJ( Board board, final byte COLOUR, String san ) {
 		/**
 		 * e3 Ne3 Nfe3 N3e3 Nf3e3
 		 * 
 		 * 
 		 */
+		assert( !san.isEmpty() ):"Invalid san";
+		assert( san.length() > 0 ):"Invalid string length";
+		
 		this.board = board;
 		san = san.trim().replace( "x", "" ).replace( "+", "" ).replace( "#", "" );
 		System.out.println( san );
 		to = Move.notationToIndex( san.substring( san.length() - 2 ) );
 
 		if ( san.length() == 2 )
-			return new Move( getPawnOrigin( san, colour ), to );
-		else return new Move( decide( san, colour ), to );
+			return new Move( getPawnOrigin( san, COLOUR ), to );
+		else return new Move( decide( san, COLOUR ), to );
 
 	}
 
-	private int decide( String san, byte colour ) {
-		switch ( san.charAt( 0 ) ) {
+	private int decide( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
+		
+		switch ( SAN.charAt( 0 ) ) {
 			case 'K': {
-				return getKingOrigin( san.substring( 1 ), colour );
+				return getKingOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'Q': {
-				return getQueenOrigin( san.substring( 1 ), colour );
+				return getQueenOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'B': {
-				return getBishopOrigin( san.substring( 1 ), colour );
+				return getBishopOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'N': {
-				return getKnightOrigin( san.substring( 1 ), colour );
+				return getKnightOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'R': {
-				return getRookOrigin( san.substring( 1 ), colour );
+				return getRookOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			default: {
-				return getPawnOrigin( san, colour );
+				return getPawnOrigin( SAN, COLOUR );
 			}
 		}
 	}
@@ -68,22 +79,24 @@ public class SANParser {
 	 * }
 	 */
 
-	private int getRookOrigin( String san, byte colour ) {
-
+	private int getRookOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
+		
 		ArrayList<Integer> destinations = board.generateRookDestinations( to );
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == ROOK && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == ROOK && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ){
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ){
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ){
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ){
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			}else{
@@ -101,23 +114,25 @@ public class SANParser {
 	 * @return origin of knight
 	 */
 
-	private int getKnightOrigin( String san, byte colour ) {
+	private int getKnightOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
 
 		ArrayList<Integer> destinations = board.generateKnightDestinations( to );
 		
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == KNIGHT && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == KNIGHT && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ) {
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ) {
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ){
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ){
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			}
@@ -135,22 +150,25 @@ public class SANParser {
 	 * @param colour
 	 * @return origin of bishop
 	 */
-	private int getBishopOrigin( String san, byte colour ) {
+	private int getBishopOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
+		
 		ArrayList<Integer> destinations = board.generateBishopDestinations( to );
 		
 		for ( int origin : destinations ) {
 			if ( board.pieceTypeAt( origin ) == BISHOP
-					&& board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 )
+					&& board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 )
 					return origin;
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" )
-							&& san.charAt( 0 ) == getFile( origin ) )
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" )
+							&& SAN.charAt( 0 ) == getFile( origin ) )
 						return origin;
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" )
-							&& san.charAt( 0 ) == getRank( origin ) ) return origin;
-				} else if ( san.charAt( 0 ) == getFile( origin )
-						&& san.charAt( 0 ) == getRank( origin ) ) return origin;
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" )
+							&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
+				} else if ( SAN.charAt( 0 ) == getFile( origin )
+						&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
 			}
 		}
 
@@ -164,22 +182,25 @@ public class SANParser {
 	 * @return origin of queen
 	 */
 
-	private int getQueenOrigin( String san, byte colour ) {
+	private int getQueenOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
+		
 		ArrayList<Integer> destinations = board.generateQueenDestinations( to );
 		
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == QUEEN && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == QUEEN && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ) {
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ) {
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ) {
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			}// End of if
@@ -195,21 +216,24 @@ public class SANParser {
 	 * @return origin of king
 	 */
 
-	private int getKingOrigin( String san, byte colour ) {
+	private int getKingOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
+		
 		ArrayList<Integer> destinations = board.generateKingDestinations( to );
 		for ( int origin : destinations ) {
 			if ( board.pieceTypeAt( origin ) == KING
-					&& board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 )
+					&& board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 )
 					return origin;
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" )
-							&& san.charAt( 0 ) == getFile( origin ) )
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" )
+							&& SAN.charAt( 0 ) == getFile( origin ) )
 						return origin;
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" )
-							&& san.charAt( 0 ) == getRank( origin ) ) return origin;
-				} else if ( san.charAt( 0 ) == getFile( origin )
-						&& san.charAt( 0 ) == getRank( origin ) ) return origin;
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" )
+							&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
+				} else if ( SAN.charAt( 0 ) == getFile( origin )
+						&& SAN.charAt( 0 ) == getRank( origin ) ) return origin;
 			}
 		}
 
@@ -222,10 +246,12 @@ public class SANParser {
 	 * @param colour
 	 * @return origin of pawn
 	 */
-	private int getPawnOrigin( String san, byte colour ) {
-
+	private int getPawnOrigin( final String SAN, final byte COLOUR ) {
+		assert( !SAN.isEmpty() ):"Invalid san";
+		assert( SAN.length() > 0 ):"Invalid string length";
+		
 		ArrayList<Integer> destinations;
-		if ( colour == WHITE ) {
+		if ( COLOUR == WHITE ) {
 			destinations = board.generateBlackPawnDestinations( to );
 			// Uses opposites colour generator as pawns can't move backwards
 		}
@@ -234,18 +260,18 @@ public class SANParser {
 		}
 
 		for ( int origin : destinations ) {
-			if ( board.pieceTypeAt( origin ) == PAWN && board.pieceColourAt( origin ) == colour ) {
-				if ( san.length() == 2 ) {
+			if ( board.pieceTypeAt( origin ) == PAWN && board.pieceColourAt( origin ) == COLOUR ) {
+				if ( SAN.length() == 2 ) {
 					return origin;
 				}
-				else if ( san.length() == 3 ) {
-					if ( san.substring( 0, 1 ).matches( "[a-h]" ) && san.charAt( 0 ) == getFile( origin ) ) {
+				else if ( SAN.length() == 3 ) {
+					if ( SAN.substring( 0, 1 ).matches( "[a-h]" ) && SAN.charAt( 0 ) == getFile( origin ) ) {
 						return origin;
 					}
-					else if ( san.substring( 0, 1 ).matches( "[0-7]" ) && san.charAt( 0 ) == getRank( origin ) ) {
+					else if ( SAN.substring( 0, 1 ).matches( "[0-7]" ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 						return origin;
 					}
-				} else if ( san.charAt( 0 ) == getFile( origin ) && san.charAt( 0 ) == getRank( origin ) ) {
+				} else if ( SAN.charAt( 0 ) == getFile( origin ) && SAN.charAt( 0 ) == getRank( origin ) ) {
 					return origin;
 				}
 			} //End of if
@@ -254,12 +280,12 @@ public class SANParser {
 		return - 1;
 	}
 
-	private char getFile( int position ) {
-		return ( intToLetter( position % 16 ) );
+	private char getFile( final int POSITION ) {
+		return ( intToLetter( POSITION % 16 ) );
 	}
 
-	private int getRank( int position ) {
-		return position / 16;
+	private int getRank( final int POSITION ) {
+		return POSITION / 16;
 	}
 
 	private int letterToInt( char c ) {

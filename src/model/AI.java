@@ -1,3 +1,8 @@
+/**
+    * File: AI.java
+    * Purpose: The artificial intelligence player.
+    */
+
 package model;
 
 import model.evaluators.EasyEvaluator;
@@ -41,6 +46,7 @@ public class AI extends Player {
      * @return Best move for AI
      */
     public Move getMove( Board board ) {
+		assert( board != null ):"Board is null";
     	Move bestMove = null;
     	int bestScore = Integer.MIN_VALUE;
     
@@ -75,16 +81,17 @@ public class AI extends Player {
      * @param beta
      * @return Best move for a given board
      */
-    public int alphaBetaNegamax( Board board, int depth, int alpha, int beta ) {
+    public int alphaBetaNegamax( Board board, final int DEPTH,  int alpha, final int BETA ) {
+		assert( board != null ):"Board is null";
 	    int score = Integer.MIN_VALUE + 1;
 	    
 	    if ( board.isCheckmate() ) {
-	        return ( Integer.MIN_VALUE + 1 + this.depth - depth );
+	        return ( Integer.MIN_VALUE + 1 + this.depth - DEPTH );
 	    } 
 	    else if ( board.isStalemate() ) {
 	    	return 0; 
 	    } 
-	    else if ( depth <= 0 ) {
+	    else if ( DEPTH <= 0 ) {
 	    	return ( evaluator.evaluate( board ) );
 	    }
 	    else {
@@ -94,9 +101,9 @@ public class AI extends Player {
 	    for ( Move move : board.getValidMoves() ) {
 	    	Board child = new Board( board );
 	    	child.makeMove( move );
-	    	score = -alphaBetaNegamax( child, depth - 1, -beta, -alpha );
+	    	score = -alphaBetaNegamax( child, DEPTH - 1, - BETA, -alpha );
 	      
-	    	if ( score >= beta ) {
+	    	if ( score >= BETA ) {
 	    		return score;
 	    	}
 	    	else {

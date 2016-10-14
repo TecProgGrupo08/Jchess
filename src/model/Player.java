@@ -6,21 +6,17 @@ public abstract class Player {
 
 	private String name = "";
 	protected byte colour = 0;
-	private int score = 0;
 	private long timeRemaining = 0;
-	private boolean human = false;
 
 	public Player( String name, byte colour ) {
 		this.setName( name );
 		this.setColour( colour );
-		this.score = 0;
 		this.setTimeRemaining( -1 );
 	}
 
 	public Player( String name, byte colour, long timeRemaining ) {
 		this.setName( name );
 		this.setColour( colour );
-		this.score = 0;
 		this.setTimeRemaining( timeRemaining );
 	}
 
