@@ -27,6 +27,13 @@ public class HistoryCellRenderingDefinition extends JLabel implements
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
+
+				assert( list != null ):"List is null!";
+				assert( value != null ):"Empty value";
+				assert( index >= 0):"Index out of bounds";
+				assert( isSelected == true || isSelected == false):"Must be selected before";
+				assert( cellHasFocus == true || cellHasFocus == false):"Cell focus must be seted before";
+
 				// Assumes the stuff in the list has a pretty toString
 				setText (value.toString ());
 				// here the highlighting of every second row is defined
