@@ -26,7 +26,7 @@ public class HistoryCellRenderingDefinition extends JLabel implements
 
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+			int index, boolean isSelected, boolean cellHasFocus) {	
 
 				assert( list != null ):"List is null!";
 				assert( value != null ):"Empty value";
@@ -51,5 +51,5 @@ public class HistoryCellRenderingDefinition extends JLabel implements
 					setBackground ( Color.BLUE );
 				}
 				return this;
-  }
+  		}
 }
