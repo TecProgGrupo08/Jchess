@@ -744,6 +744,7 @@ public class Board {
     private boolean squareAttacked( final int POSITION ) {
     	int[] directions = new int[]{ 15, 17, -15, -17 };
     
+    	// searches on diagonal positions for enemy pieces that may attack
     	for ( int direction : directions ) {
     		for ( int i = 1; isValidDestination( POSITION + i*direction ); i++ ) {
     			if ( enemyPieceAt( POSITION + i*direction ) ) {
@@ -770,6 +771,7 @@ public class Board {
     		}
     	}
 
+    	// searches on horizontal and vertical lines for possible enemy attacks
     	for ( int direction : new int[]{ 1, -1, 16, -16 } ) {
     		for ( int i = 1; isValidDestination( POSITION + i*direction ); i++ ) {
     			if ( enemyPieceAt( POSITION + i*direction ) ) {
@@ -784,8 +786,8 @@ public class Board {
     		}
     	}
 
+    	// searches on 'L' for a possible Knight attack
     	directions = new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 };
-    
     	for ( int direction : directions ) {
     		if ( isValidDestination( POSITION + direction ) && enemyPieceAt( POSITION + direction ) && pieceTypeAt( POSITION + direction ) == KNIGHT ) {
     			return ( true );
