@@ -563,71 +563,72 @@ public class Board {
     	if ( isPawnMove( move ) ) {
     		setMovementBit( move.from() );
 
-	    if ( isEnPassant( move ) ) {
-	    	if ( isWhiteTurn() ) {
-		        updateScore( move.to() - 16 );
-		        this.squares[ move.to() - 16 ] = EMPTY;
-		        this.squares[ move.to() ] = this.squares[ move.from() ];
-		        this.squares[ move.from() ] = EMPTY;
-		        this.blackPiecesCaptured.add( PAWN );
-	      	}
-	      	else {
-	      		updateScore( move.to() + 16 );
-	        	this.squares[ move.to() + 16 ] = EMPTY;
-	        	this.squares[ move.to() ] = this.squares[ move.from() ];
-	        	this.squares[ move.from() ] = EMPTY;
-	        	this.whitePiecesCaptured.add( PAWN );
-	      	}
-	
-	      	this.turnColour = opponentColour();
-	      	this.previousMove = move;
-	      	this.validMoves = generateValidMoves();
-	        
-	      	return;
-	    } 
-	    else if ( isPawnPromotion( move ) ) {
-	    	promotePawn( move.from() );
-	      	if ( isWhiteTurn() ) {
-	      		score += 700;
-	        } 
-	      	else {
-	            score -= 700;
-	        }
-	    }
-    }
-    else if ( isKingMove( move ) ) {
-    	assert( move != null ):"null move";
-        setMovementBit( move.from() );
+    		if ( isEnPassant( move ) ) {
+    			if ( isWhiteTurn() ) {
+    				updateScore( move.to() - 16 );
+    				this.squares[ move.to() - 16 ] = EMPTY;
+    				this.squares[ move.to() ] = this.squares[ move.from() ];
+    				this.squares[ move.from() ] = EMPTY;
+    				this.blackPiecesCaptured.add( PAWN );
+    			}
+    			else {
+    				updateScore( move.to() + 16 );
+    				this.squares[ move.to() + 16 ] = EMPTY;
+    				this.squares[ move.to() ] = this.squares[ move.from() ];
+    				this.squares[ move.from() ] = EMPTY;
+    				this.whitePiecesCaptured.add( PAWN );
+    			}
 
-        if ( isCastle( move ) ) {
-	        performCastle( move );
-	        setKingPosition( move.to() );
-	        this.turnColour = opponentColour();
-	        this.previousMove = move;
-	        this.validMoves = generateValidMoves();
-	        return;
-        }
-        
-        setKingPosition( move.to() );
-    } 
-    else if ( isRookMove( move ) ) {
-    	setMovementBit( move.from() );
-    }
+    			this.turnColour = opponentColour();
+    			this.previousMove = move;
+    			this.validMoves = generateValidMoves();
 
-    updateScore( move.to() );
+    			return;
+    		} 
+    		else if ( isPawnPromotion( move ) ) {
+    			promotePawn( move.from() );
+    			if ( isWhiteTurn() ) {
+    				score += 700;
+    			} 
+    			else {
+    				score -= 700;
+    			}
+    		}
+    	}
+    	else if ( isKingMove( move ) ) {
+    		assert( move != null ):"null move";
+    		setMovementBit( move.from() );
 
-    if ( !squareEmpty( move.to() ) ) {
-        if ( isWhiteTurn() ) {
-    	    this.blackPiecesCaptured.add( this.squares[ move.to() ] );
-        } 
-        else {
-    	    this.whitePiecesCaptured.add( this.squares[ move.to() ] );
-        }
-    }
-    else {
-    	//do nothing
-    }
+    		if ( isCastle( move ) ) {
+    			performCastle( move );
+    			setKingPosition( move.to() );
+    			this.turnColour = opponentColour();
+    			this.previousMove = move;
+    			this.validMoves = generateValidMoves();
+    			return;
+    		}
 
+    		setKingPosition( move.to() );
+    	} 
+    	else if ( isRookMove( move ) ) {
+    		setMovementBit( move.from() );
+    	}
+
+    	updateScore( move.to() );
+
+    	if ( !squareEmpty( move.to() ) ) {
+    		if ( isWhiteTurn() ) {
+    			this.blackPiecesCaptured.add( this.squares[ move.to() ] );
+    		} 
+    		else {
+    			this.whitePiecesCaptured.add( this.squares[ move.to() ] );
+    		}
+    	}
+    	else {
+    		//do nothing
+    	}
+
+    // updates the squares status after the movement
     this.squares[ move.to() ] = this.squares[ move.from() ];
     this.squares[ move.from() ] = EMPTY;
 
@@ -646,6 +647,7 @@ public class Board {
      */
     private int pieceValueAt(final int POSITION ) {
     	
+    	// returns the value of the piece according to the requested position
     	switch ( pieceTypeAt( POSITION ) ) {
           	case PAWN: {
           		return ( 100 );
@@ -743,6 +745,7 @@ public class Board {
     private boolean squareAttacked( final int POSITION ) {
     	int[] directions = new int[]{ 15, 17, -15, -17 };
     
+    	// searches on diagonal positions for enemy pieces that may attack
     	for ( int direction : directions ) {
     		for ( int i = 1; isValidDestination( POSITION + i*direction ); i++ ) {
     			if ( enemyPieceAt( POSITION + i*direction ) ) {
@@ -769,6 +772,7 @@ public class Board {
     		}
     	}
 
+    	// searches on horizontal and vertical lines for possible enemy attacks
     	for ( int direction : new int[]{ 1, -1, 16, -16 } ) {
     		for ( int i = 1; isValidDestination( POSITION + i*direction ); i++ ) {
     			if ( enemyPieceAt( POSITION + i*direction ) ) {
@@ -783,8 +787,8 @@ public class Board {
     		}
     	}
 
+    	// searches on 'L' for a possible Knight attack
     	directions = new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 };
-    
     	for ( int direction : directions ) {
     		if ( isValidDestination( POSITION + direction ) && enemyPieceAt( POSITION + direction ) &&
     				pieceTypeAt( POSITION + direction ) == KNIGHT ) {
