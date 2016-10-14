@@ -74,48 +74,51 @@ public class Position {
 	 */
 	
 	private int intMe(char valueOf) {
-		int eqivalentNumber = 0;
+		int equivalentNumber = 0;
 		
 		switch (valueOf){
 		case 'a': {
-			eqivalentNumber = 1;
+			equivalentNumber = 1;
 			break;
 		}	
 		case 'b': {
-			eqivalentNumber = 2;
+			equivalentNumber = 2;
 			break;
 		}
 		case 'c': {
-			eqivalentNumber = 3;
+			equivalentNumber = 3;
 			break;
 		}	
 		case 'd': {
-			eqivalentNumber = 4;
+			equivalentNumber = 4;
 			break;
 		}	
 		case 'e': {
-			eqivalentNumber = 5;
+			equivalentNumber = 5;
 			break;
 		}	
 		case 'f': {
-			eqivalentNumber = 6;
+			equivalentNumber = 6;
 			break;
 		}	
 		case 'g': { 
-			eqivalentNumber = 7;
+			equivalentNumber = 7;
 			break;
 		}	
 		case 'h': {
-			eqivalentNumber = 8;
+			equivalentNumber = 8;
 			break;
 		}	
 		default: {
-			eqivalentNumber = 0;
+			equivalentNumber = 0;
 			break;
 		}
 
 		}
-		return eqivalentNumber;
+		assert(equivalentNumber>=0):"invalid equivalent number"+equivalentNumber;
+        assert(equivalentNumber<=8):"invalid equivalent number"+equivalentNumber;
+        
+        return equivalentNumber;
 	}
 	
 	/**
@@ -125,48 +128,50 @@ public class Position {
 	 */
 	
 	private int intMe(int value) {
-		int eqivalentNumber = 0;
+		int equivalentNumber = 0;
 		int zahl = value;
 		switch (zahl) {
 			case 1:{
-				eqivalentNumber = 8;
+				equivalentNumber = 8;
 				break;
 			}
 			case 2:{
-				eqivalentNumber = 7;
+				equivalentNumber = 7;
 				break;
 			}
 			case 3:{
-				eqivalentNumber = 6;
+				equivalentNumber = 6;
 				break;
 			}
 			case 4:{
-				eqivalentNumber = 5;
+				equivalentNumber = 5;
 				break;
 			}
 			case 5:{
-				eqivalentNumber = 4;
+				equivalentNumber = 4;
 				break;
 			}
 			case 6:{
-				eqivalentNumber = 3;
+				equivalentNumber = 3;
 				break;
 			}
 			case 7:{
-				eqivalentNumber = 2;
+				equivalentNumber = 2;
 				break;
 			}
 			case 8:{
-				eqivalentNumber = 1;
+				equivalentNumber = 1;
 				break;
 			}
 			default:{
-				eqivalentNumber = 0;
+				equivalentNumber = 0;
 				break;
 			}
 
 		}
-		return eqivalentNumber;
+		assert(equivalentNumber>=0):"invalid equivalent number"+equivalentNumber;
+        assert(equivalentNumber<=8):"invalid equivalent number"+equivalentNumber;
+		return equivalentNumber;
 	}
 	
 	/**
@@ -215,7 +220,7 @@ public class Position {
 	 * set the square position
 	 * 
 	 * */
-	public void setSquarePosition(){
+	private void setSquarePosition(){
 		final int NUMBER_OF_COORDINATES = 16;
 		int Xposition = getX()-1;
 		int Yposition = intMe(getY())-1;
