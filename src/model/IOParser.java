@@ -1,3 +1,10 @@
+/**
+ * File: IOParser.java
+ * Purpose: Get the played move and them passes to a valid position for the 0x88 board representation
+ * 
+ * */
+
+
 package model;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -17,6 +24,10 @@ public class IOParser {
 	 * @param String filename - Name of file
 	 */
 	public IOParser( String filename ) {
+
+		assert( !filename.isEmpty() ):"Invalid filename";
+		assert( filename.length() > 0):"Invalide String lenght";
+
 		if (filename.endsWith(".j")) {
 			this.filename = filename;
 		}
@@ -79,6 +90,9 @@ public class IOParser {
 	 * @return true if successful, else false
 	 */
     public boolean dump(Board board) {
+
+    	assert( board != null);
+
 		byte[] squares = board.getSquares();
 		PrintWriter out = writerOpen();
 		
@@ -109,6 +123,8 @@ public class IOParser {
     *           - if piece is invalid
     */
 	private byte isValid( byte piece ) throws NumberFormatException {
+
+
 		if ( !( ( piece >=0 ) && ( piece < 15 ) ) ) {
 			throw new NumberFormatException();
 		}
