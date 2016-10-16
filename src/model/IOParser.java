@@ -21,7 +21,12 @@ import java.util.Scanner;
  */
 public class IOParser {
     private String filename = "";
-	
+    final String ERRORMSGINCORECTFILE = "Error: Not correct file extension; .j";
+    final String ERRORMSGOUTOFBOUNDS = "Error: %s is invalid, must be an int value 0 - 30.\n";
+    final String ERRORMSGVALUES = "Error: %s has insufficient values.\n";
+	final String ERRORMSGNOTFOUND = "Error: %s not found.\n";
+	final String ERRORMSGCREATE = "Error: Couldn't open/create %s";
+
 	/**
 	 * Constructor just takes in file name, validates and stores for later use for either 
 	 * reading or writing to 
@@ -37,7 +42,7 @@ public class IOParser {
 		}
 		else {
 			this.filename = null;
-			System.err.println("Error: Not correct file extension; .j");
+			System.err.println(ERRORMSGINCORECTFILE);
 		}
 	}
 	
@@ -72,13 +77,13 @@ public class IOParser {
 				try {
 					squares[i] = isValid( Byte.parseByte( x ) );
 				} catch ( NumberFormatException e ) {
-					System.err.printf("Error: %s is invalid, must be an int value 0 - 30.\n", x );
+					System.err.printf(ERRORMSGOUTOFBOUNDS, x );
 					
 					return null;
 				}
 			} 
 			else {
-				System.err.printf( "Error: %s has insufficient values.\n", filename );
+				System.err.printf( ERRORMSGVALUES, filename );
 				
 				return null;
 			}
@@ -148,7 +153,7 @@ public class IOParser {
 		try {
 			file = new Scanner( new FileInputStream( this.filename ) );;
 		} catch ( FileNotFoundException e ) {
-			System.err.printf( "Error: %s not found.\n", this.filename );
+			System.err.printf( ERRORMSGNOTFOUND, this.filename );
 		}
 		
 		return file;
@@ -167,7 +172,7 @@ public class IOParser {
 			out = new PrintWriter(
 				new BufferedWriter( new FileWriter( this.filename ) ) );
 		} catch ( IOException e ) {
-			System.err.printf( "Error: Couldn't open/create %s", filename );
+			System.err.printf( ERRORMSGCREATE, filename );
 		}	
 		
 		return out;
