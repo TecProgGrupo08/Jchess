@@ -26,7 +26,7 @@ public abstract class Player {
 		this.setName( name );
 		this.setColour( colour );
 		this.score = 0;
-		this.setTimeRemaining( -1 );
+		this.setTimeRemaining(0);
 	}
 
 	/**
@@ -41,6 +41,10 @@ public abstract class Player {
 		this.setColour( colour );
 		this.score = 0;
 		this.setTimeRemaining( timeRemaining );
+		
+		assert(this.name!=null):"null name:" + name;
+		assert(this.score <= 0):"score > 0 :" + score;
+		
 	}
 
 	public abstract Move getMove(Board b);
@@ -52,7 +56,17 @@ public abstract class Player {
 	 * @return Colour - pieces colour
 	 * */
 	protected String getColour() {
-		return ( this.colour == WHITE ? "White" : "Black" );
+		String color;
+		if (this.colour == WHITE) {
+			assert(this.colour == WHITE);
+			color = "White";
+		}
+		else{
+			assert(this.colour != WHITE);
+			color = "Black";
+		}
+		assert(color!=null):"color is null";
+		return color;
 	}
 
 	/**
@@ -78,6 +92,7 @@ public abstract class Player {
 	 * @return name - name of the player 
 	 * */
 	public String getName() {
+		assert(name!=null);
 		return name;
 	}
 
@@ -88,6 +103,7 @@ public abstract class Player {
 	 * */
 	protected void setName( String name ) {
 		this.name = name;
+		assert(this.name != null);
 	}
 	/**
 	 * set the time that the player have.

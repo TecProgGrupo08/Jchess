@@ -559,55 +559,12 @@ public class Board {
     public void makeMove( Move move ) {
     	assert( move != null ):"null move";
     	setMovementBit( move.from() );
+
     	if ( isPawnMove( move ) ) {
-    		setMovementBit( move.from() );
-
-    		if ( isEnPassant( move ) ) {
-    			if ( isWhiteTurn() ) {
-    				updateScore( move.to() - 16 );
-    				this.squares[ move.to() - 16 ] = EMPTY;
-    				this.squares[ move.to() ] = this.squares[ move.from() ];
-    				this.squares[ move.from() ] = EMPTY;
-    				this.blackPiecesCaptured.add( PAWN );
-    			}
-    			else {
-    				updateScore( move.to() + 16 );
-    				this.squares[ move.to() + 16 ] = EMPTY;
-    				this.squares[ move.to() ] = this.squares[ move.from() ];
-    				this.squares[ move.from() ] = EMPTY;
-    				this.whitePiecesCaptured.add( PAWN );
-    			}
-
-    			this.turnColour = opponentColour();
-    			this.previousMove = move;
-    			this.validMoves = generateValidMoves();
-
-    			return;
-    		} 
-    		else if ( isPawnPromotion( move ) ) {
-    			promotePawn( move.from() );
-    			if ( isWhiteTurn() ) {
-    				score += 700;
-    			} 
-    			else {
-    				score -= 700;
-    			}
-    		}
+    		movePawn ( move );
     	}
     	else if ( isKingMove( move ) ) {
-    		assert( move != null ):"null move";
-    		setMovementBit( move.from() );
-
-    		if ( isCastle( move ) ) {
-    			performCastle( move );
-    			setKingPosition( move.to() );
-    			this.turnColour = opponentColour();
-    			this.previousMove = move;
-    			this.validMoves = generateValidMoves();
-    			return;
-    		}
-
-    		setKingPosition( move.to() );
+    		moveKing ( move );
     	} 
     	else if ( isRookMove( move ) ) {
     		setMovementBit( move.from() );
@@ -627,16 +584,79 @@ public class Board {
     		//do nothing
     	}
 
-    // updates the squares status after the movement
-    this.squares[ move.to() ] = this.squares[ move.from() ];
-    this.squares[ move.from() ] = EMPTY;
+    	// updates the squares status after the movement
+    	this.squares[ move.to() ] = this.squares[ move.from() ];
+    	this.squares[ move.from() ] = EMPTY;
 
-    this.turnColour = opponentColour();
-    this.previousMove = move;
-    this.validMoves = generateValidMoves();
-    this.amountOfMoves++;
-  }
+    	this.turnColour = opponentColour();
+    	this.previousMove = move;
+    	this.validMoves = generateValidMoves();
+    	this.amountOfMoves++;
+    }
+   
+    /**
+     * Perform the moves for a Pawn piece.
+     *
+     * @param move - The move to make.
+     */ 
+   private void movePawn ( Move move ){
+		
+	   setMovementBit( move.from() );
 
+		if ( isEnPassant( move ) ) {
+			if ( isWhiteTurn() ) {
+				updateScore( move.to() - 16 );
+				this.squares[ move.to() - 16 ] = EMPTY;
+				this.squares[ move.to() ] = this.squares[ move.from() ];
+				this.squares[ move.from() ] = EMPTY;
+				this.blackPiecesCaptured.add( PAWN );
+			}
+			else {
+				updateScore( move.to() + 16 );
+				this.squares[ move.to() + 16 ] = EMPTY;
+				this.squares[ move.to() ] = this.squares[ move.from() ];
+				this.squares[ move.from() ] = EMPTY;
+				this.whitePiecesCaptured.add( PAWN );
+			}
+
+			this.turnColour = opponentColour();
+			this.previousMove = move;
+			this.validMoves = generateValidMoves();
+
+			return;
+		} 
+		else if ( isPawnPromotion( move ) ) {
+			promotePawn( move.from() );
+			if ( isWhiteTurn() ) {
+				score += 700;
+			} 
+			else {
+				score -= 700;
+			}
+		}
+   }
+   
+   /**
+    * Perform the moves for a King piece.
+    *
+    * @param move - The move to make.
+    */ 
+   private void moveKing (Move move){
+
+		assert( move != null ):"null move";
+		setMovementBit( move.from() );
+
+		if ( isCastle( move ) ) {
+			performCastle( move );
+			setKingPosition( move.to() );
+			this.turnColour = opponentColour();
+			this.previousMove = move;
+			this.validMoves = generateValidMoves();
+			return;
+		}
+		setKingPosition( move.to() );
+   }
+   
     /**
      * What is the value of the piece located on the given square index?
      *
@@ -1285,24 +1305,25 @@ public class Board {
      * @return A score representing how good/bad the position of the piece is.
      */
     public int piecePositionScore( final byte PIECE_TYPE, final int POS ) {
+    	
     	switch ( PIECE_TYPE ) {
       		case PAWN: {
-      			return isWhiteTurn() ? WPAWN_POSITION_TABLE[ POS ] : BPAWN_POSITION_TABLE[ POS ];
+      			return pawnPositionScore(POS);
       		}
       		case KNIGHT: {
       			return KNIGHT_POSITION_TABLE[ POS ];
       		}
       		case BISHOP: {
-      			return isWhiteTurn() ? WBISHOP_POSITION_TABLE[ POS ] : BBISHOP_POSITION_TABLE[ POS ];
+      			return bishopPositionScore(POS);
       		}
       		case ROOK: {
-      			return isWhiteTurn() ? WROOK_POSITION_TABLE[ POS ] : BROOK_POSITION_TABLE[ POS ];
+      			return rookPositionScore(POS);
       		}
       		case QUEEN: {
-      			return this.amountOfMoves < 15 ? OPENING_QUEEN_POSITION_TABLE[ POS ] : QUEEN_POSITION_TABLE[ POS ];
+      			return queenPositionScore(POS);
       		}
       		case KING: {
-      			return isWhiteTurn() ? WKING_POSITION_TABLE[ POS ] : BKING_POSITION_TABLE[ POS ];
+      			return kingPositionScore(POS);
       		}
       		default: {
       			// do nothing
@@ -1311,6 +1332,57 @@ public class Board {
 
     	return 0;
     }
+    
+    private int pawnPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){
+    		return WPAWN_POSITION_TABLE[ POS ] ;
+    		
+    	}else{
+    		return BPAWN_POSITION_TABLE[ POS ];
+    	}
+    }
+    
+    private int bishopPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WBISHOP_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BBISHOP_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int rookPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WROOK_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BROOK_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int queenPositionScore (final int POS){
+    	
+    	if (this.amountOfMoves < 15){	
+    		return OPENING_QUEEN_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return QUEEN_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int kingPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WKING_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BKING_POSITION_TABLE[ POS ] ;
+    	}
+    }
+
 
     /**
      * Evaluate the development of knights and bishops.
