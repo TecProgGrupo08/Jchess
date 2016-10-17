@@ -564,7 +564,20 @@ public class Board {
     		movePawn ( move );
     	}
     	else if ( isKingMove( move ) ) {
-    		moveKing ( move );
+    		// separate this block of code (isKingMove) from this function. Warning: It may generate an error on the 'roque' moviment.
+    		assert( move != null ):"null move";
+    		setMovementBit( move.from() );
+
+    		if ( isCastle( move ) ) {
+    			performCastle( move );
+    			setKingPosition( move.to() );
+    			this.turnColour = opponentColour();
+    			this.previousMove = move;
+    			this.validMoves = generateValidMoves();
+    			return;
+    		}
+    		setKingPosition( move.to() );
+    		
     	} 
     	else if ( isRookMove( move ) ) {
     		setMovementBit( move.from() );
@@ -634,27 +647,6 @@ public class Board {
 				score -= 700;
 			}
 		}
-   }
-   
-   /**
-    * Perform the moves for a King piece.
-    *
-    * @param move - The move to make.
-    */ 
-   private void moveKing (Move move){
-
-		assert( move != null ):"null move";
-		setMovementBit( move.from() );
-
-		if ( isCastle( move ) ) {
-			performCastle( move );
-			setKingPosition( move.to() );
-			this.turnColour = opponentColour();
-			this.previousMove = move;
-			this.validMoves = generateValidMoves();
-			return;
-		}
-		setKingPosition( move.to() );
    }
    
     /**
