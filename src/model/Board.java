@@ -68,117 +68,7 @@ public class Board {
     	this.amountOfMoves = board.getAmountOfMoves();
     }
 
-    /**
-     * Returns a list of all white pieces captured by the black player.
-     *
-     * @return A list of all white pieces captured.
-     */
-    private ArrayList<Byte> getWhitePiecesCaptured() {
-    	return ( new ArrayList<Byte>( this.whitePiecesCaptured ) );
-	}
-
-    /**
-     * Returns a list of all black pieces captured by the white player.
-     *
-     * @return A list of all black pieces captured.
-     */
-    private ArrayList<Byte> getBlackPiecesCaptured() {
-    	return ( new ArrayList<Byte>( this.blackPiecesCaptured ) );
-    }
-
-    /**
-     * Return the zero sum material score of the board.
-     *
-     * @return The zero sum material score.
-     */
-    private int getScore() {
-    	return ( this.score );
-  	}
-
-    /**
-     * Return the byte array of chess board squares.
-     *
-     * @return The array of chess board squares as bytes.
-     */
-    public byte[] getSquares() {
-    	return ( this.squares.clone() );
-    }
-
-    /**
-     * What is the colour of the player to move?
-     *
-     * @return A byte representing the colour of the player whos turn it is currently.
-     */
-    public byte getTurnColour() {
-    	return ( this.turnColour );
-    }
-
-    /**
-     * How many moves have been made since board creation?
-     *
-     * @return The number of moves made since the board was created.
-     */
-    public int getAmountOfMoves() {
-    	return this.amountOfMoves;
-    }
-
-    /**
-     * Get the last move made on the board.
-     *
-     * @return The last move that was made on the board.
-     */
-    private Move getPreviousMove() {
-    	return ( this.previousMove );
-    }
-
-    /**
-     * Which square is the white king located on?
-     *
-     * @return The square index of the white king position.
-     */
-    public int getWhiteKingPosition() {
-    	return ( this.whiteKingPosition );
-    }
-
-    /**
-     * Which square is the black king located on?
-     *
-     * @return The square index of the black king position.
-     */
-    public int getBlackKingPosition() {
-    	return ( this.blackKingPosition );
-    }
-
-    /**
-     * Which square is the current players king on?
-     *
-     * @return The square index of the current players king.
-     */
-    public int getKingPosition() {
-    	
-    	if ( isWhiteTurn() == true){
-    		return this.whiteKingPosition;
-    	}else{
-    		return this.blackKingPosition;
-    	}
-    }
-
-    /**
-     * Which square is the opponent of the current players king on?
-     *
-     * @return The square index of opponent of the current players king.
-     */
-    private int getOpposingKingPosition() {
-    	
-    	if (isWhiteTurn() == true){
-    		return this.blackKingPosition;
-    		
-    	}else{
-    		return this.whiteKingPosition;	
-    	}
-    }
-
-    /**
+       /**
      * Is the square mapped to by the given index empty?
      *
      * @param position    The square index.
@@ -1403,4 +1293,116 @@ public class Board {
     		return  -score;
     	}
     }
+    
+    /**
+     * Returns a list of all white pieces captured by the black player.
+     *
+     * @return A list of all white pieces captured.
+     */
+    private ArrayList<Byte> getWhitePiecesCaptured() {
+    	return ( new ArrayList<Byte>( this.whitePiecesCaptured ) );
+	}
+
+    /**
+     * Returns a list of all black pieces captured by the white player.
+     *
+     * @return A list of all black pieces captured.
+     */
+    private ArrayList<Byte> getBlackPiecesCaptured() {
+    	return ( new ArrayList<Byte>( this.blackPiecesCaptured ) );
+    }
+
+    /**
+     * Return the zero sum material score of the board.
+     *
+     * @return The zero sum material score.
+     */
+    private int getScore() {
+    	return ( this.score );
+  	}
+
+    /**
+     * Return the byte array of chess board squares.
+     *
+     * @return The array of chess board squares as bytes.
+     */
+    public byte[] getSquares() {
+    	return ( this.squares.clone() );
+    }
+
+    /**
+     * What is the colour of the player to move?
+     *
+     * @return A byte representing the colour of the player whos turn it is currently.
+     */
+    public byte getTurnColour() {
+    	return ( this.turnColour );
+    }
+
+    /**
+     * How many moves have been made since board creation?
+     *
+     * @return The number of moves made since the board was created.
+     */
+    public int getAmountOfMoves() {
+    	return this.amountOfMoves;
+    }
+
+    /**
+     * Get the last move made on the board.
+     *
+     * @return The last move that was made on the board.
+     */
+    private Move getPreviousMove() {
+    	return ( this.previousMove );
+    }
+
+    /**
+     * Which square is the white king located on?
+     *
+     * @return The square index of the white king position.
+     */
+    public int getWhiteKingPosition() {
+    	return ( this.whiteKingPosition );
+    }
+
+    /**
+     * Which square is the black king located on?
+     *
+     * @return The square index of the black king position.
+     */
+    public int getBlackKingPosition() {
+    	return ( this.blackKingPosition );
+    }
+
+    /**
+     * Which square is the current players king on?
+     *
+     * @return The square index of the current players king.
+     */
+    public int getKingPosition() {
+    	
+    	if ( isWhiteTurn() == true){
+    		return this.whiteKingPosition;
+    	}else{
+    		return this.blackKingPosition;
+    	}
+    }
+
+    /**
+     * Which square is the opponent of the current players king on?
+     *
+     * @return The square index of opponent of the current players king.
+     */
+    private int getOpposingKingPosition() {
+    	
+    	if (isWhiteTurn() == true){
+    		return this.blackKingPosition;
+    		
+    	}else{
+    		return this.whiteKingPosition;	
+    	}
+    }
+
+
 }
