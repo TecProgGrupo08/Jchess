@@ -100,29 +100,7 @@ class ChessBoard extends JPanel {
 		setTheme( theme );
 	
     }
-
-	private void makePiecesArray( String folder ) {
-
-		String[] newPieces = { folder + "bb.png", folder + "bk.png", folder + "bn.png", folder + "bp.png",
-				folder + "bq.png", folder + "br.png", folder + "wb.png", folder + "wk.png", folder + "wn.png",
-				folder + "wp.png", folder + "wq.png", folder + "wr.png", folder + "checkHighlightning.png",
-				folder + "dangerHighlightning.png", };
-		
-        PIECES = newPieces;
-
-		try {
-
-			for ( int i = 0; i < PIECES.length; i++ ) {
-				System.out.println( PIECES[i] );
-				image[i] = ImageIO.read( new File(PIECES[i]) );
-			}
-
-		} catch ( IOException ex ) {
-			System.out.println( "Cannot find image path. ChessBoard.java, change "
-					+ "it manually, therefore use the final FOLDER_STRUCTURE in " + "ChessBoard.java." );
-		}
-	}
-
+	
 	public int getBoardDimension() {
 		return this.getHeight();
 	}
@@ -262,7 +240,40 @@ class ChessBoard extends JPanel {
 		setHighlightLast();
 		setPiecePics();
 	}
+	public void setBoard( Board board ) {
 
+		boardData = board;
+		// repaint();
+	}
+
+	public Board getBoard() {
+
+		return boardData;
+	
+    }
+
+	
+	private void makePiecesArray( String folder ) {
+
+		String[] newPieces = { folder + "bb.png", folder + "bk.png", folder + "bn.png", folder + "bp.png",
+				folder + "bq.png", folder + "br.png", folder + "wb.png", folder + "wk.png", folder + "wn.png",
+				folder + "wp.png", folder + "wq.png", folder + "wr.png", folder + "checkHighlightning.png",
+				folder + "dangerHighlightning.png", };
+		
+        PIECES = newPieces;
+
+		try {
+
+			for ( int i = 0; i < PIECES.length; i++ ) {
+				System.out.println( PIECES[i] );
+				image[i] = ImageIO.read( new File(PIECES[i]) );
+			}
+
+		} catch ( IOException ex ) {
+			System.out.println( "Cannot find image path. ChessBoard.java, change "
+					+ "it manually, therefore use the final FOLDER_STRUCTURE in " + "ChessBoard.java." );
+		}
+	}
 	/**
 	 * paints a Grid over the Chessboard (rectangles are under the grid) The
 	 * grid looks like borders for the rectangles
@@ -390,19 +401,6 @@ class ChessBoard extends JPanel {
 		int cellrow = ( y * rectSize + 1 );
 		this.boardRep.drawImage( image[pic], cellcol, cellrow, rectSize, rectSize, this );
 	}
-
-	public void setBoard( Board board ) {
-
-		boardData = board;
-		// repaint();
-	}
-
-	public Board getBoard() {
-
-		return boardData;
-	
-    }
-
 	/**
 	 * Changes Background-color of selected field
 	 * 
