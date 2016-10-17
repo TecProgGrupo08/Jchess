@@ -65,6 +65,59 @@ public class Position {
 		}
 		
 	}
+	
+	/**
+	 * 	Get the x position 
+	 * @return int - x
+	 */
+	
+	public int getX() {
+		return axesXPosition;
+	}
+
+	/**
+	 * 	Get the y position 
+	 * @return int - y
+	 */
+	
+	public int getY() {
+		return axesYPosition;
+	}
+
+	/**
+	 * 	Get the String version of x position 
+	 * @return int - x
+	 */
+	public String getXName() {
+		return axesXString;
+	}
+
+	/**
+	 * 	Get the String version of y position 
+	 * @return int - y
+	 */
+	public int getYName() {
+		return axesYString;
+	}
+	
+	/**
+	 * 	Get the square position 
+	 * @return int - squarePosition
+	 */
+	public int getSquarePosition(){
+	  return squarePosition;
+	}
+
+	/**
+	 * 	Get the concatenated value go xString and yString 
+	 * @return int - x
+	 */
+	public String getName() {
+		if (axesXString != "null" && axesYString != 0) {
+			return axesXString + axesYString;
+		} else
+			return "null";
+	}
 
 
 	/**
@@ -228,57 +281,6 @@ public class Position {
 		this.squarePosition = Xposition + Yposition * NUMBER_OF_COORDINATES;
 	}
 	
-	/**
-	 * 	Get the x position 
-	 * @return int - x
-	 */
-	
-	public int getX() {
-		return axesXPosition;
-	}
 
-	/**
-	 * 	Get the y position 
-	 * @return int - y
-	 */
-	
-	public int getY() {
-		return axesYPosition;
-	}
-
-	/**
-	 * 	Get the String version of x position 
-	 * @return int - x
-	 */
-	public String getXName() {
-		return axesXString;
-	}
-
-	/**
-	 * 	Get the String version of y position 
-	 * @return int - y
-	 */
-	public int getYName() {
-		return axesYString;
-	}
-	
-	/**
-	 * 	Get the square position 
-	 * @return int - squarePosition
-	 */
-	public int getSquarePosition(){
-	  return squarePosition;
-	}
-
-	/**
-	 * 	Get the concatenated value go xString and yString 
-	 * @return int - x
-	 */
-	public String getName() {
-		if (axesXString != "null" && axesYString != 0) {
-			return axesXString + axesYString;
-		} else
-			return "null";
-	}
 
 }
