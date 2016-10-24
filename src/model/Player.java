@@ -23,10 +23,12 @@ public abstract class Player {
 	 * @param = Byte colour - color of the player's pieces
 	 * */
 	public Player( String name, byte colour ) {
+
 		this.setName( name );
 		this.setColour( colour );
 		this.score = 0;
 		this.setTimeRemaining(0);
+	
 	}
 
 	/**
@@ -37,34 +39,39 @@ public abstract class Player {
 	 * */
 	
 	public Player( String name, byte colour, long timeRemaining ) {
+
+		assert(this.name!=null):"null name:" + name;
+		assert(this.score <= 0):"score > 0 :" + score;
+
 		this.setName( name );
 		this.setColour( colour );
 		this.score = 0;
 		this.setTimeRemaining( timeRemaining );
 		
-		assert(this.name!=null):"null name:" + name;
-		assert(this.score <= 0):"score > 0 :" + score;
-		
 	}
-
-	public abstract Move getMove(Board b);
-
-	public abstract boolean isHuman();
 
 	/**
 	 * Get the color of the player's pieces
 	 * @return Colour - pieces colour
 	 * */
+	
 	protected String getColour() {
-		String color;
+		
+		String color = null;
+
 		if (this.colour == WHITE) {
+			
 			assert(this.colour == WHITE);
 			color = "White";
+
 		}
 		else{
+
 			assert(this.colour != WHITE);
 			color = "Black";
+
 		}
+		
 		assert(color!=null):"color is null";
 		return color;
 	}
@@ -73,15 +80,16 @@ public abstract class Player {
 	 * Get the color of the player's pieces
 	 * @return colour - pieces colour 
 	 * */
+	
 	public byte getColourByte(){
 		return colour;
 	}
 	
-
 	/**
 	 * Set the color of the player's pieces
 	 * @param colour - pieces colour 
 	 * */
+	
 	protected void setColour( byte colour ) {
 		this.colour = colour;
 	}
@@ -91,9 +99,12 @@ public abstract class Player {
 	 * Get the name of the player
 	 * @return name - name of the player 
 	 * */
+	
 	public String getName() {
+		
 		assert(name!=null);
 		return name;
+	
 	}
 
 
@@ -101,9 +112,12 @@ public abstract class Player {
 	 * Set the name of the player
 	 * @param String name - name of the player 
 	 * */
+
 	protected void setName( String name ) {
+		
 		this.name = name;
 		assert(this.name != null);
+	
 	}
 	/**
 	 * set the time that the player have.
@@ -122,5 +136,9 @@ public abstract class Player {
 		this.timeRemaining = timeRemaining;
 	}
 	
+
+	public abstract Move getMove(Board b);
+
+	public abstract boolean isHuman();
 
 }
