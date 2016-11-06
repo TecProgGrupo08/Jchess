@@ -958,35 +958,37 @@ public class Board {
      *
      * @return An ArrayList of all destinations that the king can move to.
      */
-    public ArrayList<Integer> generateKingDestinations( final int POSITION ) {
-    	
-    	ArrayList<Integer> destinations = new ArrayList<Integer>();
-
-    	if ( canCastleKingSide( POSITION ) ) {
-    		destinations.add( POSITION + 2 );
-    	}
-    	else {
-    		//do nothing
-    	}	
-    
-    	if ( canCastleQueenSide( POSITION ) ) {
-    		destinations.add( POSITION - 2 );
-    	}
-    	else {
-    		//do nothing
-    	}
-
-    	for ( int i : new int[]{ 15, 16, 17, 1, -1, -17, -16, -15 } ) {
-    		if ( !nextToOpponentKing( POSITION + i ) ) {
-    			destinations.add( POSITION + i );
-    		}
-    		else {
-    			//do nothing
-    		}
-    	}
-
-    	return ( destinations );
-    }
+	public ArrayList<Integer> generateKingDestinations( final int POSITION ) {
+	    	
+	    	ArrayList<Integer> destinations = new ArrayList<Integer>();
+	    	
+	    	int[] kingPositions = { 15, 16, 17, 1, -1, -17, -16, -15 };
+	
+	    	if ( canCastleKingSide( POSITION ) ) {
+	    		destinations.add( POSITION + 2 );
+	    	}
+	    	else {
+	    		//do nothing
+	    	}	
+	    
+	    	if ( canCastleQueenSide( POSITION ) ) {
+	    		destinations.add( POSITION - 2 );
+	    	}
+	    	else {
+	    		//do nothing
+	    	}
+	
+	    	for ( int i : kingPositions) {
+	    		if ( !nextToOpponentKing( POSITION + i ) ) {
+	    			destinations.add( POSITION + i );
+	    		}
+	    		else {
+	    			//do nothing
+	    		}
+	    	}
+	
+	    	return ( destinations );
+	    }
 
     /**
      * Can the king located at 'position' perform a king side castling move?
