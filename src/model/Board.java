@@ -708,7 +708,10 @@ public class Board {
      * @return An ArrayList of all valid moves that can be played.
      */
     public ArrayList<Move> getValidMoves() {
-        return ( new ArrayList<Move>( this.validMoves ) );
+    	ArrayList<Move> validMoves = new ArrayList<Move>();
+    	validMoves = this.validMoves;
+    	
+        return ( validMoves );
     }
 
     private ArrayList<Move> generateValidMoves() {
