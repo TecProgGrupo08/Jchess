@@ -1043,8 +1043,10 @@ public class Board {
     public ArrayList<Integer> generateKnightDestinations( final int POSITION ) {
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
+    	
+    	int[] knightDestinations = { 18, 33, 31, 14, -18, -33, -31, -14 };
 
-    	for ( int d : new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 } ) {
+    	for ( int d : knightDestinations) {
     		destinations.add( POSITION + d );
     	}
 
