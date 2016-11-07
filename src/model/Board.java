@@ -744,7 +744,8 @@ public class Board {
     	
     	ArrayList<Move> validMoves = new ArrayList<Move>();
     	ArrayList<Integer> destinations = generateDestinations( PIECE_TYPE, POSITION );
-
+    	
+    	//This for put all valid moves in an ArrayList that the piece can make.
     	for ( int destination : destinations ) {
     		if ( isValidDestination( destination ) && canMoveTo( POSITION, destination ) ) {
     			validMoves.add( new Move( POSITION, destination ) );
