@@ -1053,7 +1053,8 @@ public class Board {
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
     	
     	int[] knightDestinations = { 18, 33, 31, 14, -18, -33, -31, -14 };
-
+    	
+    	//This for put all destinations that the knight can move to.
     	for ( int d : knightDestinations) {
     		destinations.add( POSITION + d );
     	}
