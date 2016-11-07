@@ -769,6 +769,7 @@ public class Board {
      */
     private ArrayList<Integer> generateDestinations( final byte PIECE_TYPE, final int POSITION ) {
     	
+    	//This switch return an arrayList of all destinations that the piece can move to.
     	switch ( PIECE_TYPE ) {
           	case PAWN: {
           		return ( generatePawnDestinations( POSITION ) );
