@@ -22,11 +22,11 @@ import java.util.Scanner;
 public class IOParser {
 
     private String filename = "";
-    final String ERRORMSGINCORECTFILE = "Error: Not correct file extension; .j";
-    final String ERRORMSGOUTOFBOUNDS = "Error: %s is invalid, must be an int value 0 - 30.\n";
-    final String ERRORMSGVALUES = "Error: %s has insufficient values.\n";
-	final String ERRORMSGNOTFOUND = "Error: %s not found.\n";
-	final String ERRORMSGCREATE = "Error: Couldn't open/create %s";
+    private  final String ERRORMSGINCORECTFILE = "Error: Not correct file extension; .j";
+    private final String ERRORMSGOUTOFBOUNDS = "Error: %s is invalid, must be an int value 0 - 30.\n";
+    private final String ERRORMSGVALUES = "Error: %s has insufficient values.\n";
+    private final String ERRORMSGNOTFOUND = "Error: %s not found.\n";
+    private final String ERRORMSGCREATE = "Error: Couldn't open/create %s";
 
 	/**
 	 * Constructor just takes in file name, validates and stores for later use for either 
