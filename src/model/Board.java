@@ -839,6 +839,7 @@ public class Board {
     		destinations.add( POSITION + 16 );
     	}
 
+    	assert( destinations != null ): "Destinations of white pawn is null";
     	return ( destinations );
     }
 
