@@ -711,6 +711,7 @@ public class Board {
     	ArrayList<Move> validMoves = new ArrayList<Move>();
     	validMoves = this.validMoves;
     	
+    	assert( validMoves != null ): "Move Valid is null";
         return ( validMoves );
     }
 
