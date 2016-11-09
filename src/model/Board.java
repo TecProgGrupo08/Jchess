@@ -754,6 +754,7 @@ public class Board {
     		}
     	}
 
+    	assert( validMoves != null ): "Move Valid is null";
     	return ( validMoves );
  	}
   
