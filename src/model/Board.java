@@ -1058,9 +1058,16 @@ public class Board {
     	for ( int d : knightDestinations) {
     		destinations.add( POSITION + d );
     	}
-
+    	
+    	finalizeObject(knightDestinations);
+    	
     	return ( destinations );
     }	
+    
+    
+    private void finalizeObject(Object object) {
+    	object = null;
+    }
 
     /**
      * Generate the destinations for a bishop located at 'position'.
