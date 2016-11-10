@@ -487,15 +487,23 @@ public class Board {
     		//do nothing
     	}
 
-    	// updates the squares status after the movement
-    	this.squares[ move.to() ] = this.squares[ move.from() ];
-    	this.squares[ move.from() ] = EMPTY;
-
-    	this.turnColour = opponentColour();
-    	this.previousMove = move;
-    	this.validMoves = generateValidMoves();
-    	this.amountOfMoves++;
+    	updatesSquare(move);
     }
+    
+    /**
+     * // Updates the squares .
+     *
+     * @param move - New status after the movement.
+     */ 
+   private void updatesSquare ( Move move ) {
+	   	this.squares[ move.to() ] = this.squares[ move.from() ];
+	   	this.squares[ move.from() ] = EMPTY;
+	
+	   	this.turnColour = opponentColour();
+	   	this.previousMove = move;
+	   	this.validMoves = generateValidMoves();
+	   	this.amountOfMoves++;
+   }
    
     /**
      * Perform the moves for a Pawn piece.
@@ -1063,11 +1071,6 @@ public class Board {
     	
     	return ( destinations );
     }	
-    
-    
-    private void finalizeObject(Object object) {
-    	object = null;
-    }
 
     /**
      * Generate the destinations for a bishop located at 'position'.
@@ -1423,6 +1426,13 @@ public class Board {
     		return this.whiteKingPosition;	
     	}
     }
-
-
+    
+    /**
+     * Finalize object
+     *
+     * @param Object that will be finalize.
+     */
+    private void finalizeObject(Object object) {
+    	object = null;
+    }
 }
