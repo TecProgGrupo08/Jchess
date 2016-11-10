@@ -69,117 +69,7 @@ public class Board {
     	this.amountOfMoves = board.getAmountOfMoves();
     }
 
-    /**
-     * Returns a list of all white pieces captured by the black player.
-     *
-     * @return A list of all white pieces captured.
-     */
-    private ArrayList<Byte> getWhitePiecesCaptured() {
-    	return ( new ArrayList<Byte>( this.whitePiecesCaptured ) );
-	}
-
-    /**
-     * Returns a list of all black pieces captured by the white player.
-     *
-     * @return A list of all black pieces captured.
-     */
-    private ArrayList<Byte> getBlackPiecesCaptured() {
-    	return ( new ArrayList<Byte>( this.blackPiecesCaptured ) );
-    }
-
-    /**
-     * Return the zero sum material score of the board.
-     *
-     * @return The zero sum material score.
-     */
-    private int getScore() {
-    	return ( this.score );
-  	}
-
-    /**
-     * Return the byte array of chess board squares.
-     *
-     * @return The array of chess board squares as bytes.
-     */
-    public byte[] getSquares() {
-    	return ( this.squares.clone() );
-    }
-
-    /**
-     * What is the colour of the player to move?
-     *
-     * @return A byte representing the colour of the player whos turn it is currently.
-     */
-    public byte getTurnColour() {
-    	return ( this.turnColour );
-    }
-
-    /**
-     * How many moves have been made since board creation?
-     *
-     * @return The number of moves made since the board was created.
-     */
-    public int getAmountOfMoves() {
-    	return this.amountOfMoves;
-    }
-
-    /**
-     * Get the last move made on the board.
-     *
-     * @return The last move that was made on the board.
-     */
-    private Move getPreviousMove() {
-    	return ( this.previousMove );
-    }
-
-    /**
-     * Which square is the white king located on?
-     *
-     * @return The square index of the white king position.
-     */
-    public int getWhiteKingPosition() {
-    	return ( this.whiteKingPosition );
-    }
-
-    /**
-     * Which square is the black king located on?
-     *
-     * @return The square index of the black king position.
-     */
-    public int getBlackKingPosition() {
-    	return ( this.blackKingPosition );
-    }
-
-    /**
-     * Which square is the current players king on?
-     *
-     * @return The square index of the current players king.
-     */
-    public int getKingPosition() {
-    	
-    	if ( isWhiteTurn() == true){
-    		return this.whiteKingPosition;
-    	}else{
-    		return this.blackKingPosition;
-    	}
-    }
-
-    /**
-     * Which square is the opponent of the current players king on?
-     *
-     * @return The square index of opponent of the current players king.
-     */
-    private int getOpposingKingPosition() {
-    	
-    	if (isWhiteTurn() == true){
-    		return this.blackKingPosition;
-    		
-    	}else{
-    		return this.whiteKingPosition;	
-    	}
-    }
-
-    /**
+       /**
      * Is the square mapped to by the given index empty?
      *
      * @param position    The square index.
@@ -560,42 +450,12 @@ public class Board {
     public void makeMove( Move move ) {
     	assert( move != null ):"null move";
     	setMovementBit( move.from() );
+
     	if ( isPawnMove( move ) ) {
-    		setMovementBit( move.from() );
-
-    		if ( isEnPassant( move ) ) {
-    			if ( isWhiteTurn() ) {
-    				updateScore( move.to() - 16 );
-    				this.squares[ move.to() - 16 ] = EMPTY;
-    				this.squares[ move.to() ] = this.squares[ move.from() ];
-    				this.squares[ move.from() ] = EMPTY;
-    				this.blackPiecesCaptured.add( PAWN );
-    			}
-    			else {
-    				updateScore( move.to() + 16 );
-    				this.squares[ move.to() + 16 ] = EMPTY;
-    				this.squares[ move.to() ] = this.squares[ move.from() ];
-    				this.squares[ move.from() ] = EMPTY;
-    				this.whitePiecesCaptured.add( PAWN );
-    			}
-
-    			this.turnColour = opponentColour();
-    			this.previousMove = move;
-    			this.validMoves = generateValidMoves();
-
-    			return;
-    		} 
-    		else if ( isPawnPromotion( move ) ) {
-    			promotePawn( move.from() );
-    			if ( isWhiteTurn() ) {
-    				score += 700;
-    			} 
-    			else {
-    				score -= 700;
-    			}
-    		}
+    		movePawn ( move );
     	}
     	else if ( isKingMove( move ) ) {
+    		// separate this block of code (isKingMove) from this function. Warning: It may generate an error on the 'roque' moviment.
     		assert( move != null ):"null move";
     		setMovementBit( move.from() );
 
@@ -607,8 +467,8 @@ public class Board {
     			this.validMoves = generateValidMoves();
     			return;
     		}
-
     		setKingPosition( move.to() );
+    		
     	} 
     	else if ( isRookMove( move ) ) {
     		setMovementBit( move.from() );
@@ -628,16 +488,58 @@ public class Board {
     		//do nothing
     	}
 
-    // updates the squares status after the movement
-    this.squares[ move.to() ] = this.squares[ move.from() ];
-    this.squares[ move.from() ] = EMPTY;
+    	// updates the squares status after the movement
+    	this.squares[ move.to() ] = this.squares[ move.from() ];
+    	this.squares[ move.from() ] = EMPTY;
 
-    this.turnColour = opponentColour();
-    this.previousMove = move;
-    this.validMoves = generateValidMoves();
-    this.amountOfMoves++;
-  }
+    	this.turnColour = opponentColour();
+    	this.previousMove = move;
+    	this.validMoves = generateValidMoves();
+    	this.amountOfMoves++;
+    }
+   
+    /**
+     * Perform the moves for a Pawn piece.
+     *
+     * @param move - The move to make.
+     */ 
+   private void movePawn ( Move move ){
+		
+	   setMovementBit( move.from() );
 
+		if ( isEnPassant( move ) ) {
+			if ( isWhiteTurn() ) {
+				updateScore( move.to() - 16 );
+				this.squares[ move.to() - 16 ] = EMPTY;
+				this.squares[ move.to() ] = this.squares[ move.from() ];
+				this.squares[ move.from() ] = EMPTY;
+				this.blackPiecesCaptured.add( PAWN );
+			}
+			else {
+				updateScore( move.to() + 16 );
+				this.squares[ move.to() + 16 ] = EMPTY;
+				this.squares[ move.to() ] = this.squares[ move.from() ];
+				this.squares[ move.from() ] = EMPTY;
+				this.whitePiecesCaptured.add( PAWN );
+			}
+
+			this.turnColour = opponentColour();
+			this.previousMove = move;
+			this.validMoves = generateValidMoves();
+
+			return;
+		} 
+		else if ( isPawnPromotion( move ) ) {
+			promotePawn( move.from() );
+			if ( isWhiteTurn() ) {
+				score += 700;
+			} 
+			else {
+				score -= 700;
+			}
+		}
+   }
+   
     /**
      * What is the value of the piece located on the given square index?
      *
@@ -808,7 +710,11 @@ public class Board {
      * @return An ArrayList of all valid moves that can be played.
      */
     public ArrayList<Move> getValidMoves() {
-        return ( new ArrayList<Move>( this.validMoves ) );
+    	ArrayList<Move> validMoves = new ArrayList<Move>();
+    	validMoves = this.validMoves;
+    	
+    	assert( validMoves != null ): "Move Valid is null";
+        return ( validMoves );
     }
 
     private ArrayList<Move> generateValidMoves() {
@@ -840,7 +746,8 @@ public class Board {
     	
     	ArrayList<Move> validMoves = new ArrayList<Move>();
     	ArrayList<Integer> destinations = generateDestinations( PIECE_TYPE, POSITION );
-
+    	
+    	//This for put all valid moves in an ArrayList that the piece can make.
     	for ( int destination : destinations ) {
     		if ( isValidDestination( destination ) && canMoveTo( POSITION, destination ) ) {
     			validMoves.add( new Move( POSITION, destination ) );
@@ -850,6 +757,7 @@ public class Board {
     		}
     	}
 
+    	assert( validMoves != null ): "Move Valid is null";
     	return ( validMoves );
  	}
   
@@ -864,6 +772,7 @@ public class Board {
      */
     private ArrayList<Integer> generateDestinations( final byte PIECE_TYPE, final int POSITION ) {
     	
+    	//This switch return an arrayList of all destinations that the piece can move to.
     	switch ( PIECE_TYPE ) {
           	case PAWN: {
           		return ( generatePawnDestinations( POSITION ) );
@@ -934,6 +843,7 @@ public class Board {
     		destinations.add( POSITION + 16 );
     	}
 
+    	assert( destinations != null ): "Destinations of white pawn is null";
     	return ( destinations );
     }
 
@@ -1058,35 +968,37 @@ public class Board {
      *
      * @return An ArrayList of all destinations that the king can move to.
      */
-    public ArrayList<Integer> generateKingDestinations( final int POSITION ) {
-    	
-    	ArrayList<Integer> destinations = new ArrayList<Integer>();
-
-    	if ( canCastleKingSide( POSITION ) ) {
-    		destinations.add( POSITION + 2 );
-    	}
-    	else {
-    		//do nothing
-    	}	
-    
-    	if ( canCastleQueenSide( POSITION ) ) {
-    		destinations.add( POSITION - 2 );
-    	}
-    	else {
-    		//do nothing
-    	}
-
-    	for ( int i : new int[]{ 15, 16, 17, 1, -1, -17, -16, -15 } ) {
-    		if ( !nextToOpponentKing( POSITION + i ) ) {
-    			destinations.add( POSITION + i );
-    		}
-    		else {
-    			//do nothing
-    		}
-    	}
-
-    	return ( destinations );
-    }
+	public ArrayList<Integer> generateKingDestinations( final int POSITION ) {
+	    	
+	    	ArrayList<Integer> destinations = new ArrayList<Integer>();
+	    	
+	    	int[] kingPositions = { 15, 16, 17, 1, -1, -17, -16, -15 };
+	
+	    	if ( canCastleKingSide( POSITION ) ) {
+	    		destinations.add( POSITION + 2 );
+	    	}
+	    	else {
+	    		//do nothing
+	    	}	
+	    
+	    	if ( canCastleQueenSide( POSITION ) ) {
+	    		destinations.add( POSITION - 2 );
+	    	}
+	    	else {
+	    		//do nothing
+	    	}
+	
+	    	for ( int i : kingPositions) {
+	    		if ( !nextToOpponentKing( POSITION + i ) ) {
+	    			destinations.add( POSITION + i );
+	    		}
+	    		else {
+	    			//do nothing
+	    		}
+	    	}
+	
+	    	return ( destinations );
+	    }
 
     /**
      * Can the king located at 'position' perform a king side castling move?
@@ -1141,8 +1053,11 @@ public class Board {
     public ArrayList<Integer> generateKnightDestinations( final int POSITION ) {
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
-
-    	for ( int d : new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 } ) {
+    	
+    	int[] knightDestinations = { 18, 33, 31, 14, -18, -33, -31, -14 };
+    	
+    	//This for put all destinations that the knight can move to.
+    	for ( int d : knightDestinations) {
     		destinations.add( POSITION + d );
     	}
 
@@ -1287,24 +1202,25 @@ public class Board {
      * @return A score representing how good/bad the position of the piece is.
      */
     public int piecePositionScore( final byte PIECE_TYPE, final int POS ) {
+    	
     	switch ( PIECE_TYPE ) {
       		case PAWN: {
-      			return isWhiteTurn() ? WPAWN_POSITION_TABLE[ POS ] : BPAWN_POSITION_TABLE[ POS ];
+      			return pawnPositionScore(POS);
       		}
       		case KNIGHT: {
       			return KNIGHT_POSITION_TABLE[ POS ];
       		}
       		case BISHOP: {
-      			return isWhiteTurn() ? WBISHOP_POSITION_TABLE[ POS ] : BBISHOP_POSITION_TABLE[ POS ];
+      			return bishopPositionScore(POS);
       		}
       		case ROOK: {
-      			return isWhiteTurn() ? WROOK_POSITION_TABLE[ POS ] : BROOK_POSITION_TABLE[ POS ];
+      			return rookPositionScore(POS);
       		}
       		case QUEEN: {
-      			return this.amountOfMoves < 15 ? OPENING_QUEEN_POSITION_TABLE[ POS ] : QUEEN_POSITION_TABLE[ POS ];
+      			return queenPositionScore(POS);
       		}
       		case KING: {
-      			return isWhiteTurn() ? WKING_POSITION_TABLE[ POS ] : BKING_POSITION_TABLE[ POS ];
+      			return kingPositionScore(POS);
       		}
       		default: {
       			// do nothing
@@ -1313,6 +1229,57 @@ public class Board {
 
     	return 0;
     }
+    
+    private int pawnPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){
+    		return WPAWN_POSITION_TABLE[ POS ] ;
+    		
+    	}else{
+    		return BPAWN_POSITION_TABLE[ POS ];
+    	}
+    }
+    
+    private int bishopPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WBISHOP_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BBISHOP_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int rookPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WROOK_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BROOK_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int queenPositionScore (final int POS){
+    	
+    	if (this.amountOfMoves < 15){	
+    		return OPENING_QUEEN_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return QUEEN_POSITION_TABLE[ POS ] ;
+    	}
+    }
+    
+    private int kingPositionScore (final int POS){
+    	
+    	if (isWhiteTurn() == true){	
+    		return WKING_POSITION_TABLE[ POS ] ;
+    
+    	}else{
+    		return BKING_POSITION_TABLE[ POS ] ;
+    	}
+    }
+
 
     /**
      * Evaluate the development of knights and bishops.
@@ -1344,4 +1311,116 @@ public class Board {
     		return  -score;
     	}
     }
+    
+    /**
+     * Returns a list of all white pieces captured by the black player.
+     *
+     * @return A list of all white pieces captured.
+     */
+    private ArrayList<Byte> getWhitePiecesCaptured() {
+    	return ( new ArrayList<Byte>( this.whitePiecesCaptured ) );
+	}
+
+    /**
+     * Returns a list of all black pieces captured by the white player.
+     *
+     * @return A list of all black pieces captured.
+     */
+    private ArrayList<Byte> getBlackPiecesCaptured() {
+    	return ( new ArrayList<Byte>( this.blackPiecesCaptured ) );
+    }
+
+    /**
+     * Return the zero sum material score of the board.
+     *
+     * @return The zero sum material score.
+     */
+    private int getScore() {
+    	return ( this.score );
+  	}
+
+    /**
+     * Return the byte array of chess board squares.
+     *
+     * @return The array of chess board squares as bytes.
+     */
+    public byte[] getSquares() {
+    	return ( this.squares.clone() );
+    }
+
+    /**
+     * What is the colour of the player to move?
+     *
+     * @return A byte representing the colour of the player whos turn it is currently.
+     */
+    public byte getTurnColour() {
+    	return ( this.turnColour );
+    }
+
+    /**
+     * How many moves have been made since board creation?
+     *
+     * @return The number of moves made since the board was created.
+     */
+    public int getAmountOfMoves() {
+    	return this.amountOfMoves;
+    }
+
+    /**
+     * Get the last move made on the board.
+     *
+     * @return The last move that was made on the board.
+     */
+    private Move getPreviousMove() {
+    	return ( this.previousMove );
+    }
+
+    /**
+     * Which square is the white king located on?
+     *
+     * @return The square index of the white king position.
+     */
+    public int getWhiteKingPosition() {
+    	return ( this.whiteKingPosition );
+    }
+
+    /**
+     * Which square is the black king located on?
+     *
+     * @return The square index of the black king position.
+     */
+    public int getBlackKingPosition() {
+    	return ( this.blackKingPosition );
+    }
+
+    /**
+     * Which square is the current players king on?
+     *
+     * @return The square index of the current players king.
+     */
+    public int getKingPosition() {
+    	
+    	if ( isWhiteTurn() == true){
+    		return this.whiteKingPosition;
+    	}else{
+    		return this.blackKingPosition;
+    	}
+    }
+
+    /**
+     * Which square is the opponent of the current players king on?
+     *
+     * @return The square index of opponent of the current players king.
+     */
+    private int getOpposingKingPosition() {
+    	
+    	if (isWhiteTurn() == true){
+    		return this.blackKingPosition;
+    		
+    	}else{
+    		return this.whiteKingPosition;	
+    	}
+    }
+
+
 }

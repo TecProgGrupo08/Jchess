@@ -46,6 +46,7 @@ public class AI extends Player {
      * @return Best move for AI
      */
     public Move getMove( Board board ) {
+    	
 		assert( board != null ):"Board is null";
     	Move bestMove = null;
     	int bestScore = Integer.MIN_VALUE;

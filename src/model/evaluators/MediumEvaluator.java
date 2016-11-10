@@ -10,6 +10,9 @@ public class MediumEvaluator implements Evaluator {
 	private static final int DEVELOPMENT_WEIGHT = 25;
 
 	public int evaluate( Board board ) {
+
+		assert( board != null):"Value of board empty!";
+		
 	   	return ( ( board.evaluateMaterial() * MATERIAL_WEIGHT )
 		     + ( board.evaluatePiecePositions() * POSITION_WEIGHT )
 		     + ( board.evaluatePieceDevelopment() * DEVELOPMENT_WEIGHT ) );
