@@ -27,6 +27,9 @@ public class IOParser {
     private final String ERRORMSGVALUES = "Error: %s has insufficient values.\n";
     private final String ERRORMSGNOTFOUND = "Error: %s not found.\n";
     private final String ERRORMSGCREATE = "Error: Couldn't open/create %s";
+    private final int NUMBER_OF_SQUARES = 128;
+    private final int FIRST_PIECE = 0;
+    private final int LAST_PIECE = 15;
 
 	/**
 	 * Constructor just takes in file name, validates and stores for later use for either 
@@ -76,10 +79,10 @@ public class IOParser {
 		
 		}
 		// Checks for nulls and returns, expects, caller to do something with this
-		byte[] squares = new byte[128];
+		byte[] squares = new byte[NUMBER_OF_SQUARES];
 		String x;
 		
-		for ( int i = 0; i < 128; i ++ ) {
+		for ( int i = 0; i < NUMBER_OF_SQUARES; i ++ ) {
 			
 			if ( ( i & 0x88 ) != 0 ) {
 
@@ -184,7 +187,7 @@ public class IOParser {
 			// do nothing
 		}
 		
-		for ( int i = 0; i < 128; i++ ) {
+		for ( int i = 0; i < NUMBER_OF_SQUARES; i++ ) {
 			
 			if ( ( i & 0x88 ) == 0 ){
 				
@@ -209,7 +212,7 @@ public class IOParser {
     */
 	private byte isValid( byte piece ) throws NumberFormatException {
 
-		if ( !( ( piece >=0 ) && ( piece < 15 ) ) ) {
+		if ( !( ( piece >=FIRST_PIECE ) && ( piece < LAST_PIECE ) ) ) {
 			
 			throw new NumberFormatException();
 		

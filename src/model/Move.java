@@ -16,6 +16,8 @@ public class Move {
 	private int from = 0;
 	private int to = 0;
 	
+	private static int NUMBER_OF_PIECES = 16;
+	
 	/**
 	 * Initialise and create a new Move object that represents the move as specified
 	 * in the arguments.
@@ -75,13 +77,13 @@ public class Move {
 
 
 	public String indexToNotation( int index ) {
-		char c = (char)( ( index % 16 ) + 'a' ); // discover what 16 means to replace magic number by a constant
-		return ( c + "" + ( ( index / 16 ) + 1 ) );
+		char c = (char)( ( index % NUMBER_OF_PIECES ) + 'a' ); 
+		return ( c + "" + ( ( index / NUMBER_OF_PIECES) + 1 ) );
 	}
 
 	public static int notationToIndex( String notation ) {
 		int rank = Character.getNumericValue( notation.charAt( 1 ) ) - 1;
 		int file = notation.charAt( 0 ) - 'a';
-		return ( rank*16 + file );  // discover what 16 means to replace magic number by a constant
+		return ( rank*NUMBER_OF_PIECES + file ); 
 	}
 }

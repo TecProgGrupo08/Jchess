@@ -12,6 +12,7 @@ public class SANParser {
 
 	private Board board = null;
 	private int to = 0;
+	private int NUMBER_OF_PIECES = 16;
 
 	public SANParser() {
 	}
@@ -450,11 +451,11 @@ public class SANParser {
 	}
 
 	private char getFile( final int POSITION ) {
-		return ( intToLetter( POSITION % 16 ) );
+		return ( intToLetter( POSITION % NUMBER_OF_PIECES ) );
 	}
 
 	private int getRank( final int POSITION ) {
-		return POSITION / 16;
+		return POSITION / NUMBER_OF_PIECES;
 	}
 
 	private int letterToInt( char c ) {
