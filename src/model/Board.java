@@ -498,15 +498,23 @@ public class Board {
     		//do nothing
     	}
 
-    	// updates the squares status after the movement
-    	this.squares[ move.to() ] = this.squares[ move.from() ];
-    	this.squares[ move.from() ] = EMPTY;
-
-    	this.turnColour = opponentColour();
-    	this.previousMove = move;
-    	this.validMoves = generateValidMoves();
-    	this.amountOfMoves++;
+    	updatesSquare(move);
     }
+    
+    /**
+     * // Updates the squares .
+     *
+     * @param move - New status after the movement.
+     */ 
+   private void updatesSquare ( Move move ) {
+	   	this.squares[ move.to() ] = this.squares[ move.from() ];
+	   	this.squares[ move.from() ] = EMPTY;
+	
+	   	this.turnColour = opponentColour();
+	   	this.previousMove = move;
+	   	this.validMoves = generateValidMoves();
+	   	this.amountOfMoves++;
+   }
    
     /**
      * Perform the moves for a Pawn piece.
@@ -719,7 +727,11 @@ public class Board {
      * @return An ArrayList of all valid moves that can be played.
      */
     public ArrayList<Move> getValidMoves() {
-        return ( new ArrayList<Move>( this.validMoves ) );
+    	ArrayList<Move> validMoves = new ArrayList<Move>();
+    	validMoves = this.validMoves;
+    	
+    	assert( validMoves != null ): "Move Valid is null";
+        return ( validMoves );
     }
 
     private ArrayList<Move> generateValidMoves() {
@@ -751,7 +763,8 @@ public class Board {
     	
     	ArrayList<Move> validMoves = new ArrayList<Move>();
     	ArrayList<Integer> destinations = generateDestinations( PIECE_TYPE, POSITION );
-
+    	
+    	//This for put all valid moves in an ArrayList that the piece can make.
     	for ( int destination : destinations ) {
     		if ( isValidDestination( destination ) && canMoveTo( POSITION, destination ) ) {
     			validMoves.add( new Move( POSITION, destination ) );
@@ -761,6 +774,7 @@ public class Board {
     		}
     	}
 
+    	assert( validMoves != null ): "Move Valid is null";
     	return ( validMoves );
  	}
   
@@ -775,6 +789,7 @@ public class Board {
      */
     private ArrayList<Integer> generateDestinations( final byte PIECE_TYPE, final int POSITION ) {
     	
+    	//This switch return an arrayList of all destinations that the piece can move to.
     	switch ( PIECE_TYPE ) {
           	case PAWN: {
           		return ( generatePawnDestinations( POSITION ) );
@@ -845,6 +860,7 @@ public class Board {
     		destinations.add( POSITION + 16 );
     	}
 
+    	assert( destinations != null ): "Destinations of white pawn is null";
     	return ( destinations );
     }
 
@@ -969,35 +985,37 @@ public class Board {
      *
      * @return An ArrayList of all destinations that the king can move to.
      */
-    public ArrayList<Integer> generateKingDestinations( final int POSITION ) {
-    	
-    	ArrayList<Integer> destinations = new ArrayList<Integer>();
-
-    	if ( canCastleKingSide( POSITION ) ) {
-    		destinations.add( POSITION + 2 );
-    	}
-    	else {
-    		//do nothing
-    	}	
-    
-    	if ( canCastleQueenSide( POSITION ) ) {
-    		destinations.add( POSITION - 2 );
-    	}
-    	else {
-    		//do nothing
-    	}
-
-    	for ( int i : new int[]{ 15, 16, 17, 1, -1, -17, -16, -15 } ) {
-    		if ( !nextToOpponentKing( POSITION + i ) ) {
-    			destinations.add( POSITION + i );
-    		}
-    		else {
-    			//do nothing
-    		}
-    	}
-
-    	return ( destinations );
-    }
+	public ArrayList<Integer> generateKingDestinations( final int POSITION ) {
+	    	
+	    	ArrayList<Integer> destinations = new ArrayList<Integer>();
+	    	
+	    	int[] kingPositions = { 15, 16, 17, 1, -1, -17, -16, -15 };
+	
+	    	if ( canCastleKingSide( POSITION ) ) {
+	    		destinations.add( POSITION + 2 );
+	    	}
+	    	else {
+	    		//do nothing
+	    	}	
+	    
+	    	if ( canCastleQueenSide( POSITION ) ) {
+	    		destinations.add( POSITION - 2 );
+	    	}
+	    	else {
+	    		//do nothing
+	    	}
+	
+	    	for ( int i : kingPositions) {
+	    		if ( !nextToOpponentKing( POSITION + i ) ) {
+	    			destinations.add( POSITION + i );
+	    		}
+	    		else {
+	    			//do nothing
+	    		}
+	    	}
+	
+	    	return ( destinations );
+	    }
 
     /**
      * Can the king located at 'position' perform a king side castling move?
@@ -1052,11 +1070,16 @@ public class Board {
     public ArrayList<Integer> generateKnightDestinations( final int POSITION ) {
     	
     	ArrayList<Integer> destinations = new ArrayList<Integer>();
-
-    	for ( int d : new int[]{ 18, 33, 31, 14, -18, -33, -31, -14 } ) {
+    	
+    	int[] knightDestinations = { 18, 33, 31, 14, -18, -33, -31, -14 };
+    	
+    	//This for put all destinations that the knight can move to.
+    	for ( int d : knightDestinations) {
     		destinations.add( POSITION + d );
     	}
-
+    	
+    	finalizeObject(knightDestinations);
+    	
     	return ( destinations );
     }	
 
@@ -1414,6 +1437,13 @@ public class Board {
     		return this.whiteKingPosition;	
     	}
     }
-
-
+    
+    /**
+     * Finalize object
+     *
+     * @param Object that will be finalize.
+     */
+    private void finalizeObject(Object object) {
+    	object = null;
+    }
 }
