@@ -24,7 +24,18 @@ public class Board {
     private ArrayList<Byte> blackPiecesCaptured = new ArrayList<Byte>();
     private int score = 0;
     private int amountOfMoves = 0;
-
+    private final int PAWN_VALUE = 100;
+    private final int KNIGHT_VALUE = 325;
+    private final int BISHOP_VALUE = 330;
+    private final int ROOK_VALUE = 500;
+    private final int QUEEN_VALUE = 900;
+    private final int KING_VALUE = 20000;
+    private int NUMBER_OF_PIECES = 16;
+    private int DEVELOPMENT_SCORE = 50;
+    private int DIRECTION_AUX1 = 15;
+    private int DIRECTION_AUX2 = 17;
+    
+    
     /**
      * Initialise and create the board to contain chess pieces arranged in an order such that the resulting positions represent
      * a valid chess starting position.
@@ -551,22 +562,22 @@ public class Board {
     	// returns the value of the piece according to the requested position
     	switch ( pieceTypeAt( POSITION ) ) {
           	case PAWN: {
-          		return ( 100 );
+          		return ( PAWN_VALUE );
           	}
           	case KNIGHT: {
-          		return ( 325 );
+          		return ( KNIGHT_VALUE );
           	}
           	case BISHOP: {
-          		return ( 330 );
+          		return ( BISHOP_VALUE );
           	}
           	case ROOK: {
-          		return ( 500 );
+          		return ( ROOK_VALUE );
           	}
           	case QUEEN: {
-        	 	return ( 900 );
+        	 	return ( QUEEN_VALUE );
           	}
           	case KING: {
-          		return ( 20000 );
+          		return ( KING_VALUE );
           	}
           	default: {
           		//do nothing
@@ -644,7 +655,7 @@ public class Board {
      * @return True if at least one piece is attacking the square, false otherwise.
      */ 
     private boolean squareAttacked( final int POSITION ) {
-    	int[] directions = new int[]{ 15, 17, -15, -17 };
+    	int[] directions = new int[]{ DIRECTION_AUX1, DIRECTION_AUX2, -DIRECTION_AUX1, -DIRECTION_AUX2 };
     
     	// searches on diagonal positions for enemy pieces that may attack
     	for ( int direction : directions ) {
@@ -655,12 +666,12 @@ public class Board {
     				} 
     				else if ( pieceTypeAt( POSITION + i*direction ) == PAWN && i == 1 ) {
     					if ( this.turnColour == WHITE ) {
-    						return ( direction == 15 || direction == 17 );
+    						return ( direction == DIRECTION_AUX1 || direction == DIRECTION_AUX2 );
     					}
     					else {
     						//do nothing
     					}
-    					return ( direction == -15 || direction == -17 );
+    					return ( direction == -DIRECTION_AUX1 || direction == -DIRECTION_AUX2 );
     				}
     				else {
     					//do nothing
@@ -715,7 +726,7 @@ public class Board {
     	ArrayList<Move> validMoves = new ArrayList<Move>();
 
     	for ( int rank = 0; rank < 8; rank++ ) {
-    		for ( int file = rank * 16 + 7; file >= rank * 16; file-- ) {
+    		for ( int file = rank * NUMBER_OF_PIECES + 7; file >= rank * NUMBER_OF_PIECES; file-- ) {
     			if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
     				validMoves.addAll( generateValidMoves( pieceTypeAt( file ), file ) );
     			}
@@ -1159,7 +1170,7 @@ public class Board {
     	int score = 0;
 
     	for ( int rank = 0; rank < 8; rank++ ) {
-    		for ( int file = rank * 16 + 7; file >= rank * 16; file-- ) {
+    		for ( int file = rank * NUMBER_OF_PIECES + 7; file >= rank *NUMBER_OF_PIECES; file-- ) {
     			if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
     				if ( isWhiteTurn() ) {
     					score += piecePositionScore( pieceTypeAt( file ), file );
@@ -1280,10 +1291,10 @@ public class Board {
     	for ( int pos : minorPiecePositions ) {
     		if ( !squareEmpty( pos + turn ) && !hasPieceMoved( pieceAt( pos + turn ) ) ) {
     			if ( isWhiteTurn() ) {
-    				score -= 50;
+    				score -= DEVELOPMENT_SCORE;
     			} 
     			else {
-    				score += 50;
+    				score += DEVELOPMENT_SCORE;
     			}
     		}
     	}
