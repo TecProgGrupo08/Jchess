@@ -7,12 +7,14 @@ package model;
 import static lookup.Pieces.*;
 
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 public class SANParser {
 
 	private Board board = null;
 	private int to = 0;
 	private int NUMBER_OF_PIECES = 16;
+	static Logger logging = Logger.getLogger(SANParser.class);
 
 	public SANParser() {
 	}
@@ -54,21 +56,27 @@ public class SANParser {
 		
 		switch ( SAN.charAt( 0 ) ) {
 			case 'K': {
+				logging.info("King position requested");
 				return getKingOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'Q': {
+				logging.info("Queen position requested");
 				return getQueenOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'B': {
+				logging.info("Bishop position requested");
 				return getBishopOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'N': {
+				logging.info("Knight position requested");
 				return getKnightOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			case 'R': {
+				logging.info("Rook position requested");
 				return getRookOrigin( SAN.substring( 1 ), COLOUR );
 			}
 			default: {
+				logging.info("Pawn position requested");
 				return getPawnOrigin( SAN, COLOUR );
 			}
 		}
@@ -93,8 +101,10 @@ public class SANParser {
 		
 		ArrayList<Integer> destinations = board.generateRookDestinations( to );
 
+		logging.info("Begin search for a destination to a Rook");
 		for ( int origin : destinations ) {
-
+			
+			
 			if ( board.pieceTypeAt( origin ) == ROOK && 
 				board.pieceColourAt( origin ) == COLOUR ) {
 				
@@ -154,6 +164,7 @@ public class SANParser {
 
 		ArrayList<Integer> destinations = board.generateKnightDestinations( to );
 		
+		logging.info("Begin search for a destination to a Knight");
 		for ( int origin : destinations ) {
 			
 			if ( board.pieceTypeAt( origin ) == KNIGHT && 
@@ -214,6 +225,7 @@ public class SANParser {
 		
 		ArrayList<Integer> destinations = board.generateBishopDestinations( to );
 		
+		logging.info("Begin search for a destination to a Bishop");
 		for ( int origin : destinations ) {
 			
 			if ( board.pieceTypeAt( origin ) == BISHOP
@@ -277,6 +289,7 @@ public class SANParser {
 		
 		ArrayList<Integer> destinations = board.generateQueenDestinations( to );
 		
+		logging.info("Begin search for a destination to the Queen");
 		for ( int origin : destinations ) {
 			
 			if ( board.pieceTypeAt( origin ) == QUEEN && 
@@ -338,6 +351,7 @@ public class SANParser {
 		
 		ArrayList<Integer> destinations = board.generateKingDestinations( to );
 		
+		logging.info("Begin search for a destination to the King");
 		for ( int origin : destinations ) {
 			
 			if ( board.pieceTypeAt( origin ) == KING
@@ -408,6 +422,7 @@ public class SANParser {
 		
 		}
 
+		logging.info("Begin search for a destination to a Pawn");
 		for ( int origin : destinations ) {
 
 			if ( board.pieceTypeAt( origin ) == PAWN && board.pieceColourAt( origin ) == COLOUR ) {
