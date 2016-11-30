@@ -463,12 +463,15 @@ public class Board {
      */
     private byte opponentColour() {
     	logging.info("Checking the opponent color");
+    	byte turn = 0;
     	if ( isWhiteTurn() ){
-    		return BLACK;
+    		turn = BLACK;
     	
     	}else{
-    		return WHITE;
+    		turn =  WHITE;
     	}
+    	assert( turn != 0 ): "Invalid turn";
+    	return turn;
     }
 
     /**
