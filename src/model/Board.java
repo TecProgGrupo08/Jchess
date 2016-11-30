@@ -11,6 +11,7 @@ import static lookup.Coordinates.*;
 import static lookup.PieceTables.*;
 
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 public class Board {
 
@@ -34,6 +35,7 @@ public class Board {
     private int DEVELOPMENT_SCORE = 50;
     private int DIRECTION_AUX1 = 15;
     private int DIRECTION_AUX2 = 17;
+	static Logger logging = Logger.getLogger(SANParser.class);
     
     
     /**
@@ -89,6 +91,7 @@ public class Board {
     private boolean squareEmpty( final int POSITION ) {	
     	
     	if ( pieceAt( POSITION ) == EMPTY ){
+    		logging.info("The requested position is avalible for the move");
     		return true;
     		
     	}else{
@@ -168,6 +171,7 @@ public class Board {
     	
     	if  ( ( ( DESTINATION & 0x88 ) == VALID ) &&
                 ( squareEmpty( DESTINATION ) || ( pieceColourAt( DESTINATION ) != this.turnColour ) ) )  {
+    		logging.debug("Valid destination found");
     		return true;
     		
     	}else {
@@ -184,6 +188,7 @@ public class Board {
      */
     private boolean isWhitePiece(final int POSITION ) {
     	
+    	logging.info("Checking the piece side on the requested position");
     	if ( pieceColourAt( POSITION ) == WHITE ){
     		return true;
     		
@@ -202,6 +207,7 @@ public class Board {
     public boolean isValidMove( Move move ) {
 		assert( move != null ):"Move is null";
     	
+		logging.debug("Verifying if the player's move is among the valid moves");
     	if  ( this.validMoves.contains( move ) == true ){
     		return true;
     	
@@ -243,6 +249,7 @@ public class Board {
      */
     public boolean isCheckmate() {
     	if ( this.validMoves.size() == 0 && kingInCheck() ){
+    		logging.info("Checkmate condition");
     		return true;
     	
     	}else{
@@ -299,6 +306,7 @@ public class Board {
      * @return A byte representation of the opponents colour.
      */
     private byte opponentColour() {
+    	logging.info("Checking the opponent color");
     	if ( isWhiteTurn() ){
     		return BLACK;
     	
@@ -1191,7 +1199,7 @@ public class Board {
      */
     public int evaluatePiecePositions() {
     	int score = 0;
-
+    	logging.debug("Starting evaluation");
     	for ( int rank = 0; rank < 8; rank++ ) {
     		for ( int file = rank * NUMBER_OF_PIECES + 7; file >= rank *NUMBER_OF_PIECES; file-- ) {
     			if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
@@ -1222,6 +1230,7 @@ public class Board {
      */
     public int piecePositionScore( final byte PIECE_TYPE, final int POS ) {
     	
+    	logging.info("Checking for the piece score based on it's type and position");
     	switch ( PIECE_TYPE ) {
       		case PAWN: {
       			return pawnPositionScore(POS);
