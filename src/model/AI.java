@@ -8,11 +8,14 @@ package model;
 import model.evaluators.EasyEvaluator;
 import model.evaluators.MediumEvaluator;
 import model.evaluators.Evaluator;
+import org.apache.log4j.Logger;
+
 
 public class AI extends Player {
 
     private int depth = 0;
     private Evaluator evaluator = null;
+    static Logger logging = Logger.getLogger(AI.class);
 
     /**
      * Creates an AI with an extra parameter to select 
@@ -29,9 +32,11 @@ public class AI extends Player {
     
     	if (evaluatorToSelect == 1) {
     		this.evaluator = new EasyEvaluator();
+    		logging.info("Easy difficulty selected");
     	}
     	else {
     		this.evaluator = new MediumEvaluator();
+    		logging.info("Medium difficulty selected");
     	}
     }
   
@@ -59,6 +64,7 @@ public class AI extends Player {
     		if ( score > bestScore ) {
     			bestScore = score;
     			bestMove = move;
+    			logging.info("Identifying the best move");
     		}
     		else {
     			// do nothing
