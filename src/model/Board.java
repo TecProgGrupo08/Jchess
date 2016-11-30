@@ -80,7 +80,210 @@ public class Board {
     	this.score = board.getScore();
     	this.amountOfMoves = board.getAmountOfMoves();
     }
+    
+    /**
+     * Can the given move be played on the chess board?
+     *
+     * @param move    The move to check the validity of.
+     *
+     * @return True if the move is valid, false otherwise.
+     */
+    public boolean isValidMove( Move move ) {
+		assert( move != null ):"Move is null";
+    	
+		logging.debug("Verifying if the player's move is among the valid moves");
+    	if  ( this.validMoves.contains( move ) == true ){
+    		return true;
+    	
+    	}else{
+    		return false;
+    	}
+    }
+    
+    
+    /**
+     * Is the given square index within the playable game area?
+     *
+     * @param destination    The square index to check.
+     *
+     * @return True if the destination square index is on the playable chess board, false otherwise.
+     */ 
+      private boolean isValidDestination(final int DESTINATION ) {
+      	
+      	if  ( ( ( DESTINATION & 0x88 ) == VALID ) &&
+                  ( squareEmpty( DESTINATION ) || ( pieceColourAt( DESTINATION ) != this.turnColour ) ) )  {
+      		logging.debug("Valid destination found");
+      		return true;
+      		
+      	}else {
+      		return false;
+      	}
+      }
 
+
+      //-------------Evaluation Methods---------------
+
+      /**
+       * Evaluate the development of knights and bishops.
+       *
+       * @return A score representing how good the piece development of the current player is.
+       */
+      public int evaluatePieceDevelopment() {
+      	int score = 0;
+
+      	int[] minorPiecePositions = new int[]{ 1, 2, 5, 6 };
+      	int turn = isWhiteTurn() ? 0 : 112;
+
+      	for ( int pos : minorPiecePositions ) {
+      		if ( !squareEmpty( pos + turn ) && !hasPieceMoved( pieceAt( pos + turn ) ) ) {
+      			if ( isWhiteTurn() ) {
+      				score -= DEVELOPMENT_SCORE;
+      			} 
+      			else {
+      				score += DEVELOPMENT_SCORE;
+      			}
+      		}
+      	}
+      	if ( isWhiteTurn() == true ) {
+      		return score;
+      	} else {
+      		return  -score;
+      	}
+      }
+
+      /**
+       * Evaluate the material balance on the board.
+       *
+       * @return The zero sum material score.
+       */
+      public int evaluateMaterial() {
+      	if ( isWhiteTurn() == true ) {
+      		return this.score;
+      	} 
+      	else {
+      		return  -this.score;
+          }
+      }
+
+      /**
+       * Evaluate the positional score of each piece on the board.
+       *
+       * @return The material score for the current player.
+       */
+      public int evaluatePiecePositions() {
+      	int score = 0;
+      	logging.debug("Starting evaluation");
+      	for ( int rank = 0; rank < 8; rank++ ) {
+      		for ( int file = rank * NUMBER_OF_PIECES + 7; file >= rank *NUMBER_OF_PIECES; file-- ) {
+      			if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
+      				if ( isWhiteTurn() ) {
+      					score += piecePositionScore( pieceTypeAt( file ), file );
+      				} 
+      				else {
+      					score -= piecePositionScore( pieceTypeAt( file ), file );
+              		}
+      			}
+      			else {
+      				//do nothing
+      			}
+      		}
+      	}
+      
+      	if ( isWhiteTurn() == true ) {
+      		return score;
+      	} else {
+      		return  -score;
+          }
+      }
+
+      /**
+       * Give a score to a piece based on its position on the board.
+       *
+       * @return A score representing how good/bad the position of the piece is.
+       */
+      public int piecePositionScore( final byte PIECE_TYPE, final int POS ) {
+      	
+      	logging.info("Checking for the piece score based on it's type and position");
+      	switch ( PIECE_TYPE ) {
+        		case PAWN: {
+        			return pawnPositionScore(POS);
+        		}
+        		case KNIGHT: {
+        			return KNIGHT_POSITION_TABLE[ POS ];
+        		}
+        		case BISHOP: {
+        			return bishopPositionScore(POS);
+        		}
+        		case ROOK: {
+        			return rookPositionScore(POS);
+        		}
+        		case QUEEN: {
+        			return queenPositionScore(POS);
+        		}
+        		case KING: {
+        			return kingPositionScore(POS);
+        		}
+        		default: {
+        			// do nothing
+        		}
+      	}
+
+      	return 0;
+      }
+      
+      private int pawnPositionScore (final int POS){
+      	
+      	if (isWhiteTurn() == true){
+      		return WPAWN_POSITION_TABLE[ POS ] ;
+      		
+      	}else{
+      		return BPAWN_POSITION_TABLE[ POS ];
+      	}
+      }
+      
+      private int bishopPositionScore (final int POS){
+      	
+      	if (isWhiteTurn() == true){	
+      		return WBISHOP_POSITION_TABLE[ POS ] ;
+      
+      	}else{
+      		return BBISHOP_POSITION_TABLE[ POS ] ;
+      	}
+      }
+      
+      private int rookPositionScore (final int POS){
+      	
+      	if (isWhiteTurn() == true){	
+      		return WROOK_POSITION_TABLE[ POS ] ;
+      
+      	}else{
+      		return BROOK_POSITION_TABLE[ POS ] ;
+      	}
+      }
+      
+      private int queenPositionScore (final int POS){
+      	
+      	if (this.amountOfMoves < 15){	
+      		return OPENING_QUEEN_POSITION_TABLE[ POS ] ;
+      
+      	}else{
+      		return QUEEN_POSITION_TABLE[ POS ] ;
+      	}
+      }
+      
+      private int kingPositionScore (final int POS){
+      	
+      	if (isWhiteTurn() == true){	
+      		return WKING_POSITION_TABLE[ POS ] ;
+      
+      	}else{
+      		return BKING_POSITION_TABLE[ POS ] ;
+      	}
+      }
+      //-------------End of Evaluation Methods---------------
+      
+      
+      
        /**
      * Is the square mapped to by the given index empty?
      *
@@ -114,18 +317,7 @@ public class Board {
 	
 		 return ( EMPTY );
     }
-
-	/**
-	 * What colour is the piece on the square mapped to by the given index?
-	 *
-	 * @param position    The square index.
-	 *
-	 * @return The colour, as a byte, of the piece.
-	 */
-    public byte pieceColourAt( final int POSITION ) {
-    	
-		return ( (byte)( pieceAt( POSITION ) & COLOUR_MASK ) );
-    }
+	
 
     /**
      * What is the type of the given piece?
@@ -159,25 +351,7 @@ public class Board {
     public byte pieceTypeAt( final int POSITION ) {
     	return ( (byte)( pieceAt( POSITION ) & PIECE_MASK ) );
     }
-  
-  /**
-   * Is the given square index within the playable game area?
-   *
-   * @param destination    The square index to check.
-   *
-   * @return True if the destination square index is on the playable chess board, false otherwise.
-   */ 
-    private boolean isValidDestination(final int DESTINATION ) {
-    	
-    	if  ( ( ( DESTINATION & 0x88 ) == VALID ) &&
-                ( squareEmpty( DESTINATION ) || ( pieceColourAt( DESTINATION ) != this.turnColour ) ) )  {
-    		logging.debug("Valid destination found");
-    		return true;
-    		
-    	}else {
-    		return false;
-    	}
-    }
+
 
     /**
      * Is the piece located at the given square index white?
@@ -197,24 +371,6 @@ public class Board {
     	}
     }
 
-    /**
-     * Can the given move be played on the chess board?
-     *
-     * @param move    The move to check the validity of.
-     *
-     * @return True if the move is valid, false otherwise.
-     */
-    public boolean isValidMove( Move move ) {
-		assert( move != null ):"Move is null";
-    	
-		logging.debug("Verifying if the player's move is among the valid moves");
-    	if  ( this.validMoves.contains( move ) == true ){
-    		return true;
-    	
-    	}else{
-    		return false;
-    	}
-    }
   
     /**
      * Set the bit that represents whether or not a piece has moved.
@@ -1173,170 +1329,23 @@ public class Board {
 
     	return ( destinations );
     }
-
-    /*-----------------------------------------------*/
-    /*--------------Evaluation Methods---------------*/
-    /*-----------------------------------------------*/
-
-    /**
-     * Evaluate the material balance on the board.
-     *
-     * @return The zero sum material score.
-     */
-    public int evaluateMaterial() {
-    	if ( isWhiteTurn() == true ) {
-    		return this.score;
-    	} 
-    	else {
-    		return  -this.score;
-        }
-    }
-
-    /**
-     * Evaluate the positional score of each piece on the board.
-     *
-     * @return The material score for the current player.
-     */
-    public int evaluatePiecePositions() {
-    	int score = 0;
-    	logging.debug("Starting evaluation");
-    	for ( int rank = 0; rank < 8; rank++ ) {
-    		for ( int file = rank * NUMBER_OF_PIECES + 7; file >= rank *NUMBER_OF_PIECES; file-- ) {
-    			if ( !squareEmpty( file ) && pieceColourAt( file ) == this.turnColour ) {
-    				if ( isWhiteTurn() ) {
-    					score += piecePositionScore( pieceTypeAt( file ), file );
-    				} 
-    				else {
-    					score -= piecePositionScore( pieceTypeAt( file ), file );
-            		}
-    			}
-    			else {
-    				//do nothing
-    			}
-    		}
-    	}
     
-    	if ( isWhiteTurn() == true ) {
-    		return score;
-    	} else {
-    		return  -score;
-        }
-    }
+    
 
-    /**
-     * Give a score to a piece based on its position on the board.
-     *
-     * @return A score representing how good/bad the position of the piece is.
-     */
-    public int piecePositionScore( final byte PIECE_TYPE, final int POS ) {
+	/**
+	 * What colour is the piece on the square mapped to by the given index?
+	 *
+	 * @param position    The square index.
+	 *
+	 * @return The colour, as a byte, of the piece.
+	 */
+    public byte pieceColourAt( final int POSITION ) {
     	
-    	logging.info("Checking for the piece score based on it's type and position");
-    	switch ( PIECE_TYPE ) {
-      		case PAWN: {
-      			return pawnPositionScore(POS);
-      		}
-      		case KNIGHT: {
-      			return KNIGHT_POSITION_TABLE[ POS ];
-      		}
-      		case BISHOP: {
-      			return bishopPositionScore(POS);
-      		}
-      		case ROOK: {
-      			return rookPositionScore(POS);
-      		}
-      		case QUEEN: {
-      			return queenPositionScore(POS);
-      		}
-      		case KING: {
-      			return kingPositionScore(POS);
-      		}
-      		default: {
-      			// do nothing
-      		}
-    	}
-
-    	return 0;
-    }
-    
-    private int pawnPositionScore (final int POS){
-    	
-    	if (isWhiteTurn() == true){
-    		return WPAWN_POSITION_TABLE[ POS ] ;
-    		
-    	}else{
-    		return BPAWN_POSITION_TABLE[ POS ];
-    	}
-    }
-    
-    private int bishopPositionScore (final int POS){
-    	
-    	if (isWhiteTurn() == true){	
-    		return WBISHOP_POSITION_TABLE[ POS ] ;
-    
-    	}else{
-    		return BBISHOP_POSITION_TABLE[ POS ] ;
-    	}
-    }
-    
-    private int rookPositionScore (final int POS){
-    	
-    	if (isWhiteTurn() == true){	
-    		return WROOK_POSITION_TABLE[ POS ] ;
-    
-    	}else{
-    		return BROOK_POSITION_TABLE[ POS ] ;
-    	}
-    }
-    
-    private int queenPositionScore (final int POS){
-    	
-    	if (this.amountOfMoves < 15){	
-    		return OPENING_QUEEN_POSITION_TABLE[ POS ] ;
-    
-    	}else{
-    		return QUEEN_POSITION_TABLE[ POS ] ;
-    	}
-    }
-    
-    private int kingPositionScore (final int POS){
-    	
-    	if (isWhiteTurn() == true){	
-    		return WKING_POSITION_TABLE[ POS ] ;
-    
-    	}else{
-    		return BKING_POSITION_TABLE[ POS ] ;
-    	}
+		return ( (byte)( pieceAt( POSITION ) & COLOUR_MASK ) );
     }
 
 
-    /**
-     * Evaluate the development of knights and bishops.
-     *
-     * @return A score representing how good the piece development of the current player is.
-     */
-    public int evaluatePieceDevelopment() {
-    	int score = 0;
 
-    	int[] minorPiecePositions = new int[]{ 1, 2, 5, 6 };
-    	int turn = isWhiteTurn() ? 0 : 112;
-
-    	for ( int pos : minorPiecePositions ) {
-    		if ( !squareEmpty( pos + turn ) && !hasPieceMoved( pieceAt( pos + turn ) ) ) {
-    			if ( isWhiteTurn() ) {
-    				score -= DEVELOPMENT_SCORE;
-    			} 
-    			else {
-    				score += DEVELOPMENT_SCORE;
-    			}
-    		}
-    	}
-    	if ( isWhiteTurn() == true ) {
-    		return score;
-    	} else {
-    		return  -score;
-    	}
-    }
-    
     /**
      * Returns a list of all white pieces captured by the black player.
      *
