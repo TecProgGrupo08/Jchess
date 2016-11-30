@@ -135,6 +135,7 @@ public class IOParser {
 		
 		}
 		
+		assert( file != null ): "File is null";
 		return file;
 	}
 	
@@ -161,6 +162,7 @@ public class IOParser {
 		
 		}	
 		
+		assert( out != null ): "PrintWriter is null";
 		return out;
 	}
 
