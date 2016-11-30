@@ -124,12 +124,20 @@ public class AI extends Player {
 	    	else {
 	    		// do nothing
 	    	}
+	    	 finalizeObject(child);
 	    }
-    
+	    
+	    finalizeObject(board);
 	    return alpha;
     }
 
     public boolean isHuman() {
     	return false;
+    }
+    
+    private void finalizeObject(Object object){
+    	object = null;
+    }
+    	
     }
 }
