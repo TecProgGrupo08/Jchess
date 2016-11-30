@@ -124,6 +124,7 @@ public abstract class Player {
 	 * @return Long timeRemaining 
 	 * */
 	protected long getTimeRemaining() {
+		assert( timeRemaining > -1 ): "Invalid Time remaining";
 		return timeRemaining;
 	}
 	

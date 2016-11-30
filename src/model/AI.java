@@ -70,7 +70,8 @@ public class AI extends Player {
     			// do nothing
     		}
     	}
-
+    	
+    	assert( bestMove != null ): "Best Move is null";
     	return bestMove;
  	}
 
