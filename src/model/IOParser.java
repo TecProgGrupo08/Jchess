@@ -50,7 +50,7 @@ public class IOParser {
 
 			this.filename = null;
 			System.err.println(ERRORMSGINCORECTFILE);
-		
+			 finalizeObject(filename);
 		}
 	}
 	
@@ -200,7 +200,7 @@ public class IOParser {
 			}
 		}
 		out.close();
-		
+		finalizeObject(board);
 		return true;
 	}
 	
@@ -224,5 +224,9 @@ public class IOParser {
 			return piece;
 		}
 	}
+	
+    private void finalizeObject(Object object){
+    	object = null;
+    }
 
 }
