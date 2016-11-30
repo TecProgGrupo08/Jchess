@@ -15,16 +15,16 @@ import org.apache.log4j.Logger;
 
 public class Board {
 
-	private byte[] squares = null;
-    private byte turnColour = 0;
-    private Move previousMove = null;
-    private int whiteKingPosition = 0;
-    private int blackKingPosition = 0;
-    private ArrayList<Move> validMoves = new ArrayList<Move>();
-    private ArrayList<Byte> whitePiecesCaptured = new ArrayList<Byte>();
-    private ArrayList<Byte> blackPiecesCaptured = new ArrayList<Byte>();
-    private int score = 0;
-    private int amountOfMoves = 0;
+	private byte[] squares = null; // Represents the board unit of position
+    private byte turnColour = 0; // White or black
+    private Move previousMove = null; // The previous move is used to study new moves possibilities
+    private int whiteKingPosition = 0; // Position of the white king
+    private int blackKingPosition = 0; // Position of the black king
+    private ArrayList<Move> validMoves = new ArrayList<Move>(); // ArrayList used to gather all the possible moves and later see which one is the best
+    private ArrayList<Byte> whitePiecesCaptured = new ArrayList<Byte>(); // List of lost pieces
+    private ArrayList<Byte> blackPiecesCaptured = new ArrayList<Byte>(); // List of lost pieces
+    private int score = 0; // Unit used to evaluate a piece
+    private int amountOfMoves = 0; // Amount of valid moves 
     private final int PAWN_VALUE = 100;
     private final int KNIGHT_VALUE = 325;
     private final int BISHOP_VALUE = 330;
