@@ -38,7 +38,7 @@ public class SANParser {
 		System.out.println( san );
 		to = Move.notationToIndex( san.substring( san.length() - 2 ) );
 
-		
+		finalizeObject(board);
 		if ( san.length() == 2 ){
 
 			return new Move( getPawnOrigin( san, COLOUR ), to );
@@ -146,7 +146,9 @@ public class SANParser {
 			
 			}
 		} // End of for
-
+		
+		finalizeObject(destinations);
+		finalizeObject(SAN);
 		return - 1; //Java and return code ? use exceptions 
 	}
 
@@ -209,6 +211,8 @@ public class SANParser {
 
 		}// End of for
 
+		finalizeObject(destinations);
+		finalizeObject(SAN);
 		return - 1;
 	}// End of method
 
@@ -271,7 +275,9 @@ public class SANParser {
 				
 			}
 		}
-
+		
+		finalizeObject(destinations);
+		finalizeObject(SAN);
 		return - 1;
 	}
 
@@ -334,6 +340,8 @@ public class SANParser {
 			}// End of if
 		}// End of for
 
+		finalizeObject(destinations);
+		finalizeObject(SAN);
 		return - 1;
 	}
 
@@ -394,7 +402,8 @@ public class SANParser {
 				} 
 			}
 		}
-
+		finalizeObject(destinations);
+		finalizeObject(SAN);
 		return - 1;
 	}
 
@@ -461,7 +470,9 @@ public class SANParser {
 				}
 			} //End of if
 		} // End of for
-
+		
+		finalizeObject(destinations);
+		finalizeObject(SAN);
 		return - 1;
 	}
 
@@ -480,4 +491,8 @@ public class SANParser {
 	private char intToLetter( int i ) {
 		return ( ( char ) ( i + 'a' ) );
 	}
+	
+    private void finalizeObject(Object object){
+    	object = null;
+    }
 }
