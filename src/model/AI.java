@@ -5,6 +5,8 @@
 
 package model;
 
+import javax.swing.JOptionPane;
+
 import model.evaluators.EasyEvaluator;
 import model.evaluators.MediumEvaluator;
 import model.evaluators.Evaluator;
@@ -59,15 +61,21 @@ public class AI extends Player {
     	for ( Move move : board.getValidMoves() ) {
     		Board copy = new Board (board);
     		copy.makeMove ( move );
-    		int score = -alphaBetaNegamax( copy, this.depth, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1 );
-    	
-    		if ( score > bestScore ) {
-    			bestScore = score;
-    			bestMove = move;
-    			logging.info("Identifying the best move");
-    		}
-    		else {
-    			// do nothing
+    		
+    		try{
+    			int score = -alphaBetaNegamax( copy, this.depth, Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1 );
+    			
+        		if ( score > bestScore ) {
+        			bestScore = score;
+        			bestMove = move;
+        			logging.info("Identifying the best move");
+        		}
+        		else {
+        			// do nothing
+        		}
+    		}catch(NumberFormatException error ){
+    			
+    			JOptionPane.showMessageDialog(null, "Number format error.");
     		}
     	}
     	
@@ -109,7 +117,15 @@ public class AI extends Player {
 	    for ( Move move : board.getValidMoves() ) {
 	    	Board child = new Board( board );
 	    	child.makeMove( move );
-	    	score = -alphaBetaNegamax( child, DEPTH - 1, - BETA, -alpha );
+	    	
+			try {
+				score = -alphaBetaNegamax( child, DEPTH - 1, - BETA, -alpha );
+
+			} catch ( NumberFormatException e ) {
+				
+				JOptionPane.showMessageDialog(null, "Number format error.");
+				
+			}
 	      
 	    	if ( score >= BETA ) {
 	    		return score;
